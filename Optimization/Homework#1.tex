@@ -1,0 +1,190 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 1}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+
+\begin{exercise}{2.1} Consider the feasible region defined by the constrains, 
+  \begin{equation*}
+    1 - x_1^2 - x_2^2 \geq 0, \sqrt{2} - x_1 - x_2 \geq 0,\text{ and } x_2 \geq 0. 
+  \end{equation*}
+  For each of the following points, determine whether the point is feasible or infeasible and (if it is feasible)
+  whether it is interior to or on the boundary of each of the constraints:
+  \begin{enumerate}
+    \item $x_a = (\frac{1}{2}, \frac{1}{2})^{T}$.
+    \solution Checking constraints, 
+    \begin{equation*}
+      1 - \left(\frac{1}{2}\right)^2 - \left(\frac{1}{2}\right)^2 = 1 - \frac{2}{4} = \frac{1}{2} > 0
+    \end{equation*}
+    \begin{equation*}
+      \sqrt{2} - (\frac{1}{2}) - (\frac{1}{2}) = \sqrt{2} - 1 > 0
+    \end{equation*}
+    and clearly $\frac{1}{2} > 0$. Thus $x_a$ is a feasible point, and since we have strict inequalities
+    on all the constraints we know that $x_a$ is interior to all constraints (Defined in Chapter 2 p.44). 
+    
+    \item $x_b = (1,0)^T$
+    \solution Checking all constraints, 
+    \begin{equation*}
+      1 - 1^2 - 0^2 = 1 - 1 =  0
+    \end{equation*}
+    \begin{equation*}
+      \sqrt{2} - (1) - (0) = \sqrt{2} - 1 > 0
+    \end{equation*}
+    and since $x_2 = 0$ we know that $x_b$ is a feasible point. Note that $x_b$ is on the boundary of 
+    $1 - x_1^2 - x_2^2 \geq 0$ and $x_2 \geq 0$, and interior to $\sqrt{2} - x_1 - x_2 \geq 0$.
+
+
+    \item $x_c = (-1, 0)^T$
+    \solution Checking all constraints, 
+    \begin{equation*}
+      1 - (-1)^2 - 0^2 = 1 - 1 =  0
+    \end{equation*}
+    \begin{equation*}
+      \sqrt{2} - (-1) - (0) = \sqrt{2} + 1 > 0
+    \end{equation*}
+    and since $x_2 = 0$ we know that $x_b$ is a feasible point. Note that $x_c$ is on the boundary of 
+    $1 - x_1^2 - x_2^2 \geq 0$ and $x_2 \geq 0$, and interior to $\sqrt{2} - x_1 - x_2 \geq 0$.
+
+    \item $x_d = (-\frac{1}{2}, 0)^T$ 
+
+  \end{enumerate}
+
+
+\end{exercise}
+\vspace{1in}
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

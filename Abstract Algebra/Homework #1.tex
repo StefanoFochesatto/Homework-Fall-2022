@@ -1,0 +1,858 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#1 --- 9/2/22}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+\section*{\textbf{Section 0.2}}
+
+\begin{exercise}[0.2.1c] For the following pair of integers $a = 792$ and $b = 275$, 
+  determine their greatest common divisor, their least common multiple, and 
+  write their greatest common divisor in the form $ax+by$ for some integers $x$ and $y$.
+\begin{proof}[Solution:]
+  Computing the $\gcd$ of $a,b$ by the Euclidean Algorithm, as stated by Property 6 in Section 0.2, we get,  
+  \begin{align*}
+    792 &= (2)275 + 242,\\
+    275 &= (1)242 + 33,\\
+    242 &= (7)33 + 11,\\
+    33 &= (3)11.\\
+  \end{align*}
+  Thus the $\gcd = 11$. Computing the $\lcm$ by solving $(\gcd)(\lcm) = ab$ as stated by Property 4 in Section 0.2 we get, 
+  \begin{equation*}
+    \lcm = \dfrac{ab}{\gcd} = \dfrac{(792)(275)}{(11)} = 19800.
+  \end{equation*}
+  Expressing the $\gcd$ in the form of $ax+by$ with $x,y \in \ZZ$, by repeated substitution in each step of the Euclidean Algorithm we get, 
+  \begin{align*}
+    11 &= 242 - (7)33\\
+     &= [792 - (2)275] - (7)[275 - 242]\\
+     &= [792 - (2)275] - (7)[275 - [792 - (2)275]]\\
+     &= [792 - (2)275] - [(7)275 - (7)792 + (14)275]\\
+     &= 792 - (2)275 - (7)275 + (7)792 -(14)275\\
+     &= (8)792 - (23)275\\
+     &= 792(8) + 275(-23).
+  \end{align*}
+\end{proof}
+\end{exercise}
+
+
+\begin{exercise}[0.2.3] Prove that if $n$ is composite then there are integers $a$ and $b$ such that $n$ divides $ab$ but $n$ does not divide either $a$ or $b$.
+\begin{proof} Suppose that $n$ is composite. By definition of composite there exists some positive divisors $a,b \neq 1, n$ such that $ab = n(1)$.
+  Clearly $n \mid ab$. Note that $b = n(\frac{1}{a})$ and $a = n(\frac{1}{b})$.
+  Since $\frac{1}{a}, \frac{1}{b}$ are $\notin \ZZ$ we have shown that $n \nmid a,b$.
+\end{proof}
+\end{exercise}
+
+
+
+\begin{exercise}[0.2.5] Determine the value of $\varphi(n)$ for each integer $n \geq 30$ where $\varphi$ denotes the Euler $\varphi$-function.
+  \begin{proof}[Solution:] Let $p$ be prime and for all $a \geq 1$ we know that, 
+    \begin{equation*}
+      \varphi(p^a) = p^{a-1}(p - 1), 
+    \end{equation*}
+    following formula discussed in Example 10 of Section .2. We also know that $a,b$ are relatively prime the $\varphi$-function is multiplicative, so 
+    \begin{equation*}
+      \varphi(ab) = \varphi(a)\varphi(b)
+    \end{equation*}
+    Computing the values we get, 
+\begin{center}
+  \begin{minipage}{.45\textwidth}
+    \begin{align*}
+      \varphi(1) &= 1\\
+      \varphi(2) &= 2^{1-1}(2-1) = 1\\
+      \varphi(3) &= 3^{1-1}(3-1) = 2\\
+      \varphi(4) &= 2^{2-1}(2-1) = 2\\
+      \varphi(5) &= 5^{1-1}(5-1) = 4\\
+      \varphi(6) &= \varphi(2)\varphi(3) = 2\\
+      \varphi(7) &= 7^{1-1}(7-1) = 6\\
+      \varphi(8) &= 2^{3-1}(2-1) = 4\\
+      \varphi(9) &= 3^{2-1}(3-1) = 6\\
+      \varphi(10) &= \varphi(5)\varphi(2) = 4\\
+      \varphi(11) &= 11^{1-1}(11-1) = 10\\
+      \varphi(12) &= \varphi(4)\varphi(3) = 4\\
+      \varphi(13) &= 13^{1-1}(13-1) = 12\\
+      \varphi(14) &= \varphi(7)\varphi(2) = 6\\
+      \varphi(15) &= \varphi(3)\varphi(5) = 8
+    \end{align*}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{.45\textwidth}
+    \begin{align*}
+      \varphi(16) &= 2^{4-1}(2-1) = 8\\
+      \varphi(17) &= 17^{1-1}(17-1) = 16\\
+      \varphi(18) &= \varphi(9)\varphi(2) = 6\\
+      \varphi(19) &= 19^{1-1}(19-1) = 18\\
+      \varphi(20) &= \varphi(5)\varphi(4) = 8\\ 
+      \varphi(21) &= \varphi(7)\varphi(3) = 12\\ 
+      \varphi(22) &= \varphi(11)\varphi(2) = 10\\ 
+      \varphi(23) &= 23^{1-1}(23-1) = 22\\
+      \varphi(24) &= \varphi(8)\varphi(3) = 8\\
+      \varphi(25) &= 5^{2-1}(5-1) = 20\\
+      \varphi(26) &= \varphi(13)\varphi(2) = 12\\
+      \varphi(27) &= 3^{3-1}(3-1) = 18\\
+      \varphi(28) &= \varphi(7)\varphi(4) = 12\\
+      \varphi(29) &= 29^{1-1}(29-1) = 28\\
+      \varphi(30) &= \varphi(10) \varphi(3) = 8
+    \end{align*}
+  \end{minipage}
+\end{center}
+  
+  \end{proof}
+  \end{exercise}
+
+ 
+  %%%%%%%% Still working on this one 
+  \begin{exercise}[0.2.10] Prove for any given positive integer $N$ there exist only finitely many integers $n$ 
+    with $\varphi(n) = N$ where $\varphi$ denotes Euler's $\varphi$-function. Conclude in particular that 
+    $\varphi(n)$ tends to infinity as $n$ tends to infinity.
+    \begin{proof} 
+      Let $N \in \ZZ^{+}$, and $X = \{n \in \ZZ: \varphi(n) = N\}$. By the Fundamental Theorem of Arithmetic, $n = p_1^{\alpha_1}p_2^{\alpha_2} \dots p_s^{\alpha_s}$
+      for primes $p_i$ and $\alpha_i \in \ZZ^+$. Consider prime $p$, the largest of primes $p_i$. It follows that, 
+      \begin{equation*}
+        N = \varphi(n) = \prod_{i = 1}^s p_i^{\alpha_i - 1}(p_i - 1) \geq (p - 1).
+      \end{equation*}
+      Therefore for all follows that $p_i \leq p \leq N+1$.\\
+
+      Note that
+      \begin{equation*}
+        N = \varphi(n) = \prod_{i = 1}^s p_i^{\alpha_i - 1}(p_i - 1) \geq \prod_{i = 1}^s p_i^{\alpha_i - 1} \geq \prod_{i = 1}^s 2^{\alpha_i - 1}. 
+      \end{equation*}
+      Consider $\alpha$, the largest element in the set of $\alpha_i$. It follows that, 
+      \begin{equation*}
+        N \geq \prod_{i = 1}^s 2^{\alpha_i - 1} \geq 2^{\alpha - 1}.
+      \end{equation*}
+      Therefore $\alpha_1 \leq \alpha \leq \lceil\log_2(N) + 1\rceil$.
+      Since $p_i$ is finite, and $s_i$ is finite, and whose elements are bounded above by some function of $N$ then the set,
+      \begin{equation*}
+      A  = \{x = \prod_{i = 1}^s q_{i}^{\beta_i}: q_i \in p_i, \beta_i \in \alpha_i\}
+      \end{equation*} 
+      
+      is finite with $a \in A$ bounded above by some function of $N$. 
+      Note that $X$ is a subset of $A$ and therefore $X$ is finite, and for all $n \in X$, $n$ is bounded above by some function of $N$. Thus as $n$ tends to infinity $\varphi(n)$ also tends to infinity.  
+    \end{proof}
+    \end{exercise}
+
+
+
+    \begin{exercise}[0.2.11] Prove that if $d$ divides $n$ then $\varphi(d)$ divides $\varphi(n)$ where $\varphi$ denotes Euler's $\varphi$-function
+      \begin{proof}
+        Suppose $d, n \in \ZZ^{+}$ such that $d \mid n$. By definition $n = d(i)$ for some $i \in \ZZ^{+}$. 
+        By the Fundamental Theorem of Arithmetic, let $d, n$ be expressed a products of prime powers for sufficiently large $s$ and $\alpha_i,\beta_i \geq 0$,
+        $d = \prod_{i = 1}^s p_i^{\alpha_i}$, and $n = \prod_{i = 1}^s p_i^{\beta_1}$. Since $n = d(i)$ we know that $0 \leq \alpha_i \leq \beta_i$. 
+        Now consider $\varphi(n)$,
+        \begin{equation*}
+          \varphi(n) = \prod_{i = 1}^s p_i^{\beta_i - 1}(p_i  - 1) = \left(\prod_{i = 1}^s p_i^{\beta_i - \alpha_i - 1}\right)(j)\left(\prod_{i = 1}^s p_i^{\alpha_i - 1}(p_i  - 1)\right) 
+        \end{equation*}
+        where $j \in \ZZ$ is any unnecessary product of $(p_i - 1)$ that is left over. Note that for $k \in \ZZ$, 
+        \begin{equation*}
+          \varphi(n) = (\prod_{i = 1}^s p_i^{\beta_i - \alpha_i - 1}j)\varphi(d) = k\varphi(d).
+        \end{equation*}
+        Thus $\varphi(d)$ divides $\varphi(n)$.
+      \end{proof}
+      \end{exercise}
+
+
+
+
+\section*{\textbf{Section 0.3}}
+\begin{exercise}[0.3.4] Compute the remainder when $37^{100}$ is divided by 29. 
+  \begin{proof}[Solution:]
+    Consider group $\ZZ/29\ZZ$ under multiplication. We know from Theorem 3 that we can multiply congruences. Computing a few powers 
+    to construct $37^100$ we get,  
+    \begin{align*}
+      37 &\equiv 8\mod 29\\
+      37^2 &\equiv 8^2 = 64 \equiv 6\mod 29\\
+      37^4 &\equiv 6^2 = 36 \equiv 7\mod 29\\
+      37^8 &\equiv 7^2 = 49 \equiv 20\mod 29\\
+      37^{16} &\equiv 20^2 = 400 \equiv 23\mod 29\\
+      37^{32} &\equiv 23^2 = 529 \equiv 7\mod 29
+    \end{align*}
+    Using these congruences we can compute the following, 
+    \begin{equation*}
+      37^{100} = (37^{32})^3 37^{4} \equiv 7^4 = 2401 \equiv 23\mod 29 
+    \end{equation*}
+    So the remainder is 23.
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[0.3.5] Compute the last two digits of $9^{1500}$.
+  \begin{proof}[Solution:] To compute the last two digits of $9^{1500}$ we want to find the remainder after division by 100. 
+    Similarly to exercise 4 we will compute the remainder of a few powers of 9 to eventually multiply the congruences and compute $9^{1500}$.
+    \begin{align*}
+      9^2 &= 81 \mod 100\\
+      9^4 &= 81^2 = 6561\equiv 61\mod 100\\
+      9^8 &= 61^2 = 3721 \equiv 21\mod 100\\
+      9^{16} &= 21^2 = 441 \equiv 41\mod 100\\
+      9^{32} &= 41^2 = 1681 \equiv 81\mod 29
+    \end{align*}
+    Having computed a reminder of 81, we know that each subsequent square of $9^{32}$ will follow the same pattern in the remainder as we previously computed. Therefore, 
+    $9^{64} \equiv 61\mod 100$, $9^{128} \equiv 21\mod 100$, $9^{256} \equiv 41\mod 100$, $9^{512} \equiv 81\mod 100$, and $9^{1024} \equiv 61\mod 100$.
+    Finally we can compute the remainder of $9^{1500}$, 
+    \begin{align*}
+      9^{1500} &= 9^{1024 + 256 + 128 + 64 + 16 + 8 + 4}\\
+      &= 9^{1024}9^{256}9^{128}9^{64}9^{16}9^{8}9^{4}\\
+      &\equiv 61^3 41^2 21^2\\
+      &\equiv 1 \mod 100
+    \end{align*}
+    Therefore the last two digits of $9^{1500}$ are '01'.
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[0.3.9]Prove that the square of any odd integer always leaves a remainder of 1 when divided by 8.
+  \begin{proof} Suppose $n \in \ZZ$ is odd. By the definition, for some $i \in \ZZ$, $n = 2(i) + 1$.
+    Consider $n^2$,
+    \begin{equation*}
+      n^2 = (2(i) + 1)(2(i) + 1) = 4(i)^2 + 4(i) + 1 = 4i(i + 1) + 1.
+    \end{equation*}
+    Note that when $i$ is odd, $i + 1$ must be even and vice versa. Therefore we can always factor out a $2$ from the product $i(i + 1)$ giving us
+    for some $j \in \ZZ$, 
+    \begin{equation*}s
+      n^2 = 8(j) + 1.
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+
+
+%% Double check this one. 
+\begin{exercise}[0.3.13] Let $n \in \ZZ$, $n > 1$, and let $a \in \ZZ$ with $1 \geq a \geq n$. Prove if $a$ and $n$ are relatively prime then there is an integer $c$ 
+  such that $ac \equiv 1 \mod n$ [ use the fact that the g.c.d. of two integers is a $\ZZ$- linear combination of the integers].
+  \begin{proof} Let $n \in \ZZ$, $n > 1$, and $a \in \ZZ$ with $1 \geq a \geq n$ such that $a$ and $n$ are relatively prime. Recall Property 7 of the integers, since
+    $1 \geq a \geq n$ we can write the g.c.d. of $a, b$ as a linear combination of $x, y \in \ZZ$. Note that since $a$ and $n$ are relatively prime we know that their g.c.d. is $1$ thus, 
+    \begin{align*}
+      1 &= ax + ny,\\
+      (1 - ax) &= ny.\\ 
+    \end{align*}
+    Therefore $n \mid (1 - ax)$ and by definition $ax \equiv 1 \mod n$.  
+  \end{proof}
+\end{exercise}
+
+
+\section*{\textbf{Section 1.1}}
+
+\begin{exercise}[1.1.8] Let $G =\{z \in \CC | z^n = 1 \text{ for some } n \in \ZZ^+\}$
+  \begin{enumerate}
+    \item[a.] Prove that $G$ is a group under multiplication (called the group of roots of unity in $\CC$).
+    \begin{proof} Suppose $G =\{z \in \CC | z^n = 1 \text{ for some } n \in \ZZ^+\}$. Let $a, b \in G$ such that 
+      $a^j = b^k = 1$ for some $i, j \in \ZZ^+$. Note that $G$ is closed under multiplication, $ab \in \CC$ and
+      \begin{equation*}
+        (ab)^{jk} = a^{jk}b^{jk} = (a^j)^k(b^k)^j = 1.
+      \end{equation*} 
+      Recall that the set of $\CC$ is associative under multiplication, so $G$ must also be associative under multiplication.
+      Now note that $1 \in \CC$ and $1^1 = 1$ so $1 \in G$ and therefore under multiplication, $G$ has an identity element. Let $z \in G$, and 
+      consider $\frac{1}{z} \in \CC$. Note that, 
+      \begin{equation*}
+        \left(\frac{1}{z}\right)^n = \frac{1}{z^n} = \frac{1}{1} = 1 
+      \end{equation*}
+      Therefore $\frac{1}{z} \in G$ and thus every element in $G$ has an inverse under multiplication. Thus $G$ is a group. 
+    \end{proof}
+    \vspace{.15in}
+    \item[b.] Prove that $G$ is not a group under addition. 
+    \begin{proof}
+      In the previous problem we showed that $1 \in G$. Note that $1 + 1 = 2$ and $2 \not\in G$ since $2^n = 1$ for $n \in \ZZ^+$ has 
+      no solution. Thus $G$ is not closed under addition.
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[1.1.11] Find the orders of each element of the additive group $\ZZ/12\ZZ$. 
+  \begin{proof}[Solution:]
+    Recall that, $ZZ/12\ZZ = \{\overline{0}, \overline{1}, \overline{2}, \overline{3}, \overline{4}, \overline{5}, \overline{6}, \overline{7}, \overline{8}, \overline{9}, \overline{10}, \overline{11}\}$ 
+    and that in the additive group, $0$ is the identity. Also recall that the order of $x \in \ZZ /12\ZZ$ is the smallest $n \in \ZZ^+$ such that $x^n = 0$, and we denote the order of $x$ with 
+    $|x| = n$. Note that under an additive group exponentiation by $n$ is equivalent to multiplication. Thus, 
+
+    \begin{center}
+      \begin{minipage}{.45\textwidth}
+    \begin{align*}
+      \overline{0}(1) &= \overline{0}\\
+      \overline{1}(12) &= \overline{0}\\
+      \overline{2}(6) &= \overline{0}\\ 
+      \overline{3}(4)  &= \overline{0}\\
+      \overline{4}(3)  &= \overline{0}\\
+      \overline{5}(12)  &= \overline{0}
+    \end{align*}
+  \end{minipage}
+  \hfill
+      \begin{minipage}{.45\textwidth}
+      \begin{align*}
+      \overline{6}(2)  &= \overline{0}\\
+      \overline{7}(12)  &= \overline{0}\\
+      \overline{8}(3)  &= \overline{0}\\
+      \overline{9}(4)  &= \overline{0}\\
+      \overline{10}(6)  &= \overline{0}\\
+      \overline{11}(12)  &= \overline{0}
+    \end{align*}
+  \end{minipage}
+\end{center}
+    Thus the orders of the element $ x \in \ZZ /12\ZZ$ 
+    \begin{center}
+    \begin{tabular}{c | c  c  c  c  c  c  c  c  c  c  c  c  }
+      $x$ &$\overline{0}$& $\overline{1}$& $\overline{2}$& $\overline{3}$& $\overline{4}$& $\overline{5}$& $\overline{6}$& $\overline{7}$& $\overline{8}$& $\overline{9}$& $\overline{10}$ & $\overline{11}$ \\
+      \hline
+      $|x|$&1&12&6&4&3&12&2&12&3&4&6&12
+    \end{tabular}
+  \end{center}
+    
+    \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[1.1.13] Find the orders of the following elements of the additive group $\ZZ/36\ZZ: \overline{1},\overline{2},\overline{6}, \overline{9}, \overline{10}, \overline{12}, \overline{-1}, \overline{-10}, \overline{-18}$.
+  \begin{proof}[Solution:]
+    Similarly to the last problem, we can find the order of $x \in \ZZ/36\ZZ$ by finding the smallest $n \in \ZZ^+$ such that $x^n = 0$, and again with an 
+    additive group exponentiation by $n$ is equivalent to multiplication. Doing so we get the following, 
+    \begin{center}
+      \begin{minipage}{.45\textwidth}
+    \begin{align*}
+      \overline{1}(36) &= \overline{0}\\
+      \overline{2}(18) &= \overline{0}\\
+      \overline{6}(6) &= \overline{0}\\
+      \overline{9}(4) &= \overline{0}\\
+      \overline{10}(18) &= \overline{0}
+    \end{align*}
+    \end{minipage}
+    \hfill
+        \begin{minipage}{.45\textwidth}
+          \begin{align*}
+      \overline{12}(3) &= \overline{0}\\
+      \overline{-1}(36) &= \overline{0}\\
+      \overline{-10}(18) &= \overline{0}\\
+      \overline{-18}(2) &= \overline{0}
+    \end{align*}
+  \end{minipage}
+\end{center}
+    Thus we get the following orders, 
+    \begin{center}
+    \begin{tabular}{c | c  c  c  c  c  c  c  c  c  c  c  c  }
+      $x$ &$\overline{1}$ &$\overline{2}$ &$\overline{6}$ & $\overline{9}$ & $\overline{10}$ & $\overline{12}$ & $\overline{-1}$ & $\overline{-10}$ & $\overline{-18}$\\
+      \hline
+      $|x|$& 36 & 18 & 6& 4& 18& 3 & 36& 18& 2
+    \end{tabular}
+  \end{center}
+  \end{proof} 
+\end{exercise}
+
+
+
+
+\begin{exercise}{1.1.21} Let $G$ be a finite group and let $x$ be an element of $G$ order $n$. Prove that if $n$ is odd, then $x = (x^2)^k$ for some $k$.
+  \begin{proof} Let be $G$ a finite group with $x \in G$ such that $|x| = n$ and $n$ is an odd integer. Note that since $x$ has order $n$,
+    $x^n = \epsilon$ where $\epsilon$ is the identity element in $G$. Note that $n$ is odd and therefore, $n = 2i + 1$ for some $i \in \ZZ$. Thus, 
+    \begin{equation*}
+        x = \epsilon x = (x^n)x = (x^{2i + 1})x = x^{2i + 2} = (x^{2})^{(i + 1)}.
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}{1.1.22} If $x$ and $g$ are element of the group $G$, prove that $|x| = |g^{-1}xg|$. Deduce that $|ab| = |ba|$ for all $a, b \in G$.\\
+  \begin{proof} Suppose $x, g \in G$. Let $|x| = n$. Consider $(g^{-1}xg)^n$,
+    \begin{equation*}
+      (g^{-1}xg)^n = (g^{-1})x^ng = g^{-1}g = \epsilon.
+    \end{equation*}
+    Thus $|g^{-1}xg| \leq n = |x|$. Now let $|g^{-1}xg| = i$ and consider $x^i$,
+    \begin{equation*}
+      x^i = \epsilon x^i \epsilon = gg^{-1}x^igg^{-1} = g(g^{-1}x^ig)g^{-1}.
+    \end{equation*}
+    Note that $(g^{-1}x^ig) = (g^{-1}xg)^i$. Since $|g^{-1}xg| = i$ we get, $(g^{-1}x^ig) = (g^{-1}xg)^i = \epsilon$ and by substitution, 
+    \begin{equation*}
+      x^i =  g(g^{-1}x^ig)g^{-1} = g\epsilon g^{-1} = \epsilon. 
+    \end{equation*}
+    Thus $|x| \leq i = |g^{-1}xg|$. Since we have shown that, $|g^{-1}xg| \leq |x|$ and $|x| \leq |g^{-1}xg|$
+    it is the case that $|x| = |g^{-1}xg|$.\\
+
+    We can deduce $|ab| = |ba|$ for all $a, b \in G$ with the equality $|x| = |g^{-1}xg|$ by letting $x = ab$ and $g = b^{-1}$. Doing so we get the following, 
+    \begin{equation*}
+      |ab| = |b(ab)b^{-1}| = |ba(bb^{-1})| = |ba|.
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}[1.1.25] Prove that if $x^2 = \epsilon$ for all $x \in G$ then $G$ is abelian. 
+  \begin{proof} Suppose $x^2 = \epsilon$ for all $x \in G$. With some algebra we get, 
+    \begin{align*}
+      x^2 &= \epsilon,\\
+      x^2(x^{-1}) &= \epsilon(x^{-1}),\\
+      x&= x^{-1}.
+    \end{align*}
+    Now consider some $a, b \in G$, and with (4) of Proposition 1 we can consider the following, 
+    \begin{equation*}
+      ab = (ab)^{-1} = b^{-1}a^{-1} = ba.  
+    \end{equation*}
+    Thus $G$ is abelian. 
+  \end{proof}
+\end{exercise}
+
+
+
+\begin{exercise}[1.1.31] Prove that any finite group $G$ of even order contains an element of order 2.[ Let $t(G)$ be the set $\{ g \in G | g \neq g^{-1}\}$. Show that $t(G)$
+  has an even number of element and every nonidentity element of $G - t(G)$ has order 2.]
+  \begin{proof} Suppose a finite group $G$ with $|G| = n$ such that $n$ is even. Now consider $G - \{\epsilon\}$ and note it has odd order. 
+    Therefore for some $i \in \ZZ^+$, $|G - \{\epsilon\}| = 2i + 1$.
+    Consider that to be a group each element in $G$ must have a unique inverse. With at most $i$ pairs of distinct elements and $2i + 1$ total elements by the Pigeon Hole Principle
+    there must exists some $x \in |G - \{\epsilon\}|$ such that $x = x^{-1}$. Therefore, 
+    \begin{align*}
+      x &= x^{-1},\\
+      x(x) &= x^{-1}(x),\\
+      x^2 &= \epsilon.
+    \end{align*}
+    Thus $|x| = 2$.
+  \end{proof}  
+\end{exercise}
+
+
+\section*{\textbf{Section 1.2}}
+
+\begin{exercise}[1.2.1a] Compute the order of each of the elements in $D_{2(3)}$. [$D_{2n}$ has the usual presentation $D_{2n} = \{r, s | r^n = s^2 = 1, rs = sr^{-1}\}$.]
+  \begin{proof}[Solution:] With our presentation, $D_{2(3)} = \{1, r, r^2, s, sr, sr^2\}$, as described in Section 1.2. 
+    Trivially $|1| = 1$. 
+    From our presentation we know $r^3 = 1$. Note that $r^2 \neq 1$ since it would imply that $r^3 = rr^2 = r$ and not $r = 1$, thus $|r| = 3$. Geometrically 
+    this makes sense, since it corresponds to 3 rotations of $(2pi/3)$ on the regular 3-gon and $(3)(2pi/3) \equiv 0 \mod(2\pi)$. \\
+    
+    Note that $(r^2)^2 = r^4 = r^3r = r \neq 1$ and $(r^2)^3 = r^6 = r^3r^3 = 1$, thus $|r^2| = 3$. Geometrically this 
+    corresponds to 3 rotations of $(4\pi/3)$ on the regular 3-gon and $(3)(4pi/3) \equiv 0 \mod(2\pi)$. \\
+    
+    From our presentation we know that $s^2 = 1$ so $|s| = 2$. \\
+    
+    Consider that $(sr)^2 = srsr = s(rs)r$ and by our presentation we know that $rs = sr^{-1}$ so by substitution we get $(sr)^2 = ssr^{-1}r = s^2 = 1$, thus $|(sr)^2| = 2$.\\ 
+    
+    Similarly $(sr^2)^2 = sr^2sr^2 = sr(rs)rr = sr (sr^{-1})rr = srsr = 1$. 
+    Below is a table summarizing our results,
+    \begin{center}
+    \begin{tabular}{c | c c c c c c c} 
+      $x$ & $1$ & $r$ & $r^2$ & $s$ & $sr$ & $sr^2$\\ 
+      \hline
+      $|x|$ & 1 & 3 & 3 & 2 & 2 & 2
+    \end{tabular}
+    \end{center}
+  \end{proof}
+\end{exercise}
+
+
+
+\begin{exercise}[1.2.2] Use the generators and relations above to show that if $x$ is any element of $D_{2n}$, which is not a power of $r$, then $rx = xr^{-1}$. 
+  \begin{proof} Suppose $x \in D_{2n}$ such that $x$ is not a power of $r$. By definition $x = sr^i$ such that $0 \geq i \geq n-1$. Substituting $rs = sr^{-1}$ from our presentation 
+    we get, 
+    \begin{equation*}
+    rx = r(sr^i) = (rs)r^i = s(r^{-1}r^i). 
+    \end{equation*}
+    Note that rotations $r$ in $D_{2n}$ commute so therefore,
+    \begin{equation*}
+    rx = s(r^{-1}r^i) = (sr^i)r^{-1} = xr^{-1}.
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+
+
+\section*{\textbf{Section 1.3}}
+
+\begin{exercise}[1.3.4b] Compute the order of the elements in $S_4$.
+  \begin{proof}[Solution:] First recall from the end of Section 1.3 
+    that that the order of a permutation is the l.c.m of the lengths of the cycles in it's cycle decomposition. Now we can compute the order of each permutation in $S_4$,
+    \begin{center}
+    \begin{minipage}{.45\textwidth}
+      \begin{tabular}{c | c } 
+        Permutation $(\sigma)$ & $|\sigma|$ \\ 
+        \hline
+        (1) & 1\\
+        (12) & 2\\
+        (13) & 2\\
+        (14) & 2\\
+        (23) & 2\\
+        (24) & 2\\
+        (34) & 2
+      \end{tabular}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.45\textwidth}
+      \begin{tabular}{c | c } 
+        Permutation $(\sigma)$ & $|\sigma|$ \\ 
+        \hline
+        (123) & 3\\
+        (124) & 3\\
+        (132) & 3\\
+        (134) & 3\\
+        (142) & 3\\
+        (143) & 3\\
+        (234) & 3\\
+        (243) & 3
+      \end{tabular}
+    \end{minipage}     
+  \end{center}
+
+  \begin{center}
+    \begin{minipage}{.45\textwidth}
+          \begin{tabular}{c | c } 
+            Permutation $(\sigma)$ & $|\sigma|$ \\ 
+            \hline
+            (1234) & 4\\
+            (1243) & 4\\
+            (1324) & 4\\
+            (1342) & 4\\
+            (1423) & 4\\
+            (1432) & 4
+          \end{tabular}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{.45\textwidth}
+            \begin{tabular}{c | c } 
+              Permutation $(\sigma)$ & $|\sigma|$ \\ 
+              \hline
+              (12)(34)& 2\\
+              (13)(24)& 2\\
+              (14)(23)& 2
+            \end{tabular}
+          \end{minipage}     
+        \end{center}
+
+
+
+
+        
+      
+        
+  \end{proof}
+  
+\end{exercise}
+
+
+\begin{exercise}[1.3.5] Find the order of $\sigma = (1 12 8 10 4)(2 13)(5 11 7)(6 9)$.
+  \begin{proof}[Solution:] Recall from the end of section 1.3 that that the order of a permutation is the l.c.m of the lengths of the cycles in it's cycle decomposition.
+    Note that the lengths of the cycles in $\sigma = (1 12 8 10 4)(2 13)(5 11 7)(6 9)$ are 5,2,3,2 respectively. Note that the lengths are
+    all prime numbers so the l.c.m. and therefore $|\sigma|$ is simply the product of $5*3*2 = 30$.
+  \end{proof}
+\end{exercise}
+
+\begin{exercise}[1.3.10] Prove that if $\sigma$ is the $m$-cycle $(a_1 a_2 \dots a_m)$, then for all $i \in [m]$, $\sigma^i(a_k) = a_{k+i}$, 
+  where $k+i$ is replaced by its least residue$\mod m$ when $k+1 > m$. Deduce that $|\sigma| = m$.
+  \begin{proof} Suppose that $\sigma = (a_1 a_2 \dots a_m)$ for some $m \in \ZZ^+$. We will proceed to show for all $\sigma^i(a_k) = a_{k+i}$ by induction on $i$. 
+    Consider the base case $i = 1$. By the definition of $\sigma = (a_1 a_2 \dots a_m)$ it follows that $\sigma^{1}(a_k) = a_{k+1}$. Suppose that $\sigma^i(a_k) = a_{k+i}$ hold for some 
+    $1 \leq i \leq m-1$. Note that,
+    \begin{align*}
+      \sigma^{i+1}(a_k) &= \sigma(\sigma^{i}(a_k))\\
+      &= \sigma(\sigma^{i}(a_k))\\
+      &= \sigma(a_{k+1})\\
+      &= a_{(k+1) + 1}
+    \end{align*}
+    Thus by induction for all $i \in [m]$, $\sigma^i(a_k) = a_{k+i}$, where $k+i$ is replaced by its least residue$\mod m$ when $k+1 > m$.\\
+    Finally, note that for every $\sigma^i$ where $1\leq i \leq m-1$, $\sigma^i$ maps $a_k$ to $a_{k+i}$ and since $k + i \not\equiv k mod n$ we know that $a_k \neq a_{k+i}$.
+    When $i = m$ we get that $\sigma^m$ maps $a_k$ to $a_{k+m}$ and since $k + m \equiv k mod m$ we know that $a_k = a_{k+m}$. Thus we have shown that $\sigma^m = 1$ and that $|\sigma| = m$. 
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[1.3.15] Prove that the order of an element in $S_n$ equals the least common multiple of the lengths of the cycles in its cycle decomposition. 
+  \begin{proof} Suppose $\sigma \in S_n$ such that $\sigma$ has the following cycle decomposition with $k$ disjoint cycles, 
+    \begin{equation*}
+      \sigma = s_1 s_2 \dots s_k. 
+    \end{equation*}
+    Suppose that $|\sigma| = m$, and consider that, 
+    \begin{equation*}
+      (\sigma)^m = (s_1 s_2 \dots s_k )^m.
+    \end{equation*} 
+    Since disjoint cycles commute we know that, 
+    \begin{equation*}
+      (\sigma)^m = (s_1)^m(s_2)^m\dots(s_k)^m = 1.
+    \end{equation*}
+    Therefore it follows that for all $i \in [k]$, $s_i^m = 1$. In Exercise 10 we showed that $s_i^m = 1$ is only possible when $m$ is some multiple of the length of $s_1$, and 
+    therefore it follows that $m$ must be some multiple of the lengths of $s_i$. Since $|\sigma| = m$ it must be the least common multiple of all the lengths of $s_i$.
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[1.3.18] Find all numbers $n$ such that $S_5$ contains an element of order $n$. 
+  \begin{proof}[Solution] Note that for $1 \leq n \leq 5$, $S_5$ contains an $n$-cycle. For example
+    \begin{equation*}
+      1, (12), (123), (1234), (12345).
+    \end{equation*}
+    $S_5$ also contains elements of order $6$. For example,
+    \begin{equation*}
+      (12)(345).
+    \end{equation*}
+    Constructing an element with a larger cycle, or different lengths would require $n \geq 7$.
+  \end{proof}  
+\end{exercise}
+
+\section*{\textbf{Section 1.4}}
+\begin{exercise}[1.4.3] Show that $\mathbb{G}\mathbb{L}_2(\mathbb{F}_2)$ is non-abelian.
+  \begin{proof}
+    Consider the following $A, B \in \mathbb{G}\mathbb{L}_2(\mathbb{F}_2)$,
+    \begin{equation*}
+      A = \begin{pmatrix}
+        1 & 2\\
+        0 & 2
+      \end{pmatrix}
+      , 
+      B = \begin{pmatrix}
+        2 & 4\\
+        0 & 1
+      \end{pmatrix}.
+    \end{equation*}
+    Note that,
+    \begin{equation*}
+      AB = 
+      \begin{bmatrix}2&6\\ 0&2\end{bmatrix}
+    \end{equation*}
+    and,
+    \begin{equation*}
+    BA = \begin{pmatrix}2&12\\ 0&2\end{pmatrix}
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+
+
+\begin{exercise}[1.4.10] Let 
+  \begin{equation*}
+    G = \left\{\begin{pmatrix}
+      a & b\\
+      0 & c
+    \end{pmatrix}| a,b,c \in \RR, a,c \neq 0\right\}  
+  \end{equation*}
+
+  \begin{enumerate}
+    \item[a.] Show $G$ is closed under matrix multiplication. 
+    \begin{proof} Let $A, B \in G$ such that, 
+      \begin{equation*}
+        A = \begin{pmatrix}
+          a_1 & b_1\\
+          0 & c_1
+        \end{pmatrix}
+        , 
+        B = \begin{pmatrix}
+          a_2 & b_2\\
+          0 & c_2
+        \end{pmatrix}
+      \end{equation*}
+      Note that, 
+      \begin{equation*}
+        AB = \begin{pmatrix}
+          a_1 & b_1\\
+          0 & c_1
+        \end{pmatrix}
+      \begin{pmatrix}
+          a_2 & b_2\\
+          0 & c_2
+        \end{pmatrix} = 
+        \begin{pmatrix}a_1a_2&a_1b_2+b_1c_2\\ 0&c_1c_2\end{pmatrix}.
+      \end{equation*}
+      Clearly $a_1a_2, a_1b_2+b_1c_2, c_1c_2 \in \RR$ and $a_1a_2, c_1c_2 \neq 0$ thus $AB \in G$.
+    \end{proof}
+
+    \item[b.] Find a matrix inverse of, 
+    \begin{equation*}
+      A = \begin{pmatrix}
+        a & b\\
+        0 & c
+      \end{pmatrix}.
+    \end{equation*}
+    \begin{proof} Let, 
+      \begin{equation*}
+        A^{-1} = 
+        \begin{pmatrix}
+          a^{-1} & -b(a^{-1})(c^{-1})\\
+          0 & c^{-1}
+        \end{pmatrix}.
+      \end{equation*}
+      Now consider that $AA^{-1}$
+      \begin{equation*}
+        AA^{-1} =
+        \begin{pmatrix}
+          a & b\\
+          0 & c
+        \end{pmatrix}
+        \begin{pmatrix}
+          a^{-1} & (a^{-1})(-b)(c^{-1})\\
+          0 & c^{-1}
+        \end{pmatrix} = 
+        \begin{pmatrix}aa^{-1}&(aa^{-1})(-bc^{-1})+bc^{-1}\\ 0&cc^{-1}\end{pmatrix}
+        = 
+        I_2
+      \end{equation*}
+    \end{proof}
+    
+    
+    \item[c] Deduce that $G$ is a subgroup of $\mathbb{G}\mathbb{L}_2(\mathbb{R})$.
+    \begin{proof}{Solution:} Recall that for a $G \le \mathbb{G}\mathbb{L}_2(\mathbb{R}$ it must be the case that $G$ is a non-empty subset of 
+      $\mathbb{G}\mathbb{L}_2(\mathbb{R}$ and $G$ must be closed under matrix multiplication and inverses. $G$ is clearly a subset of $\mathbb{G}\mathbb{L}_2(\mathbb{R})$ as 
+      any non-singular upper triangular 2x2 real matrix is also a 2x2 real matrix. We also illustrated that $G$ is closed under matrix multiplication and inverses in the previous parts.
+      Thus $G \le \mathbb{G}\mathbb{L}_2(\mathbb{R}$. 
+    \end{proof}
+
+    \item[d] Prove that the set of elements of $G$ whose two diagonal entries are equal is also a subgroup of $\mathbb{G}\mathbb{L}_2(\mathbb{R})$.
+    \begin{proof} Let,
+      \begin{equation*}
+        U = \left\{\begin{pmatrix}
+          a & b\\
+          0 & a
+        \end{pmatrix}| a,b \in \RR, a \neq 0\right\}.  
+      \end{equation*}
+      Note that for $A, B \in U$, 
+      \begin{equation*}
+        AB = 
+        \begin{pmatrix}
+          a_1 & b_1\\
+          0 & a_1
+        \end{pmatrix}
+        \begin{pmatrix}
+          a_2 & b_2\\
+          0 & a_2
+        \end{pmatrix}
+        = \begin{pmatrix}a_1a_2&a_1b_2+b_1a_2\\ 0&a_1a_2\end{pmatrix}.
+      \end{equation*}
+      Thus $AB \in U$ and $U$ is closed under matrix multiplication. 
+      Now consider $A, A^{-1} \in U$, 
+      \begin{equation*}
+        AA^{-1} = 
+        \begin{pmatrix}
+          a & b\\
+          0 & a
+        \end{pmatrix}
+        \begin{pmatrix}
+          a^{-1} & -b(a^{-2})\\
+          0 & a^{-1}
+        \end{pmatrix}
+         =
+         \begin{pmatrix}
+          aa^{-1} & -b(a^{-2}a) + b(a^{-1})\\
+          0 & aa^{-1}
+        \end{pmatrix}
+         = I_2
+      \end{equation*}
+      Thus $U$ is closed under inverses. Therefore $U$ is a subgroup of $\mathbb{G}\mathbb{L}_2(\mathbb{R})$.
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+
+\section*{1.5}
+\begin{exercise}[1] Compute the order of each of the elements in $\mathbb{Q}_8$.
+  \begin{proof}{Solution:} From the description of $\mathbb{Q}_8$ in Section 1.5 we get the following table of orders, 
+    \begin{center}
+      \begin{tabular}{c | c c c c c c c c} 
+        $x$ & $1$ & $-1$ & $i$ & $-i$ & $j$ & $-j$ & $k$ & $-k$\\ 
+        \hline
+        $|x|$ & 1 & 2 & 4 & 4 & 4 & 4 & 4 & 4
+      \end{tabular}
+      \end{center}
+    
+  \end{proof} 
+  
+\end{exercise}
+\end{document} 
+
+
+
+ 0.2 1c, 3, 5, 10, 11.
+ 0.3 4, 5, 9, 13.
+ 1.1 8, 11, 13, 21, 22, 25, 31.
+ 1.2 1a, 2.
+ 1.3 4b, 5, 10, 15, 18.
+ 1.4 3, 10.
+ 1.5 1.
+ 
