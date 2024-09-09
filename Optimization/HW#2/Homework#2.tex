@@ -1,0 +1,505 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%\textbf{Code:}
+%\begin{center}
+%  \lstinputlisting{NewtonsMethodP5.m}
+%\end{center}
+%
+%\textbf{Console:}
+%\begin{center}
+%  \lstinputlisting{P5C.txt}
+%\end{center}
+%\vspace{.15in}
+
+
+%\begin{figure}[H]
+%  \begin{center}
+%    \caption{The one-norm unit ball}
+%    \includegraphics[width=.76\textwidth]{1norm.png}
+%  \end{center}
+%\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 2}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+
+\begin{exercise}{2.7} Consider minimizing $f(x)$ for $x \in S$ where $S$ is the set of integers. 
+  Prove that every point $S$ is a local minimizer. \\
+  \begin{proof}
+    By definition for a point $x_* \in S$ to be a local minimizer of $f$, $f(x_*) \leq f(x)$ for all $x \in S$ such that $||x - x_*|| < \epsilon$ for some $\epsilon > 0$.
+    Let $x_* \in \mathbb{Z}$ and consider $\epsilon = .5$. By definition the only $x \in S$ such that  $||x - x_*|| < .5$ is $x_*$, therefore the statement $f(x_*) \leq f(x)$ is vacuously true 
+    and $x_*$ is a local minimizer. 
+
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{3.1} Prove that the intersection of a finite number of convex sets is also a convex set.\\
+  \begin{proof} Suppose $S$ is a finite family of convex sets. Consider the set $A = \cap_{S_1 \in S} S_i$. Let $0 \leq \alpha \leq 1$ and consider
+    $a, b \in A$. Since $a$ and $b$ belong in the intersection of all sets $S_i$, they must also exists in every set $S_i$. Since $S_i$ are convex it follows from the definition 
+    that $\alpha a - (1 - \alpha)b \in S_i$. Therefore $\alpha a - (1 - \alpha)b \in A$ and thus $A$ is a convex set. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.3} Consider a feasible region $S$ defined by a set of linear constraints, 
+  \begin{equation*}
+    S = \{x: Ax \leq b\}. 
+  \end{equation*}
+  Prove that $S$ is convex. 
+    \begin{proof} Consider $x, y \in A$. By definition $A(x) \leq b$ and $A(y) \in b$. Consider some $0 \leq \alpha \leq 1$. 
+      Note that since $\alpha$ and $(i - \alpha)$ are non-negative the following inequalities come out, 
+      \begin{equation*}
+        \alpha(Ax) \leq \alpha b,  
+      \end{equation*}
+      \begin{equation*}
+        (1 - \alpha)(Ay) \leq (1 - \alpha) b.  
+      \end{equation*}
+      Adding both inequalities we get the following, 
+      \begin{align*}
+        \alpha(Ax) +  (1 - \alpha)(Ay) &\leq (1 - \alpha) b + \alpha b, \\
+        A(\alpha(x) +  (1 - \alpha)(y)) &\leq (1 - \alpha + \alpha) b,  \\
+        A(\alpha(x) +  (1 - \alpha)(y)) &\leq b.
+      \end{align*}
+      Therefore by definition $(\alpha(x) +  (1 - \alpha)(y)) \in S$. Thus $S$ is convex. 
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.7} Let $f$ be a convex function on a convex set $S \in \RR^n$. Let $k$ be a nonzero scalar, and define
+  $g(x) = kf(x)$. Prove that if $k > 0$, then $g$ is a convex function on $s$, and if $k<0$, then $g$ is a concave function on $S$
+  \begin{proof} Suppose $f$ is a convex function on a convex set $S \in \RR^n$ and let $g(x) = kf(x)$ for some $k>0$. 
+    By definition of a convex function, we know that for all $0 \leq \alpha \leq 1$ and $x, y \in S$, 
+    \begin{equation*}
+      f(\alpha x + (1-\alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y)
+    \end{equation*}
+    Since $k > 0$ multiplying both sides does not change the direction of the inequality, 
+    \begin{align*}
+      kf(\alpha x + (1-\alpha)y) &\leq k(\alpha f(x) + (1 - \alpha)f(y)),\\
+      g(\alpha x + (1-\alpha)y) &\leq \alpha kf(x) + (1 - \alpha)kf(y),\\
+      g(\alpha x + (1-\alpha)y) &\leq \alpha g(x) + (1 - \alpha)g(y).
+    \end{align*}
+    Thus $g(x)$ is also convex. Clearly when $k < 0$ the inequality switches sides and we get, 
+    \begin{equation*}
+      g(\alpha x + (1-\alpha)y) \geq \alpha g(x) + (1 - \alpha)g(y).
+    \end{equation*}
+    Which by definition is concave. 
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.13} Let $f$ be a convex function on the convex set $S$. Prove that the level set
+  $T = \{ x \in S: f(x) \leq k\}$ is convex for all real number $k$.
+  \begin{proof} Suppose $f$ be a convex function on the convex set $S$, and consider the level set
+    $T = \{ x \in S: f(x) \leq k\}$ for some $k \in \RR$. Since $f$ is convex for all 
+    $0 \leq \alpha \leq 1$ and $x, y \in T$ we know that, 
+    \begin{equation*}
+      f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y)
+    \end{equation*}
+    Since $x, y \in T$ we know that $f(x), f(y) \leq k$. By substitution, 
+    \begin{align*}
+      f(\alpha x + (1 - \alpha)y) \leq \alpha k + (1 - \alpha)k,\\
+      f(\alpha x + (1 - \alpha)y) \leq \alpha k + k - \alpha k,\\
+      f(\alpha x + (1 - \alpha)y) \leq k.
+    \end{align*}
+    Thus $\alpha x + (1 - \alpha)y \in T$ therefore by definition $T$ is a convex set.  
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.18} Express $(2,2)^T$ as a convex combination of $(0, 0)^T$, $(1, 4)^T$, and $(3, 1)^T$.
+  \begin{proof} Finding a convex combination of $(2, 2)^T$ can be done by solving the following equation, 
+    \begin{equation*}
+      \begin{pmatrix}
+        1&4 &0 \\
+        3&1 &0  
+      \end{pmatrix}
+      \begin{pmatrix}
+        x\\
+        y\\
+        z
+      \end{pmatrix}
+       = 
+       \begin{pmatrix}
+        2\\
+        2
+       \end{pmatrix}
+    \end{equation*}
+    \begin{equation*}
+      \begin{pmatrix}
+        1&4 &0 \\
+        0&11 &0  
+      \end{pmatrix}
+      \begin{pmatrix}
+        x\\
+        y\\
+        z
+      \end{pmatrix}
+       = 
+       \begin{pmatrix}
+        2\\
+        4
+       \end{pmatrix}
+    \end{equation*}
+    \begin{equation*}
+      \begin{pmatrix}
+        1&4 &0 \\
+        0&1 &0  
+      \end{pmatrix}
+      \begin{pmatrix}
+        x\\
+        y\\
+        z
+      \end{pmatrix}
+       = 
+       \begin{pmatrix}
+        2\\
+        \frac{4}{11}
+       \end{pmatrix}
+    \end{equation*}
+    \begin{equation*}
+      \begin{pmatrix}
+        1&0 &0 \\
+        0&1 &0  
+      \end{pmatrix}
+      \begin{pmatrix}
+        x\\
+        y\\
+        z
+      \end{pmatrix}
+       = 
+       \begin{pmatrix}
+        \frac{6}{11}\\
+        \frac{4}{11}
+       \end{pmatrix}
+    \end{equation*}
+    This gives us that $z$ is free, $x = \frac{6}{11}$ and $y = \frac{4}{11}$. Since we know the magnitude of our solution needs to be 1
+    we can solve for the $z$ within this constraint, 
+    \begin{align*}
+      1 &= \left(\frac{6}{11}\right) + \left(\frac{4}{11}\right) + z \\
+      \frac{1}{11} &=  z 
+    \end{align*}
+    \end{proof}
+    Thus $(\frac{6}{11}, \frac{4}{11}, \frac{1}{11})$ is a valid convex combination. 
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.20} Determine if, 
+  \begin{equation*}
+    f(x_1, x_2) = 2x_1^2 + 3x_13x_2 + 5x_2^2 - 2x_1 + 6x_2. 
+  \end{equation*}
+  is convex, concave, both or neither for $x \in \RR^2$. 
+    \begin{proof} Recall the hessian definition of convex, given that at every point $x \in \RR^2$
+      \begin{equation*}
+        (x_1, x_2)\nabla^2f(x_1,x_2)^T \geq 0.
+      \end{equation*}
+      Computing the hessian for the given $f(x)$, 
+      \begin{equation*}
+        \nabla^2f(x_1,x_2) = \begin{bmatrix}
+          4 & -3\\
+          -3 & 10
+        \end{bmatrix}
+      \end{equation*}
+      Computing it's eigenvalues, 
+      \begin{equation*}
+        \left|\begin{bmatrix}
+          4 - \lambda & -3\\
+          -3 & 10 - \lambda
+        \end{bmatrix}\right| = (4 - \lambda)(10 - \lambda) - 9 = \lambda^2-14\lambda+31
+      \end{equation*}
+      Which gives us $\lambda_1 = 7 + 3\sqrt{2}$ and $\lambda_2 = 7 - 3\sqrt{2}$. Clearly the eigenvalues 
+      are larger than 0 so the hessian is positive definite, and therefore $f$ is convex. 
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{P5}For each of the following functions, determine if it is convex, concave, both or neither, on the real line $\RR$. 
+  If the function is convex or concave, indicate whether or not it is also strict.\\
+  \begin{enumerate}
+    \item[a.] $f(x) = 8x - 15$\\
+    \solution This function is both concave and convex, since $f''(x) = 0$. 
+    \vspace*{.15in}
+
+    \item[b.] $f(x) = \sqrt{1 + x^2}$\\
+    \solution Note that, 
+    \begin{equation*}
+      f'(x) =\frac{x}{\sqrt{1+x^2}}
+    \end{equation*}
+    \begin{equation*}
+      f''(x) = \frac{1}{\left(1+x^2\right)\sqrt{1+x^2}}
+    \end{equation*}
+    This function on $\RR$ is always positive and therefore the function is strictly convex. 
+    \vspace*{.15in}
+
+
+
+    \item[c.]$f(x) = 1/(2 + x^4)$\\
+    \solution Note that, 
+    \begin{equation*}
+      f'(x) = \frac{4x^3}{\left(2+x^4\right)^2}.
+    \end{equation*}
+    \begin{equation*}
+      f''(x) = -\frac{4x^2\left(-5x^4+6\right)}{\left(2+x^4\right)^3}.
+    \end{equation*}
+    Solving for the roots of the second derivative in $\RR$ we get $x = 0, (\frac{6}{5})^{1/4}, -(\frac{6}{5})^{1/4}$. To the left of $-(\frac{6}{5})^{1/4}$ the value 
+    of the second derivative is positive and to the right it's negative. To the left and right $x = 0$ the second derivative is negative, and to the right of $x = (\frac{6}{5})^{1/4}$
+    the value of the second derivative is positive. 
+    Therefore the function is strictly convex on $(-\infty, -(\frac{6}{5})^{1/4}] \cup [(\frac{6}{5})^{1/4}, \infty)$ and concave from $[-(\frac{6}{5})^{1/4}, (\frac{6}{5})^{1/4}]$.
+    \vspace*{.15in}
+
+    \item[d.] $f(x) = |x|$\\
+    This function is clearly convex.
+    \vspace*{.15in}
+
+    \item[e.] $f(x) = 4 - 5x - 3x^2$\\
+    Computing the second derivative we get, $f''(x) = - 6 < 0$. Therefore this function is strictly concave. 
+  \end{enumerate}
+\end{exercise}
+\vspace*{.15in}
+
+
+
+
+\begin{exercise}{P6} Consider the scalar values function, 
+  \begin{equation*}
+    f(x_1, x_2) = exp(-x_1^2 + 3x_1 - 2x_2 - x_2^2)
+  \end{equation*}
+  Compute the gradient and the Hessian of $f$. Find the location where $f$ is maximum, and explain
+  what properties of the gradient and Hessian show that it is a maximum.\\
+  \solution Computing the $\nabla f(x)$ we get the following, 
+  \begin{equation*}
+    \nabla f(x) = (f(x_1, x_2)(-2x_1 + 3), f(x_1, x_2)(-2x_2 - 2))^T.
+  \end{equation*}
+  Computing the Hessian $\nabla^2f(x)$,
+  \begin{align*}
+    \nabla^2f(x) &= \begin{bmatrix}
+      -2f(x_1, x_2) + (-2x_1 + 3)^2f(x_1, x_2) & f(x_1, x_2)^2(-2x_2 - 2)(-2x_1 + 3)\\
+      f(x_1, x_2)^2(-2x_2 - 2)(-2x_1 + 3) & -2f(x_1, x_2) + (-2x_2 - 2)^2f(x_1, x_2)
+    \end{bmatrix}\\
+    &=\begin{bmatrix}
+      f(x_1, x_2)(4x_1^2-12x_1+7) & f(x_1, x_2)^2(4x_2x_1-6x_2+4x_1-6)\\
+      f(x_1, x_2)^2(4x_2x_1-6x_2+4x_1-6) & f(x_1, x_2)(4x_2^2+8x_2+2)
+    \end{bmatrix}
+  \end{align*}
+  Finding where $\nabla f(x) = 0$, since any function $e^x$ is nonzero, we must solve the following, 
+  \begin{align*}
+    (-2x_1 + 3) &= 0,\\
+    x_1 &= \frac{3}{2}.
+  \end{align*}
+  \begin{align*}
+    (-2x_2 - 2) &= 0,\\
+    x_2 &= -1.
+  \end{align*}
+  Hence $\nabla f((\frac{3}{2}, -1)) = 0$. Plugging into the Hessian to determine if our value is a maximum we get, 
+  \begin{align*}
+    \nabla^2f((\frac{3}{2}, -1)) &= \begin{bmatrix}
+      -2f(x_1, x_2) + 0 & 0\\
+      0 & -2f(x_1, x_2) + 0
+    \end{bmatrix}\\
+    &= \begin{bmatrix}
+      -2f(x_1, x_2) & 0\\
+      0 & -2f(x_1, x_2)
+    \end{bmatrix}.
+  \end{align*}
+  Clearly the values on the diagonals will be negative, and therefore the Hessian at point $(\frac{3}{2}, -1)$ is negative definite. Thus the point $(\frac{3}{2}, -1)$ 
+  is a maximum. 
+\end{exercise}
+\vspace*{.15in}
+
+
+
+\begin{exercise}{P7}
+  \begin{enumerate}
+    \item[a.] Consider the vector-values function, 
+    \begin{equation*}
+      f(x_1, x_2, x_3) = \begin{pmatrix}
+        x_1^2 + x_2^2 + x_3^2 - 1\\
+        x_2 - arctan(x_1)\\
+        x_3^3 - x_3 - x_2
+      \end{pmatrix}
+    \end{equation*}
+    Compute the Jacobian of $f$. \\
+    \solution Computing the Jacobian $\nabla f(x)^T$, 
+    \begin{equation*}
+      \nabla f(x)^T = 
+      \begin{pmatrix}
+        2x_1 & 2x_2 & 2x_3 \\
+         -\frac{1}{1 + x_1^2} & 1 & 0\\
+          0 & -1&  3x_3^2 - 1        
+      \end{pmatrix}
+    \end{equation*}
+    \vspace{.15in}
+
+    \item[b.] The Jacobian of $f$ in part $(a)$ is a 3 x 3 matrix, just like the Hessian of a scalar function. 
+    Is the Jacobian of $f$ in part $(a)$ actually the Hessian of some scalar function? This question cn be answered by considering the
+    symmetry of a matrix for example point $x = (1, 1, 1)$ for concreteness. \\
+    \solution Since the Hessian defined as the following, 
+    \begin{equation*}
+      [\lambda^2f(x)]_{ij} = \frac{d^2f(x)}{dx_i dx_j}
+    \end{equation*}
+    it must always be a symmetric matrix because of the property that mixed partial derivatives are equal, 
+    \begin{equation*}
+      \frac{d^2f(x)}{dx_i dx_j} = \frac{d^2f(x)}{dx_j dx_i}.
+    \end{equation*}
+    Clearly the Jacobian computed in $(a)$ is not symmetric for all $x \in \RR^n$ since $[\nabla f(x)^T]_{3,2} = -1$ and $[\nabla f(x)^T]_{2,3} = 0$. Thus 
+    it cannot be a Hessian for some scalar function. 
+
+
+
+
+
+
+  \end{enumerate}
+\end{exercise}
+\vspace*{.15in}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

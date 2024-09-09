@@ -1,0 +1,15 @@
+>> f = @(x) (x.^2 + sin(x))^2 - 10*(cos(5*x) + (3/2)*x)
+f =
+  function_handle with value:
+    @(x)(x.^2+sin(x))^2-10*(cos(5*x)+(3/2)*x)
+
+
+>> [fmin, xmin] = BisectionMethod(f, 0, 2, 100)
+
+fmin =
+
+ -22.448628772724792
+
+xmin =
+
+   1.259282253345150

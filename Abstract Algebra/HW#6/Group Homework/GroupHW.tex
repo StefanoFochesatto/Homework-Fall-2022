@@ -1,0 +1,201 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Algebra Group}}
+\lhead{\emph{HW \#6 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Glen Woodworth}
+
+
+%\usepackage{float} <- Throw this in the preamble
+
+
+
+\begin{exercise}[\textbf{4.1.1} - Stefano Fochesatto] Let $G$ act on the set $A$. Prove that if $a, b \in A$ and 
+  $b = g\cdot a$ for some $g \in G$, then $G_b = gG_ag^{-1}$ ($G_a$ is the stabilizer of $a$). 
+  Deduce that if $G$ acts transitively on $A$ then the kernel of the action is $\cap_{g \in G} gG_ag^{-1}$. 
+  \begin{proof} Let $G$ act on the set $A$. Suppose $a, b \in A$, and $b = g\cdot a$ for some $g \in G$. Let $g_1 \in G_b$ and consider 
+    $g^{-1}g_1g \cdot a$. Note that since $g \cdot a = b$ and $g_1 \in G_b$ we get that $g^{-1}g_1(g \cdot a) = g^{-1}g_1\cdot b = g^{-1}b = a$.
+    It follows that $g^{-1}g_1g \in G_a$, therefore $g_1\in gG_ag^{-1}$ and thus $G_b \subseteq gG_ag^{-1}$. Let $g_1 \in gG_ag^{-1}$, therefore 
+    $g_1 = gg_ag^{-1}$ where $g_a \in G_a$. Consider $g_1 \cdot b$ and note that since $g \cdot a = b$ and $g_a \in G_a$ we get 
+    $g_1 \cdot b = gg_a(g^{-1} \cdot b) = gg_a \cdot a = g \cdot a = b$. It follows that $g_1 \in G_b$ and therefore $gG_ag^{-1} \subseteq G_b$ thus 
+    $G_b = gG_ag^{-1}$.\\
+
+    Suppose $G$ acts transitively on $A$. Recall that the kernel of an action is the set of all $g \in G$ that map 
+    everything in $A$ to itself, and therefore must be the intersection of all the stabilizers. Fix $a \in A$, and note that since 
+    $G$ acts transitively on $A$ for all $b \in A$ there exists a $g \in G$ such that $g\cdot a = b$ thus by the previous result we get,
+    $\cap_{b \in A} G_b = \cap_{g \in G} gG_ag^{-1}$
+  
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.2.2} - Stefano Fochesatto] List the elements of $S_3$ as $1, (12), (23), (13), (123), (132)$ and label 
+  these with the integers $1, 2, 3, 4, 5, 6$ respectively. Exhibit the image of each element of $S_3$ under the left 
+  regular representation of $S_3$ into $S_6$. 
+  \begin{proof}[Solution] Note that $S_3 = \langle(12), (23)\rangle$. First let's compute the image of $(12)$ under the 
+    left regular representation of $S_3$, 
+    \begin{align*}
+      (12)1 = (12) &= \sigma_{(12)}(1) = 2\\
+      (12)(12) = 1 &= \sigma_{(12)}(2) = 1\\
+      (12)(23) = (132) &= \sigma_{(12)}(3) = 6\\
+      (12)(13) = (123) &= \sigma_{(12)}(4) = 5\\
+      (12)(123) = (13) &= \sigma_{(12)}(5) = 4\\
+      (12)(132) = (23) &= \sigma_{(12)}(6) = 3.
+    \end{align*} 
+    Thus $\sigma_{(12)} = (12)(45)(36)$. Computing the image of $(23)$ under the left regular representation of $S_3$, 
+    \begin{align*}
+      (23)1 = (23) &= \sigma_{(23)}(1) = 3\\
+      (23)(12) = (123) &= \sigma_{(23)}(2) = 5\\
+      (23)(23) = 1 &= \sigma_{(23)}(3) = 1\\
+      (23)(13) = (132) &= \sigma_{(23)}(4) = 6\\
+      (23)(123) = (12) &= \sigma_{(23)}(5) = 2\\
+      (23)(132) = (13) &= \sigma_{(23)}(6) = 4.
+    \end{align*} 
+    Thus $\sigma_{(23)} = (13)(25)(46)$. 
+    Since the permutation representation of a group is a homomorphism we know that the generators have the following property, 
+    $\sigma_{S_3} = \sigma_{\langle(12), (23)\rangle} = \langle (12)(45)(36), (13)(25)(46)\rangle$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.3.6} - Stefano Fochesatto] Assume $G$ is a non-abelian group of order 15. Prove that $Z(G) = 1$. Use the fact that $\langle g \rangle \leq C_G(g)$ for all $g \in G$ to show that there is at most one possible class equation for $G$. 
+  \begin{proof} Suppose $G$ is a non-abelian group of order 15. By Lagrange's Theorem we know that
+    if $G$ is non-abelian, then $|Z(G)| = 1, 3 \text{ or }5$. If $|Z(G)| = 3$ then by Lagrange's Theorem $|G/Z(G)| = 5$ and therefore cyclic. By Exercise 3.1.36 it would then follow that $G$ is cyclic and therefore abelian, a contradiction. Similarly if $|Z(G)| = 5$ then by Lagrange's Theorem $|G/Z(G)| = 3$ and therefore cyclic. Again it follows that $G$ is cyclic and abelian, a contradiction. Therefore $Z(G) = 1$.\\
+
+    Suppose that $\langle g \rangle \leq C_G(g)$ for all $g \in G$. Note that $3|15$ and $5|15$ therefore by Cauchy's Theorem there exists an $a, b \in G$ such that $|a| = 3$ and $|b| = 5$.
+    Since $\langle a \rangle \leq C_G(a) \leq G$ and $a \not\in Z(G)$ with $|G : \langle a \rangle| = 5$, we get that $C_G(a) = \langle a \rangle$. Similarly since $\langle b \rangle \leq C_G(b) \leq G$ and $b \not\in Z(G)$ with $|G : \langle b \rangle| = 3$, we get that $C_G(b) = \langle b \rangle$. Applying the class equation we know that,
+      \begin{equation*}
+      |G| = |Z(G)| + \sum_{i = 1}^r|G:C_G(g_i)|,
+    \end{equation*}
+    For some conjugacy class representatives $g_1, g_2, \dots g_r$.
+    Note that each summand in $\sum_{i = 1}^{r}|G:C_G(g_i)|$ must be a divisor of $|G| = 15$
+    So we get, 
+    \begin{equation*}
+      |G| = |Z(G)| + \sum_{i = 1}^r|G:C_G(g_i)| = 1 + 3i + 5j, 
+    \end{equation*}
+    where $i, j > 1$ since $\langle a \rangle, \langle b \rangle \leq G$.
+    Note that this condition gives us that $i = 3$ and $j = 1$, since no other 
+    combination satisfies $14 = 3i + 5j$ with $i, j > 1$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+
+  \end{document}

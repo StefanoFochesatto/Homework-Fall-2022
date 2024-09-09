@@ -1,0 +1,220 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\CC}{{\mathbb C}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\Longleftrightarrow}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Commenting tools
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\def\midd{\,\middle\vert\, }
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+
+\title{Assignment \#10 \today}
+
+\author{Coordinator: Glen Woodworth}
+\begin{document}
+\maketitle
+%\setstretch{2.5} %Use for 2.5 spacing
+\doublespacing %Use for double spacing
+
+
+\section*{Section 8.1}
+
+\begin{exercise}[\textbf{8.1.1} --- Stefano Fochesatto] For each of the following pairs of integers $a$ and $b$, determine their greatest common divisor $d$
+  and write $d$ as a linear combination $ax + by$ of $a$ and $b$. 
+  \begin{enumerate}
+    \item[a.] $a = 20$, $b = 13$ 
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        20 &= 13(1) + 7\\
+        13 &= 7(1) + 6\\
+        7 &= 6(1) + 1\\
+        6 &= 6(1) + 0
+      \end{align*}
+      Which gives us $(20, 13) = 1$. By back substitution we get the following, $1 = 7 - 6 = 7 - (13 - 7) = 2(7) - 13 = 2(20 - 13) - 13 = 2(20) - 3(13)$.
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[c.] $a = 11391$, $b = 5673$
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        11391 &= 5673(2) + 45\\
+      5673 &= 45(126) + 3\\
+        45 &= 3(15) + 0
+      \end{align*}
+      Which gives us $(11391, 5673) = 3$. By back substitution we get the following, $3 = 5673 - 45(126) = 5673 - (11391 - (2)5673)(126) = 253(5673) - 126(11391)$
+    \end{proof}
+    \vspace{.15in}
+
+
+
+    \item[e.] $a = 91442056588823$, $b = 779086434385541$
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        779086434385541 &= 91442056588823(8) + 47549981674957\\
+        91442056588823 &= 47549981674957(1) + 43892074913866\\
+        47549981674957 &= 43892074913866(1) + 3657906761091\\
+        43892074913866 &= 3657906761091(11) + 3655100541865\\
+        3657906761091 &=  3655100541865(1) + 2806219226\\
+        3655100541865 &= 2806219226(1302) + 1403109613\\
+        2806219226 &= 1403109613(2) + 0
+      \end{align*}
+      Which gives us $(91442056588823,779086434385541) = 1403109613$. By back substitution we get, $1403109613 = 277522(91442056588823) - 32573(779086434385541)$
+    \end{proof}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{8.1.7} --- Stefano Fochesatto] Find the generator for the ideal $(85, 1 + 13i)$ in $\ZZ[i]$, i.e. the greatest common divisor for $85$
+  and $1 + 13i$, by the Euclidean Algorithm. Do the same for the ideal $(47 - 13i, 53 + 56i)$.
+    \begin{proof}[Solution] As outlined in Example $3$ of Section 8.1 we know that The Gaussian integers are a Euclidean Domain under the norm $N(a + bi) = a^2 + b^2$. 
+      Recall the division algorithm for The Gaussian integers under norm $N$, for all $\alpha, \beta \in \ZZ[i]$ there exists some $(p + qi), \gamma \in \ZZ[i]$ such that 
+      $\alpha = (p + qi)\beta + \gamma$ where $N(\gamma) \leq \frac{1}{2}N(\beta)$. 
+      We begin the Euclidean algorithm, note that 
+      \begin{equation*}
+        \frac{85}{1 + 13i} = \frac{85(1 - 13i)}{(1 + 13i)(1 - 13i)} = \frac{85 - (85)13i}{170} = \frac{1}{2} - \frac{13}{2}i. 
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = 1 - 7i$. Finding the product $(1 + 13i)(1 - 7i) = 92 + 6i$. Solving for $\gamma = 85 - (92 + 6i) = -7 - 6i$.
+      Double checking norms we get, $N(-7 - 6i) = 7^2 + 6^2 = 85 \leq 85 = \frac{1}{2}170 N(1 + 13i)$. 
+      So our first step looks like, 
+      \begin{equation*}
+        85 = (1 - 7i)(1 + 13i) + (-7 - 6i).
+      \end{equation*}
+      Computing the next step we first check the quotient,
+      \begin{equation*}
+        \frac{1 + 13i}{-7 - 6i} = \frac{(1 + 13i)(-7 + 6i)}{(-7 - 6i)(-7 + 6i)} = \frac{-85 - 85i}{85} = -1 - 1i.
+      \end{equation*}
+      Which gives us our final step, 
+      \begin{equation*}
+        1 + 13i = (-7 - 6i)(-1 - 1i) + 0.
+      \end{equation*}
+      Therefore the greatest common divisor for $85$ and $1 + 13i$ is $(-7 - 6i)$.\\\\
+
+      
+      Applying the Euclidean algorithm for $47 - 13i$ and $53 + 56i$, first we compute the following quotient, 
+      \begin{equation*}
+        \frac{53 + 56i}{47 - 13i} = \frac{(53 + 56i)(47 + 13i)}{(47 - 13i)(47 + 13i)} = \frac{1763 + 3321i}{2378} = \frac{43}{58} + \frac{81}{58}i 
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = 1 + i$. Finding the product $(47 - 13i)(1 + i) = 60 + 34i$. Solving for $\gamma = (53 + 56i) - (60 + 34i) = -7 + 22i$.
+      Double checking norm we get, $N(-7 + 22i) = 533 \leq 1189  = \frac{2378}{2} = \frac{1}{2}N(47 - 13i)$. So our first step looks like, 
+      \begin{equation*}
+        53 + 56i = (1 + i)(47 - 13i) + (-7 + 22i).
+      \end{equation*}
+      Computing the next step we first check the quotient, 
+      \begin{equation*}
+        \frac{47 - 13i}{-7 + 22i} = \frac{(47 - 13i)(-7 - 22i)}{(-7 + 22i)(-7 - 22i)} = \frac{-615 - 943i}{533} = -\frac{15}{13} - \frac{23}{13}i.
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = -1 - 2i$. Finding the product $(-7 + 22i)( -1 - 2i) = 51 - 8i$. Computing $\gamma = (47 - 13i) - (51 - 8i) = - 4 -5i$.
+      So our next step is 
+      \begin{equation*}
+        47 - 13i = (-1 - 2i)(-7 + 22i) + (-4-5i).
+      \end{equation*}
+      For the next step we compute the following quotient, 
+      \begin{equation*}
+        \frac{-7 + 22i}{-4-5i} = \frac{(-7 + 22i)(-4+5i)}{(-4-5i)(-4+5i)} = \frac{-82 - 123 i}{41} = -2 -3i.
+      \end{equation*}
+      Which gives us our final step, 
+      \begin{equation*}
+        -7 + 22i = (-2 -3i)(-4-5i) + 0.
+      \end{equation*}
+      Therefore greatest common divisor for $47 - 13i$ and $53 + 56i$ is $(-4-5i)$.
+
+    \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+\section*{Section 8.2}
+
+
+\begin{exercise}[\textbf{8.2.1} --- Stefano Fochesatto]  Prove that in an Principal Ideal Domain $R$, two ideals $(a)$ and $(b)$ 
+  are comaximal if and only if a greatest common divisor of $a$ and $b$ is $1$. 
+    \begin{proof} Suppose $R$ is a Principal Ideal Domain and two ideal $(a)$ and $(b)$ 
+      are comaximal. By the definition of comaximal we know that $(a) + (b) = R$. By Proposition 6 we know that if 
+      $d$ is a generator for the principal ideal generated by $a$ and $b$ then $d = \gcd(a, b)$. Therefore $(a), (b) \subseteq (d)$ and 
+      by (ii) of Proposition 6, $(a) + (b) \subseteq (d)$. Since $(a)$ and $(b)$ are comaximal we know that $(a) + (b) = R$ therefore $(d) = R$. 
+      Thus $d = 1$ and therefore $gcd(a, b) = 1$. 
+
+      Suppose $R$ is a Principal Ideal Domain with elements $a$ and $b$ such that $\gcd(a, b) = 1$.  Consider 
+      $(a)$ and $(b)$ by (ii) of Proposition 6 we know that $(1) = (a)x + (b)y$ where $x, y \in R$. Thus $(a)$ and $(b)$
+      are comaximal. 
+    
+
+    \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+
+\end{document}

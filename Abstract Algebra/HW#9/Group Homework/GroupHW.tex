@@ -1,0 +1,145 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\CC}{{\mathbb C}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\Longleftrightarrow}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Commenting tools
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\def\midd{\,\middle\vert\, }
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+
+\title{Assignment \#9 \today}
+
+\author{Coordinator: Stefano Fochesatto}
+\begin{document}
+\maketitle
+%\setstretch{2.5} %Use for 2.5 spacing
+\doublespacing %Use for double spacing
+
+7.1.11, 7.1.7, 7.1.14
+
+\section*{Section 7.1}
+
+
+\begin{exercise}[\textbf{7.1.7} --- Stefano Fochesatto] The center of a ring $R$ is $\{z \in R| zr = rz \text{ for all } r \in R\}$. Prove that 
+  the center of a ring is a subgroup that contains the identity. Prove that the center of a division ring is a field. 
+  \begin{proof} Suppose a ring $R$ with identity and let $G = \{z \in R| zr = rz \text{ for all } r \in R\}$. Note that by definition we get that 
+    $1 \in G$ since $1r = r1$ for all $r \in R$. Let $a, b^{-1} \in G$ and $r \in R$, note that
+    $(a + b^{-1})r = (ar + b^{-1}r) = (ra + rb^{-1}) = r(a + b^{-1})$. Therefore $G \leq R$ with respect to 
+    addition. Note that for all $r \in R$ we have that $(ab)r = (ar)b = r(ab)$. Therefore $G$ is closed with respect to multiplication 
+    and thus is a subring of $R$. 
+
+    Suppose $R$ is a division ring and let $g \in G$ and note that $g^{-1}r = (r^{-1}g)^{-1} = (gr^{-1})^{-1} = rg^{-1}$
+    so $g^{-1} \in G$. Therefore $G$ is a commutative division ring, and therefore a field. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{7.1.11} --- Stefano Fochesatto] Prove that if $R$ is an integral domain and $x^2 = 1$ for some $x \in R$ then $x = \pm 1$. 
+  \begin{proof} Suppose $R$ is an integral domain with $x^2 = 1$ for some $x \in R$. Note that $x^2 - 1 = 0$, so therefore 
+    $(x - 1)(x + 1) = x^2 - 1 = 0$. By definition $R$ has no zero divisors, therefore $x - 1 = 0$ or $x + 1 = 0$ so $x = \pm 1$.
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{7.1.14} --- Stefano Fochesatto] Let $x$ be a nilpotent element of the commutative ring $R$. 
+  \begin{enumerate}
+    \item[(a)] Prove that $x$ is either zero or a zero divisor. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. Let $m$ be minimal where $x^m = 0$ then it follows 
+      that $xx^{m - 1} = 0$. Suppose $x \neq 0$, since $m$ is minimal $x^{m - 1} \neq 0$ and therefore $x$ is a zero divisor. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] Prove that $rx$ is nilpotent for all $r\in R$. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. Let $m$ such that $x^m = 0$. Note that 
+      $(rx)^m = r^mx^m = r^m(0) = 0$ thus $rx$ is nilpotent.  
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] Prove that $1 + x$ is a unit in $R$. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. 
+      $(1 + x)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) = (1)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) + (x)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) = 1 + \sum_{i = 1}^{m - 1} (-1)^ix^i + \sum_{i = 1}^{m} (-1)^{i+1}x^i  = 1 \pm x^m = 1$. 
+    \end{proof}
+
+    \item[(d)] Deduce that the sum of a nilpotent element and a unit is a unit. 
+    \begin{proof}Suppose $x \in R$ is nilpotent,  $r \in R$ is unit and $R$ is commutative. There exists an $a \in R$ such that $ra = ar = 1$, and some $m$ such that 
+      $x^m = 0$. By $(b)$ we know that $ax$ is also nilpotent. By $(c)$ we know that $(1 + ax)$ is a unit such that for $b \in R$, $(1 + ax)b = b(1 + ax) = 1$. Finally note that 
+      $(x + u) = (xa + 1)u$. Multiplying by $(ab)$, since $R$ is commutative we get, $(x + u)(ab) = (xa + 1)u(ab) = ((xa + 1)b)(ua) = 1$
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\end{document}

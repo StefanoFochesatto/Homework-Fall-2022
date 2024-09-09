@@ -1,0 +1,12 @@
+% Defining original inline function
+>> f = @(x, y) exp(10*x + 2*y^2)
+% Setting 'simple' h value
+>> h = sqrt(eps)
+% Defining simple feed forward difference formula
+>> fsimple = @(x, y) [(f((x + h), y) - f(x, y))/h, 
+                      (f(x, (y + h)) - f(x, y))/h];
+
+% Computing 'simple' estimation of gradient
+>> dfs = fsimple(-1,1)
+dfs =
+   0.003354626529472   0.001341850551398

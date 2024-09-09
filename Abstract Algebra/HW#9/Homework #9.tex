@@ -1,0 +1,475 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#9 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+
+
+
+%%  7.1 7, 9, 11, 13, 14, 28.
+%%  7.2 2, 3, 4, 9ac.
+%%  7.3 1, 4.
+
+
+
+
+\section*{\textbf{Section 7.1}}
+
+\begin{exercise}[\textbf{7.1.7}] The center of a ring $R$ is $\{z \in \RR| zr = rz for all r \in \RR\}$. Prove that 
+  the center of a ring is a subgroup that contains the identity. Prove that the center of a division ring is a field. 
+  \begin{proof} Suppose a ring $R$ with identity and let $G = \{z \in \RR| zr = rz for all r \in \RR\}$. Note that by definition we get that 
+    $1 \in G$ since $1r = r1$ for all $r \in \RR$. Let $a, b^{-1} \in G$ and $r \in R$, note that
+    $(a + b^{-1})r = (ar + b^{-1}r) = (ra + rb^{-1}) = r(a + b^{-1})$. Therefore $G \leq R$ with respect to 
+    addition. Note that for all $r \in \RR$ we have that $(ab)r = (ar)b = r(ab)$. Therefore $G$ is closed with respect to multiplication 
+    and thus is a subring of $R$. 
+
+    Suppose $R$ is a division ring and let $g \in G$ and note that $g^{-1}r = (r^{-1}g)^{-1} = (gr^{-1})^{-1} = rg^{-1}$
+    so $g^{-1} \in G$. Therefore $G$ is a commutative division ring, and therefore a field. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{7.1.9}] For a fixed element $a \in R$ define $C(a) = \{r \in R| ra = ar\}$. Prove that $C(a)$
+  is a subgroup of $R$ containing $a$. Prove that the center of $R$ is the intersection of the subrings $C(a)$ over all $a \in R$.
+  \begin{proof} Suppose $a \in R$ and define $C(a) = \{r \in R| ra = ar\}$. Clearly $a \in C(a)$ since $a(a) = (a)a$. Let 
+    $a, b^{-1} \in C(a)$ and note that $(a + b^{-1})r = (ar + b^{-1}r) = (ra + rb^{-1}) = r(a + b^{-1})$ so $C(a) \leq R$ with respect to 
+    addition. 
+
+    Let $G = \cap_{a \in R} C(a)$, and $Z =\{z \in \RR| zr = rz for all r \in \RR\}$. Suppose $g \in G$ and let $a \in R$, by definition 
+    $g \in C(a)$ so $ga = ag$. Therefore $g \in Z$ so $G \subseteq Z$. Suppose $z \in Z$, by definition for all $a \in \RR$
+    we know that $za = az$ therefore $z \in C(a)$ for all $a \in R$. Thus $z \in G$ and therefore $G = Z$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{7.1.11}] Prove that if $R$ is an integral domain and $x^2 = 1$ for some $x \in R$ then $x = \pm 1$. 
+    \begin{proof} Suppose $R$ is an integral domain with $x^2 = 1$ for some $x \in R$. Note that $x^2 - 1 = 0$, so therefore 
+      $(x - 1)(x + 1) = x^2 - 1 = 0$. By definition $R$ has no zero divisors, therefore $x - 1 = 0$ or $x + 1 = 0$ so $x = \pm 1$.
+      \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{7.1.13}] An element $x$ in $R$ is called nilpotent if $x^m = 0$ for some $m \in \ZZ^+$.
+  \begin{enumerate}
+    \item[(a)] Show that if $n = a^kb$ for some integers $a$ and $b$ then $\overline{ab}$ is a nilpotent element of $\ZZ/n\ZZ$. 
+    \begin{proof} Suppose $n = a^kb$ for some integers $a$ and $b$ and consider the ring $\ZZ/n\ZZ$. Note the following $\overline{ab}$, 
+      \begin{equation*}
+      \overline{ab}^k = \overline{a}^k\overline{b}^k = (\overline{a}^k\overline{b}^k)\overline{b}^{k - 1} = (0)\overline{b}^{k - 1} = 0. 
+      \end{equation*}
+      Thus $\overline{ab}$ is nilpotent in $\ZZ/n\ZZ$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] If $a \in \ZZ$ is an integer, show that the element $\bar{a} \in \ZZ/n\ZZ$ is nilpotent if and only if every prime 
+    divisor of $n$ is also a divisor of $a$. In particular, determine the nilpotent elements of $\ZZ/72\ZZ$ explicitly. 
+    \begin{proof} Suppose $\bar{a} \in \ZZ/n\ZZ$ is nilpotent. Then there exists some $m \in \ZZ^+$ such that $\bar{a}^{m} = 0$. 
+      Therefore we know that $n \mid a^m$ so every prime divisor of $n$ must also divide $a^m$ and therefore $a$.
+
+
+      Suppose that $\bar{a} \in \ZZ/n\ZZ$ and every prime divisor of $n$ is also a divisor of $a$. Therefore $n = p_1^{\alpha_1}p_2^{\alpha_2} \dots p_i^{\alpha_i}$ has some 
+      prime factorization, now choose $m$ such that $a^m = p_1^{\beta_1}p_2^{\beta_2}\dots p_i^{\beta_i}(l)$ has the property that $\beta_i \geq \alpha_i$ and $l$ is some integer with no common prime divisors.
+      Finally note that, 
+      \begin{equation*}
+        a^m = p_1^{\beta_1}p_2^{\beta_2}\dots p_i^{\beta_i}(l) = p_1^{\alpha_1}p_2^{\alpha_2} \dots p_i^{\alpha_i}(p_1^{\beta_1 - \alpha_1}p_2^{\beta_2 - \alpha_2}\dots p_i^{\beta_i - \alpha_i}(l)) = n(p_1^{\beta_1 - \alpha_1}p_2^{\beta_2 - \alpha_2}\dots p_i^{\beta_i - \alpha_i}(l)).
+      \end{equation*}
+      Thus $\bar{a}^m = 0$ and therefore $\bar{a}$ is nilpotent in $\ZZ/n\ZZ$. 
+
+
+      By the previous result every nilpotent element in $\ZZ/72\ZZ$ must have the same prime divisors as $72 = 2^33^2$. So every nilpotent element must factor 6, which gives us 
+      the following elements, $\bar{6}, \bar{12}, \bar{18}, \bar{24}, \bar{30}, \bar{36}, \bar{42}, \bar{48}, \bar{54}, \bar{60}, \bar{66}$. 
+
+
+      
+
+      
+    \end{proof}
+    \vspace{.15in}
+
+    %% Bad
+    \item[(c)] Let $R$ be the ring of functions from a nonempty set $X$ to a field $F$. Prove that $R$ contains no nonzero nilpotent elements. 
+    \begin{proof}Suppose $R$ be the ring of functions from a nonempty set $X$ to a field $F$ and for the sake of contradiction let $f \in R$ such that 
+      $f \neq 0$ and $f$ is nilpotent. Since $f$ nilpotent and a function from a nonempty set $X$ to a field $F$ there exists some $m$ 
+      such that for all $x \in X$, $f(x)^m = 0$ i.e, $f^m$ is the zero map in $R$. Consider $a \in X$ such that $f(a) \neq 0$ and $f(a)^{m - 1} \neq 0$. 
+      and note that $f(a)f(a)^{m - 1} = f(a)^m = 0$. Therefore there exists zero divisors in $F$ a contradiction. 
+    \end{proof}
+    \vspace{.15in}
+  \end{enumerate}
+\end{exercise}
+
+
+
+
+\begin{exercise}[\textbf{7.1.14}] Let $x$ be a nilpotent element of the commutative ring $R$. 
+  \begin{enumerate}
+    \item[(a)] Prove that $x$ is either zero or a zero divisor. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. Let $m$ be minimal where $x^m = 0$ then it follows 
+      that $xx^{m - 1} = 0$. Suppose $x \neq 0$, since $m$ is minimal $x^{m - 1} \neq 0$ and therefore $x$ is a zero divisor. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] Prove that $rx$ is nilpotent for all $r\in R$. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. Let $m$ such that $x^m = 0$. Note that 
+      $(rx)^m = r^mx^m = r^m(0) = 0$ thus $rx$ is nilpotent.  
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] Prove that $1 + x$ is a unit in $R$. 
+    \begin{proof} Suppose $x \in R$ is nilpotent and $R$ is commutative. 
+      $(1 + x)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) = (1)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) + (x)(1 + \sum_{i = 1}^{m - 1} (-1)^ix^i) = 1 + \sum_{i = 1}^{m - 1} (-1)^ix^i + \sum_{i = 1}^{m} (-1)^{i+1}x^i  = 1 \pm x^m = 1$. 
+    \end{proof}
+
+    \item[(d)] Deduce that the sum of a nilpotent element and a unit is a unit. 
+    \begin{proof}Suppose $x \in R$ is nilpotent,  $r \in R$ is unit and $R$ is commutative. There exists an $a \in R$ such that $ra = ar = 1$, and some $m$ such that 
+      $x^m = 0$. By $(b)$ we know that $ax$ is also nilpotent. By $(c)$ we know that $(1 + ax)$ is a unit such that for $b \in R$, $(1 + ax)b = b(1 + ax) = 1$. Finally note that 
+      $(x + u) = (xa + 1)u$. Multiplying by $(ab)$, since $R$ is commutative we get, $(x + u)(ab) = (xa + 1)u(ab) = ((xa + 1)b)(ua) = 1$
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{7.1.28}] Let $R$ be a ring with $1 \neq 0$. a nonzero element $a$ is called left zero divisor in $r$
+  if there is a nonzero element $x \in R$ such that $ax = 0$. Symmetrically, $b \neq 0$ is a right zero divisor if there is a nonzero
+  $y \in R$ such that $yb = 0$. An element $u \in R$ has left inverse in $R$ if there is some $s \in R$ such that $su = 1$. symmetrically $v$ has 
+  a right inverse if $vt = 1$ for some $t \in R$, 
+  \begin{enumerate}
+    \item[(a)] Prove that $u$ is a unit if and only if it has both a right and a left inverse. 
+    \begin{proof} Suppose $u \in R$ is a unit. By definition there exists some $r \in R$ such that $ru = ur = 1$. Therefore 
+      $u$ has both a right and left inverse. 
+
+      Suppose $u \in R$ has a right and left inverse. By definition there exists some $r, l \in R$ such that $ur = lu = 1$. 
+      Now consider $r$ and note that $r = 1r = (lu)r  = l(ur) = l1 = l$. Therefore $u$ is a unit. 
+
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[(b)] Prove that if $u$ has a right inverse then $u$ is not a right zero divisor. 
+      \begin{proof} Suppose $u \in R$ such that there exists some $r\in R$ where $ur = 1$. For the sake of contradiction suppose 
+        $u$ is a right zero divisor. Therefore there exists some $x \in R$ such that $xu = 0$ with $u, x \neq 0$. 
+        Note that $x = x(1) = x(ur) = (xu)r = 0r = 0$, a contradiction.  
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[(c)] Prove that if $u$ has more than one right inverse then $u$ is a left zero divisor. 
+    \begin{proof} Suppose $u \in R$ such that there exists $r_1, r_2 \in R$ where $r_1 \neq r_2$ and $ur_1 = ur_2 = 1$. Note 
+      that $r_1 - r_2 \neq 0$ since $r_1 \neq r_2$. Consider $u(r_1 - r_2) = ur_1 - ur_2 = 1 - 1 = 0$. Thus $u$ is a left zero divisor.  
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[(d)] Prove that if $R$ is a finite ring then every element that has a right inverse is unit. 
+    \begin{proof} Suppose $R$ is finite and $x \in R$ such that there exist some $r \in R$ where $xr = 1$. We want to show that 
+      there exists some $l \in R$ such that $lx = 1$, then by $(a)$, $x$ is unit. Consider the map $\varphi: R \to R$ defined by 
+      $\varphi(l) = lx$. Choose $a, b \in R$ such that $\varphi(a) = \varphi (b)$. By definition we get that $ax = bx$, right multiplying by 
+      $r$ we get that $a = b$ therefore $\varphi$ is injective. Since $R$ is finite $\varphi$ must also be surjective. Then there exist some $l \in R$ such that $\varphi(l) = lx = 1$.
+    \end{proof}
+    \vspace{.15in}
+
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+\section*{\textbf{Section 7.2}}
+
+
+\begin{exercise}[\textbf{7.2.2}] Let $p(x) = a_nx^n + a_{n - 1}x^{n - 1} + \dots + a_1x + a_0$ be an element of the polynomial 
+  ring $R[x]$. Prove that $p(x)$ is a zero divisor in $R[x]$ if and only if there is a nonzero $b \in R$ such that 
+  $bp(x) = 0$. 
+    \begin{proof} Let $p(x) = a_nx^n + a_{n - 1}x^{n - 1} + \dots + a_1x + a_0$ be an element of the polynomial 
+      ring $R[x]$. Clearly if there is a nonzero $b \in R$ such that $bp(x) = 0$ then $p(x)$ is a zero divisor in $R[x]$, 
+      since $b$ is also in $R[x]$ Suppose $p(x)$ is a zero divisor in $R[x]$. Therefore there exists some $g(x) \in R[x]$ of
+       minimal degree $m$ with the form $g(x) = b_mx^m + b_{m - 1}x^{m - 1} + \dots + b_1x + b_0$ such that $g(x) \neq 0$ and $p(x)g(x) = g(x)p(x) = 0$.
+       
+       It then follows that 
+      \begin{equation*}
+      p(x)g(x) = \sum_{k = 0}^{n + m} \left(\sum_{i = 0}^k a_ib_{k - i}\right) x^k = 0.
+      \end{equation*}
+      Note that in the expanded sum the coefficient on $x^{n + m}$ is $a_nb_m = 0$. Now, when we consider the 
+      polynomial $a_n(g(x))$ we get that the leading coefficient is $a_nb_m = 0$ so $a_n(g(x))$ is a polynomial of degree 
+      less than $m$. Now consider that, 
+      \begin{equation*}
+        p(x)(a_n g(x)) = \sum_{k = 0}^{n + m} \left(\sum_{i = 0}^k a_i(a_nb_{k - i})\right) x^k = a_n \sum_{k = 0}^{n + m} \left(\sum_{i = 0}^k a_i(b_{k - i})\right) x^k = a_n 0 = 0.
+      \end{equation*}
+      But since $g(x)$ was the minimal nonzero polynomial with the property that $p(x)g(x) = g(x)p(x) = 0$ it must be the case that $a_ng(x) = 0$
+
+      We will proceed by induction to show that $a_{n - j}g(x) = 0$ for all $0 \leq j < n$, the argument preceding this was the base case where $j = 0$. 
+      Suppose that  some there exists some $0 \leq j < n$ where for all $r < j$ $a_{n - r}g(x) = 0$. 
+      Recall the sum
+      \begin{equation*}
+        p(x)g(x) = \sum_{k = 0}^{n + m} \left(\sum_{i = 0}^k a_ib_{k - i}\right) x^k = 0
+        \end{equation*}
+        and consider the coefficient on $x^{m + (n - j)}$, we see that it is the following sum, 
+        \begin{equation*}
+          \left(\sum_{i = 0}^{m + (n - j)} a_ib_{(m + (n - j)) - i}\right)= 0
+        \end{equation*}  
+        By the inductive hypothesis we know that for all products $a_ib_{(m + (n - j)) - i}$ where $n - j < i \leq n$ we get $a_ib_{(m + (n - j)) - i} = 0$. Clearly all products where $i > n$ will be zero since $p(x)$ is only order $n$. Consider $0 \leq i \leq n - j - 1$ and note that these products will have a $b$ term that is larger than $b_m$ since $b_{m + (n - j) - (n - j - 1)} = b_{m + 1}$ so they also become zero since $g(x)$ is order $m$. Therefore we conclude that $a_{n - j}b_m = 0$ and thus $a_{n - j}g(x)$ is polynomial degree less than $m$
+        with the property that $p(x)(a_{n - j}g(x)) = a_{n - j}p(x)g(x) = 0$. Since $g(x)$ is minimal we conclude that $a_{n - j}g(x)=0$. 
+
+        Thus by induction we have shown that $a_{n - j}g(x) = 0$ for all $0 \leq j \leq n$. Looking at the leading term it follows that $a_{n - j}b_m = 0$ for all $0 \leq j \leq n$ therefore $b_mp(x) = 0$
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{7.2.3}] Define the det $R[[x]]$ of formal power series in the indeterminate $x$ with coefficients from $R$ to be all formal infinite sums, 
+  \begin{equation*}
+    \sum_{n = 0}^{\infty} a_nx^n = a_0 + a_1x + a_2x^2 + a_3x^3 + \dots
+  \end{equation*}
+  Define addition and multiplication of power series in the same way as for power series with real or complex coefficients. 
+  \begin{enumerate}
+    \item[a] Prove that $R[[x]]$ is commutative ring with 1. 
+    \begin{proof}
+      Suppose $p(x), q(x), g(x) \in R[[x]]$ such that
+      \begin{equation*}
+        p(x) = \sum_{n = 0}^{\infty}a_nx^n \text{  and  }q(x) = \sum_{n = 0}^{\infty}b_nx^n,
+      \end{equation*}
+      \begin{equation*}
+        g(x) = \sum_{n = 0}^{\infty}h_nx^n.
+      \end{equation*}
+      Note that in $(R[[x]], +)$, $0$ is the identity element, and it's closed with respect to 
+      inverses since $(R, +)$ is a group and for every coefficients $a_n$ in $p(x)$ we can construct a $-p(x)$ with coefficients $-a_n$. It is also associative since $(R, +)$ is a group we get $(p(x) + q(x)) + g(x)$ has coefficients $((a_n + b_n) + h_n) = (a_n + (b_n + h_n))$ which are the coefficient for $p(x) + (q(x) + g(x))$.
+      Thus $(R[[x]],+)$ is a group. Note that $(R[[x]], +)$ is an abelian group since $R$ is a ring, 
+      \begin{equation*}
+        p(x) + q(x) = \sum_{n = 0}^{\infty}a_nx^n + \sum_{n = 0}^{\infty}b_nx^n = \sum_{n = 0}^{\infty}(a_n + b_n)x^n =   \sum_{n = 0}^{\infty}b_nx^n + \sum_{n = 0}^{\infty}a_nx^n = q(x) + p(x). 
+      \end{equation*}
+      We also get that $(R, \times)$ is associative, since $R$ is a ring we get that 
+      \begin{equation*}
+        (p(x) \times q(x)) \times g(x) = \sum_{n = 0}^{\infty}(a_nb_n)(h_n)x^n = \sum_{n = 0}^{\infty}(a_n)(b_nh_n)x^n =  p(x) \times (q(x) \times g(x)) 
+      \end{equation*}.
+      We also get that distributive laws hold in $R[[x]]$, since $R$ is a ring we get that
+      \begin{equation*}
+        (p(x) + q(x)) \times g(x) = \sum_{n = 0}^{\infty}(a_n+b_n)(h_n)x^n = \sum_{n = 0}^{\infty}(a_nh_n+b_nh_n)x^n = (p(x)\times g(x) + q(x)\times g(x)).
+      \end{equation*}
+      So $R[[x]]$ is a ring. Since $R$ is a commutative ring we get that, 
+      \begin{equation*}
+        (p(x) \times q(x)) = \sum_{n = 0}^{\infty}\sum_{k = 0}^{n}(a_kb_{n - k})x^n =  \sum_{n = 0}^{\infty}\sum_{k = 0}^{n}(b_ka_{n - k})x^n =  (q(x) \times p(x)).
+      \end{equation*}
+      Consider the polynomial in $R[[x]]$, such that $1(x) = 1 + 0x_1 + 0x_2 \dots$ . Clearly $p(x) \times 1(x) = p(x)$. So $R[[x]]$ has 1. 
+    \end{proof}
+\vspace{.15in}
+
+
+    \item[b] Show that $1 - x$ is a unit in $R[[x]]$ with inverse $1 + x_1 + x_2 + \dots$. 
+    \begin{proof} Expanding the product we get, 
+      \begin{equation*}
+        (1 - x)((1 + \sum_{i = 1}^{\infty}x_i)) = (1 + \sum_{i = 1}^{\infty}x_i) - x(1 + \sum_{i = 1}^{\infty}x_i) = (1 + \sum_{i = 1}^{\infty}x_i -  \sum_{i = 1}^{\infty}x_i) = 1. 
+      \end{equation*}
+    \end{proof}
+\vspace{.15in}
+  \end{enumerate}
+
+
+  
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{7.2.4}] Prove that if $R$ is an integral domain then the ring of formal power series $R[[x]]$ is 
+  also an integral domain. 
+  \begin{proof}Suppose $R$ is an integral domain, and let $p(x), q(x) \in R[[x]]$ such that $p(x),q(x) \neq 0$ and, 
+    \begin{equation*}
+      p(x) = \sum_{n = 0}^{\infty}a_nx^n \text{  and  }q(x) = \sum_{n = 0}^{\infty}b_nx^n.
+    \end{equation*}
+    Now let $a_ix^i$ and $b_jx^j$ be the first pair of non zero terms in $p(x)$ and $q(x)$, i.e. $x^i, x^j$ are minimal such that $a_i, b_j \neq 0$.
+    Then the coefficient on the $x^{i + j}$ term will be 
+    \begin{equation*}
+      \sum_{k = 0}^{i + j} a_k b_{i + j - k} = a_ib_j
+    \end{equation*}
+    Since when $k > i$ $a_k = 0$ and when $k > i$ then $b_{i + j - k} = 0$. Recall that since $R$ is an integral domain $a_ib_j \neq 0$. Therefore the product $p(x)q(x) \neq 0$ where $p(x),q(x) \neq 0$, thus $R[[x]]$ has no zero divisors. We have showed that $R[[x]]$ is a commutative ring with identity, therefore $R[[x]]$ is an integral domain. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{7.2.9ac}] let $\alpha = r + r^2 - 2s$ and $\beta = -3r^2 + rs$ be the two elements of the integral group ring 
+  $\ZZ D_8$ described in this section. Compute the following elements of $\ZZ D_8$,
+  \begin{enumerate}
+    \item[(a)] $\beta\alpha$
+    \begin{proof}
+      \begin{align*}
+        \beta\alpha &= (-3r^2 + rs)(r + r^2 - 2s)\\
+         &= -3r^2(r + r^2 - 2s) + rs(r + r^2 - 2s)\\
+         &= -3r^2r - 3r^2r^2 + (-3r^2)(-2s) + rsr + rsr^2 - rs2s\\
+         &= -3r^3 - 3r^4 + 3r^2(2s) + rsr + rsr^2 - rs(2s)\\
+         &= -3r^3 - 3(1) + 6r^2s + (sr^{-1})r + (sr^{-1})r^2 - 2rs^2\\
+         &= -3r^3 - 3 + 6r^2s + s + sr - 2r\\
+         &= -3r^3 + 6r^2s - 2r + sr + s - 3
+      \end{align*}
+    \end{proof}
+      \vspace{.15in}
+
+
+      \item[(c)] $\alpha^2$
+      \begin{proof}
+        \begin{align*}
+          \alpha^2 &= (r + r^2 - 2s)(r + r^2 - 2s)\\
+           &= r(r + r^2 - 2s) + r^2(r + r^2 - 2s) - 2s(r + r^2 - 2s)\\
+           &= rr + rr^2 - r2s + r^2r + r^2r^2 - r^22s - 2sr - 2sr^2 + 2s2s\\
+           &= r^4 + 2r^3 - 2r^3s + r^2 - 4r^2s - 2rs + 4
+        \end{align*}
+    \end{proof}
+    \vspace{.15in}
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{7.3.1}] Prove that rings $2\ZZ$ and $3\ZZ$ are not isomorphic. 
+  \begin{proof} For the sake of contradiction suppose that there exists an isomorphism $\varphi: 2\ZZ \to 3\ZZ$. 
+    Therefore there exists some $r \in 3\ZZ$ such that $\varphi(2) = r$. Note that $\varphi(4) = \varphi(2)\varphi(2) = r^2$
+    and $\varphi(4) = \varphi(2 + 2) = \varphi(2) + \varphi(2) = 2r$. Therefore we get that $r^2 = 2r$ and since $r = 3x$ for some $x \in \ZZ$ we get $9x^2 = 6x$ and since $\ZZ$ has no zero divisors we have cancellation so $9x = 6$ which has no integer solution. Thus $2\ZZ$ and $3\ZZ$ are not isomorphic. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{7.3.4}] Find all ring homomorphisms from $\ZZ$ to $\ZZ/30\ZZ$. In each case describe the kernel and the image. 
+  \begin{proof} To begin a ring homomorphism, must be a group homomorphism on the additive groups. So as we have seen every group homomorphism is uniquely determined by the mapping of $1 \in \ZZ$. (Let $\sigma$ and $\beta$ be homomorphisms such that $\sigma(1) = \beta(1)$. Then $\sigma(n) = \sigma(1^n) = \sigma(1)^n = \beta(1)^n = \beta(n)$). Therefore the set of all ring homomorphisms is contained in the set of all additive group homomorphism. Let $\sigma_g$ be the group homomorphism which maps $\sigma_g(1) = g$. It must also be the case that for a ring homomorphism $\varphi: \ZZ \to \ZZ/30\ZZ$, we get $\varphi(ab) = \varphi(a)\varphi(b)$ for all $a, b \in R$. Now note that $\varphi_g(ab) = \varphi_g(\sum_{1}^{ab} 1)= \sum_{1}^{ab}\varphi_g(1) = \sum_{1}^{ab} g = (ab)g$
+    and $\varphi_g(a)\varphi_g(b) = \varphi_g(\sum_{1}^{a} 1) \varphi_g(sum_{1}^{b} 1)= (\sum_{1}^{a}\varphi_g(1))(\sum_{1}^{b}\varphi_g(1)) = (\sum_{1}^{a} g)(\sum_{1}^{b} g) = (ag)(bg) = (ab)g^2$
+    Therefore in order for $\varphi_g$ to be a ring homomorphism $(ab)g = (ab)g^2$ for all $ab \in \ZZ$, which follows if $g = g^2$ in $\ZZ/30$.
+
+    So elements $x \in \ZZ/30\ZZ$ which satisfy $x = x^2$ are $\bar{1}, \bar{6}, \bar{10}, \bar{15},\bar{21}, \bar{25}$.
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document} 
+
+

@@ -1,0 +1,435 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%\textbf{Code:}
+%\begin{center}
+%  \lstinputlisting{NewtonsMethodP5.m}
+%\end{center}
+%
+%\textbf{Console:}
+%\begin{center}
+%  \lstinputlisting{P5C.txt}
+%\end{center}
+%\vspace{.15in}
+
+
+%\begin{figure}[H]
+%  \begin{center}
+%    \caption{The one-norm unit ball}
+%    \includegraphics[width=.76\textwidth]{1norm.png}
+%  \end{center}
+%\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 5}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+\begin{exercise}{2.1} Convert the following linear program to standard form:
+  \begin{align*}
+    \text{Maximize: } z = 3x_1 + 5x_2 - &4x_3\\
+    \text{Subject to: } 7x_1 - 2x_2 - 3x_3 &\geq 4\\
+    -2x_1  + 4x_2 + 8x_3  &=  -3\\
+    5x_1  -3x_2 -2 x_3  &\leq 9\\
+    x_1 \geq 1, x_2 \leq 7, x_3 &\geq 0
+  \end{align*}
+  \begin{proof}[Solution] Converting this LP problem to standard form we 
+    must multiply our $\hat{c}$ by -1 to turn this into a minimization problem. 
+    Then we will add an excess variable to the  $7x_1 - 2x_2 - 3x_3 \geq 4$ constraint, we must 
+    then invert the $-2x_1  + 4x_2 + 8x_3  =  -3$ to make ensure that our $\hat{b} \geq 0$. Then we will 
+    add a slack variable on $5x_1  -3x_2 -2 x_3  \leq 9$. Finally we need to ensure that all of our individual 
+    inequality constraints are positivity constraints, so $x_1 \geq 1$ will be replace by a variable $x_1' = x_1 - 1$ 
+    and $x_1' \geq 0$. We will also replace $x_2 \leq 7$ with $x_2' = 7 - x_2$ and $x_2' \geq 0$. Finally we will 
+    have to substitute our new variables into the entire problem. Doing all that we get that the following LP problem 
+    in standard form, 
+    \begin{align*}
+      \text{Minimize: } z = -3x_1' + 5x_2' + &4x_3 + 0e_1 + 0s_1 - 38\\
+      \text{Subject to: } 7x_1' + 2x_2 - 3x_3 - e_1 &= 11\\
+      2x_1'  + 4x_2' - 8x_3  &=  29\\
+      5x_1'  +3x_2' -2x_3 + s_1  &=  25\\
+      x_1', x_2', x_3, e_1, s_1 &\geq 0
+        \end{align*}
+ \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{2.2} Convert the following linear program to standard form:
+  \begin{align*}
+    \text{Minimize: } z = x_1 - 5x_2 - &7x_3\\
+    \text{Subject to: } 5x_1 - 2x_2 + 6x_3 &\geq 5\\
+    3x_1  + 4x_2 -9 x_3  &=  3\\
+    7x_1  +3x_2 +5x_3  &\leq 9\\
+    x_1 \geq -2, x_2 \text{ and } x_3 &\text{ free}.
+  \end{align*}
+  \begin{proof}[Solution] Converting this LP problem to standard form must add 
+    an excess variable to the $5x_1 - 2x_2 + 6x_3 \geq 5$ constraint, and 
+    add a slack variable to the $7x_1  +3x_2 +5x_3  \leq 9$ constraint. Note that $x_1 \geq -2$ 
+    will be replaced by a variable $x_1' = x + 2$ and $x_1' \geq 0$. Also since we have free variables we will 
+    be replacing them with $x_2 = x_4 - x_5$ and $x_3 = x_7 - x_7$ with $x_4, x_5, x_6, x_7 \geq 0$. 
+    Doing all that we get the following LP problem in standard form,
+    \begin{align*}
+      \text{Minimize: } z = x_1' - 5x_4 + 5x_5 - 7x_6 + 7x_7 + 0e_1 + &0s_1 - 2\\
+      \text{Subject to: } 5x_1' - 2x_4 + 2x_5 + 6x_6 - 6x_7 - e_1 &= 5\\
+      3x_1'  + 4x_4 - 4x_5 -9x_6 + 9x_7  &=  9\\
+      7x_1'  +3x_4 - 3x_5 +5x_6 - 5x_7 + s_1  &= 23\\
+      x_1', x_4, x_5, x_6, x_7, e_1, s_1 \geq 0.
+    \end{align*}
+    
+ \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{2.4} Consider the previous LP problem. Convert it to standard form 
+  without the $x_3 = x_7 - x_7$ substitution. Show that the problem can be replaced 
+  by an equivalent problem with one less variable and one less constraint by eliminating $x_3$
+  using the equality constraints. Why cannot this technique be used to eliminate variables with
+  nonnegativity constraints? 
+  \begin{proof}[Solution] Converting to standard form without the $x_3 = x_7 - x_7$ substitution gives 
+    us the following LP problem, 
+    \begin{align*}
+      \text{Minimize: } z = x_1' - 5x_4 + 5x_5 - 7x_3 + 0e_1 + &0s_1 - 2\\
+      \text{Subject to: } 5x_1' - 2x_4 + 2x_5 + 6x_3 - e_1 &= 5\\
+      3x_1'  + 4x_4 - 4x_5 -9x_3  &=  9\\
+      7x_1'  +3x_4 - 3x_5 +5x_3 + s_1  &= 23\\
+      x_1', x_4, x_5, e_1, s_1 \geq 0.  \text{ With } x_3 &\text{ free}.
+    \end{align*}
+    Performing the following eliminations> 
+    Taking the first inequality and adding $\frac{2}{3}$ of the second, 
+    \begin{align*}
+      5x_1' - 2x_4 + 2x_5 + 6x_3 - e_1 &= 5\\
+      \dfrac{2}{3}(3x_1'  + 4x_4 - 4x_5 -9x_3 &=  9)\text{   } +\\
+      \cline{1-2}\\
+      7x_1' + \frac{2}{3}x_4 - \frac{2}{3}x_5 - e_1 &= 11
+    \end{align*}
+    Tanking the third inequality and adding $\frac{5}{9}$ of the second, 
+    \begin{align*}
+      7x_1' + 3x_4 - 3x_5 + 5x_3 + s_1 &= 23\\
+      \dfrac{5}{9}(3x_1'  + 4x_4 - 4x_5 -9x_3 &=  9)\text{   } +\\
+      \cline{1-2}\\
+      \dfrac{16}{3}x_1' + \dfrac{47}{9}x_4 - \dfrac{47}{9}x_5 + s_1 &= 32
+    \end{align*}
+    Taking the cost function and adding $-\frac{7}{9}$ of the second, 
+    \begin{align*}
+      x_1' - 5x_4 + 5x_5 - 7x_3 + 0e_1 + 0s_1 &= z + 2\\
+      -\dfrac{7}{9}(3x_1'  + 4x_4 - 4x_5 -9x_3 &=  9)\text{   } +\\
+      \cline{1-2}\\
+      -\dfrac{12}{9}x_1' - \dfrac{73}{9}x_4 + \dfrac{23}{9}x_5 + 0e_1 + 0s_1 + 5 &= z
+    \end{align*}
+    Putting everything together we get the following LP problem with one less variable and one less constraint, 
+    \begin{align*}
+      \text{Minimize: } z = -\dfrac{12}{9}x_1' - \dfrac{73}{9}x_4 + \dfrac{23}{9}x_5 + &0e_1 + 0s_1 + 5\\
+      \text{Subject to: }7x_1' + \frac{2}{3}x_4 - \frac{2}{3}x_5 - e_1 &= 11\\
+      \dfrac{16}{3}x_1' + \dfrac{47}{9}x_4 - \dfrac{47}{9}x_5 + s_1 &= 32\\
+      x_1', x_4, x_5, e_1, s_1 \geq 0.
+    \end{align*}
+    As outlined in the example in the book (p.104 Figure 4.2) performing elimination on inequality constraints 
+    produces a new system with a different feasible region. (Also this would've been cleaner in matrix form)      
+ \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.1} Consider the system of linear constraints
+  \begin{align*}
+    3x_1 + x_2 &\leq 100\\
+    x_1 + x_2 &\leq 80\\
+    x_1 &\leq 40\\
+    x_1, x_2 &\geq 0
+  \end{align*}
+  \begin{enumerate}
+    \item[(i)] Write this system of constraints in standard form, and determine all the 
+    basic solutions (feasible and infeasible).\\
+    \begin{proof}[Solution] Writing this system of constraints in standard form we get the following, 
+      \begin{align*}
+        2x_1 + x_2 + s_1 &=100\\
+        x_1 + x_2 + s_2 &= 80\\
+        x_1  + s_3 &= 40\\
+        x_1, x_2 &\geq 0
+      \end{align*}
+      Converting this into a system we get, 
+      \begin{equation*}
+        \begin{pmatrix}
+          2 & 1 & 1 & 0 & 0 \\
+          1 & 1 & 0 & 1 & 0 \\
+          1 & 0 & 0 & 0 & 1 
+        \end{pmatrix}
+        x = 
+        \begin{pmatrix}
+          100\\
+          80\\
+          40
+        \end{pmatrix}.
+      \end{equation*}      
+      Simplifying to RREF we get,
+      \begin{equation*}
+        \begin{pmatrix}1&0&0&0&1\\ 0&1&0&1&-1\\ 0&0&1&-1&-1\end{pmatrix}
+        x
+         =         
+         \begin{pmatrix}
+          40\\
+          40\\
+          -20
+        \end{pmatrix}.
+      \end{equation*}
+      Therefore solutions to this equation with respect to our free slack variables are of the form,
+      \begin{equation*}
+        x = \begin{pmatrix}
+          40\\
+          40\\
+          -20\\
+          0\\
+          0
+        \end{pmatrix}
+        +
+        s_2
+        \begin{pmatrix}
+          0\\
+          -1\\
+          1\\
+          1\\
+          0
+        \end{pmatrix}
+        +
+        s_3
+        \begin{pmatrix}
+          -1\\
+          1\\
+          1\\
+          0\\
+          1
+        \end{pmatrix}
+      \end{equation*}
+      We say that non-negative solutions are feasible and negative solutions are infeasible. 
+    \end{proof}
+    \vspace{.15in}
+    
+    \item[(ii)] Determine the extreme points of the feasible region (corresponding to both the 
+    standard form of the constraints, as well as the original version). 
+    \begin{proof}[Solution]
+      
+    \end{proof}
+  \end{enumerate}
+  
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.12} Consider the system of constraints $Ax = b$, $x \geq 0$ with 
+  \begin{equation}
+    A = \begin{pmatrix}
+      1 &4 &7& 1& 0 &0 \\
+      2 &5 &8& 0& 1 &0 \\
+      3 &6 &9& 0& 0 &1 \\
+    \end{pmatrix}
+    \text{ and }
+    b = \begin{pmatrix}
+      12\\
+      15\\
+      18
+    \end{pmatrix}.
+  \end{equation}
+  Is $x = (1, 1, 1, 0, 0, 0)^T$ a basic feasible solution? Explain your answer.
+  \begin{proof}[Solution] First we need to check if $x$ does satisfy the constraints, 
+    \begin{align*}
+      1 + 4 + 7 &= 12\\
+      2 + 5 + 8 &= 15\\
+      3 + 6 + 9 &= 18
+    \end{align*}
+    and since $x \geq 0$ we know that this solution is a feasible one. 
+    To determine if the solution is basic we need to find out if
+    the nonzero entries of $x$ form a basis in the row space. 
+    A quick computation of the determinant tells us that the columns are not 
+    linearly independent, 
+    \begin{equation*}
+      det\left| \begin{pmatrix}
+        1 &4 &7\\
+        2 &5 &8\\
+        3 &6 &9
+      \end{pmatrix}\right| = 
+      1\left(-3\right)-4\left(-6\right)+7\left(-3\right) = 0.
+    \end{equation*}
+    So $x$ is only a feasible solution, not a basic feasible solution. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.16} Let $S = \{x:x^Tx\leq 1\}.$ Prove that the extreme points of $S$
+  are the points on its boundary. 
+  \begin{proof} Suppose $S = \{x:x^Tx\leq 1\}$ and let $x$ be an extreme point of $S$. By definition 
+    an extreme point cannot be written as a convex combination of two interior points. Let $a, b \in S$
+    such that $a$ and $b$ are interior points. By definition we know that $a^Ta < 1$ and $b^Tb < 1$. Now consider 
+    the convex combination of these points, for some $0 < \sigma < 1$ we have, $\sigma(a) + (1 - \sigma)(b)$. Now consider the 
+    inner product of this vector
+    \begin{equation}
+      (\sigma(a) + (1 - \sigma)(b))^T(\sigma(a) + (1 - \sigma)(b)) = \sigma^2(a^Ta) + (1 - \sigma)^2(b^Tb) + 2\sigma(1 - \sigma)(a^Tb)
+    \end{equation}  
+    Since $(a^Ta)$ and $(b^Tb)$ are less then 1, we also know that $(a^Tb)$ is less than 1 and by substitution we get that, 
+    \begin{equation}
+      (\sigma(a) + (1 - \sigma)(b))^T(\sigma(a) + (1 - \sigma)(b)) < \sigma^2 + (1 - \sigma)^2 + 2\sigma(1 - \sigma) = 1
+    \end{equation}
+    Therefore every boundary point is an extreme point. Clearly if a point is not on the boundary then it is in the interior and therefore not extreme. 
+    Thus every extreme points of $S$ is on its boundary.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{Problem P9} Write a Matlab function which uses QR decomposition to construct an orthonormal null space matrix 
+  for a given full row rank $mxn$ matrix. 
+  \begin{proof}[Solution] Consider the following Matlab function, \\
+    \textbf{Code:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \footnotesize]{r1.txt}
+    \end{center}
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \footnotesize]{r2.txt}
+    \end{center}
+    \vspace{.15in}
+    Comparing both methods mynull() and null() do not differ at all. With every example we had mynull(A) - null(A) results in 
+    a matrix full of exact zeros (so the norm of this difference will also be 0). A quick dive into the documentation we find that 
+    the algorithm used for finding a null space is the SVD. 
+  \end{proof} 
+
+
+
+\end{exercise}
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

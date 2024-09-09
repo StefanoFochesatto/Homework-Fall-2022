@@ -1,0 +1,18 @@
+>> f = @(x) cos(x./50)
+
+>> df = @(x) -sin(x./50).*(1/50)
+
+>> z = p8a(f,df)
+
+z =
+     1
+
+>> x = linspace(-1, 3, 100);
+>> plot(x, f(x))
+>> hold on
+>> plot(z, f(z), marker = 'X', color = 'r')
+
+>> df(1)
+ans =
+
+    -3.999733338666616e-04

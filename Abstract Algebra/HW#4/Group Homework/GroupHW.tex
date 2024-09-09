@@ -1,0 +1,162 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Algebra Group}}
+\lhead{\emph{HW \#4 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Robert Babac}
+
+
+%\usepackage{float} <- Throw this in the preamble
+
+
+
+
+
+
+\begin{exercise}[\textbf{3.1.41}] Let $G$ be a group. Prove that $N = \langle x^{-1}y^{-1}xy | x, y, \in G \rangle$ is a normal subgroup of $G$.
+  and $G/N$ is abelian.\\
+  \begin{proof} Let $G$ be a group, and suppose that $N = \langle x^{-1}y^{-1}xy | x, y, \in G \rangle$. Consider $g \in G$. Note that for the generator of $N$, 
+    $gx^{-1}y^{-1}xyg^{-1} =  gx^{-1}(g^{-1}g)y^{-1}(g^{-1}g)x(g^{-1}g)yg^{-1} = (gx^{-1}g^{-1})(gy^{-1}g^{-1})(gxg^{-1})(gyg^{-1}) = (gxg^{-1})^{-1}(gyg^{-1})^{-1}(gxg^{-1})(gyg^{-1})$
+    Let $gxg^{-1} = a$ and $gyg^{-1} = b$. Note that $gx^{-1}y^{-1}xyg^{-1} = a^{-1}b^{-1}ab$ therefore by definition $gx^{-1}y^{-1}xyg^{-1} \in N$. Thus $N \trianglelefteq G$.\\ 
+    Since $x^{-1}y^{-1}xy \in N$ for all $x, y \in G$, and $N \trianglelefteq G$ by the previous exercise $G/N$ must be abelian. 
+  \end{proof}
+
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{3.2.5}] Let $H$ be a subgroup of $G$ and fix some element $g \in G$.
+  \begin{enumerate}
+    \item[a] Prove that $gHg^{-1}$ is a subgroup of $G$ of the same order as $H$.\\
+    \begin{proof} Suppose $H$ is a subgroup of $G$ and fix some element $g \in G$. Consider the group $gHg^{-1}$. Clearly this 
+      group is non empty, as it contains the identity. Let $a, b \in gHg^{-1}$ for some $h_a, h_b \in H$ such that $a = gh_ag^{-1}$ and 
+      $b = gh_bg^{-1}$. Note that $ab^{-1} = gh_ag^{-1}gh_b^{-1}g^{-1} = gh_ah_b^{-1}g^{-1}$. Since $H \leq G$ we know that $h_ah_b^{-1} \in H$ thus 
+      $ab^{-1} \in gHg^{-1}$ and $gHg^{-1} \leq G$.\\
+      To show that $|gHg^{-1}| = |H|$ we will prove they are isomorphic. Consider the map $\varphi: H \to gHg^{-1}$ defined by $\varphi(h) = ghg^{-1}$.
+      Note that this map is a homomorphism, for all $a, b \in H$ we know that $\varphi(ab) = gabg^{-1} = gag^{-1}gbg^{-1} = \varphi(a)\varphi(b)$. This map is also an injection, if $\varphi(a) = \varphi(b)$ then we know that $gag^{-1} = gbg^{-1}$, and thus $a = b$. The map is a surjection by definition. Thus $gHg^{-1} \cong H$ and therefore $|gHg^{-1}| = |H|$.
+    \end{proof}
+    \vspace{.15in}
+    \item[b] Deduce that if $n \in \ZZ^+$ and $H$ is the unique subgroup of $G$ of order $n$ then $H \trianglelefteq G$.\\
+    \begin{proof} Suppose that $H$ is the unique subgroup of $G$ of order $n \in \ZZ^+$. Note that by the previous exercise the 
+      subgroup $gHg^{-1}$ must have the same order of $H$, since $H$ has unique order we know $gHg^{-1} = H$. Thus  $H \trianglelefteq G$.
+    \end{proof} 
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+
+  \end{document}

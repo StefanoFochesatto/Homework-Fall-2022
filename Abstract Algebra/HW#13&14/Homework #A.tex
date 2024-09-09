@@ -1,0 +1,251 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math  \mod e
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+\def\FF{{\ensuremath\mathbb F}}
+
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+% \mod ify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#13 \#14 Part A --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+% 10.1 1, 8-11.
+% 10.2 1-3.
+
+% 10.2 4, 5, 6, 8-10.
+% 10.3 1, 4.
+% 11.1 1, 2, 4, 8, 9.
+
+
+
+
+
+\section*{\textbf{Section 10.1}}
+In these exercises $R$ is a ring with $1$ and $M$ is a left $R-$module. 
+\begin{exercise}[\textbf{10.1.1}] Prove that $0m = 0$ and $(-1)m = -m$ for all $m \in M$.
+  \begin{proof} Suppose $R$ is a ring with $1$ and $M$ is a left $R-$module. Since $0$ is the identity 
+    under addition and since $R$ modules are transitive we get $0m = (0 + 0)m = 0m + 0m$. Since we have 
+    elements of an abelian group on both sides we can use the cancellation law to get $0 = 0m$. 
+
+    Note that since be definition we have that $1m = m$ we get that $m + (-1)m = 1m + (-1)m = (1 - 1)m = 0m = 0$
+    so in the abelian group $M$, $m$ and $(-1)m$ are inverses, since inverses are unique we conclude that $(-1)m = -m$.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{10.1.8}] An element $m$ of the $R-$module $M$ is called a torsion element if $rm = 0$ for some 
+  nonzero element $r \in R$. The set of torsion elements is denoted, 
+  \begin{equation*}
+    Tor(M) = \{m \in M | rm = 0 \text{ for some nonzero  }r \in R\}
+  \end{equation*}
+  \begin{proof}
+    \begin{enumerate}
+      \item[(a)] Prove that if $R$ is an integral domain then $Tor(M)$ is a submodule of $M$ (called the torsion submodule of $M$). 
+      \begin{proof} Suppose $R$ is an integral domain. Clearly $0 \in Tor(M)$ since $r0 = 0$ for all $r \in R$. Let $x, y \in Tor(M)$
+        and $r \in R$. By definition there exists some nonzero $r_x, r_y \in R$ such that $r_xx = 0$ and $r_yy = 0$. Consider 
+        $x + ry$, and note that since $R$ is an integral domain it is commutative so multiplying on the left by $r_xr_y$ gives the following, 
+        \begin{equation*}
+          r_xr_y(x + ry) = (r_xr_y)x + (r_xr_y)ry =  r_y(r_xx) + r_xr(r_yy) = r_y(0) + r_xr(0) = 0. 
+        \end{equation*}
+        Since $r_xr_y \in R$ we know that $x + ry \in Tor(M)$ and therefore by The Submodule Criterion $Tor(M)$ is a submodule of $M$. 
+      \end{proof} 
+    \vspace{.15in}
+
+    \item[(b)] Give an example of a ring $R$ and an $R-$module $M$ such that $Tor(M)$ is not a submodule. 
+    \begin{proof} 
+
+     \end{proof} 
+  \vspace{.15in}
+
+
+  \item[(c)] If $R$ has zero divisors show that every nonzero $R-$module has nonzero torsion elements.  
+  \begin{proof} 
+
+    \end{proof} 
+    \end{enumerate}
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{10.1.9}] If $N$ is a submodule of $M$, the annihilator of $N$ in $R$ is defined to be 
+  $\{r \in R| rn = 0 \text{ for all } n \in N\}$. Prove that the annihilator of $N$ in $R$ is a $2-$sided ideal of $R$. 
+  \begin{proof} Suppose $N$ is a submodule of $M$ let $ann(N)$ be the annihilator of $N$ in $R$. Let $a, b \in ann(N)$ and $n \in N$, now
+    note that $(a - b)n = an - bn = 0 - 0 = 0$. Therefore $ann(N)$ is a subring of $R$. 
+    Let $a \in ann(N)$ and $r \in R$, consider
+    $n \in N$, therefore $n(ar) = (na)r = 0r = 0$ so $ar \in ann(N)$. Now note that $(ra)n = r(an) = r0 = 0$ so $ra \in ann(N)$.
+    Therefore $ann(N)$ is a $2-$sided ideal of $R$.
+
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{10.1.10}] If $I$ is a right ideal of $R$, the annihilator of $I$ in $M$ is defined to be
+  $\{m \in M | am = 0 \text{for all }a \in I\}$. Prove that the annihilator of $I$ in $M$ is a submodule of $M$.
+  \begin{proof} Suppose $I$ is a right ideal of $R$. Clearly $0 \in ann(I)$ since for all $a \in I$, $a(0) = 0$ so 
+    $ann(I) \neq \emptyset$. Let $x, y \in ann(I)$ and note that for all $a \in I$ and $r \in R$ we get $a(x + ry) = ax + ary$
+    since $I$ is a an ideal $ar \in I$ and therefore we get $a(x + ry) = ax + ary = 0 + 0 = 0$. So $x + ry \in ann(I)$ and thus by the submodule
+    criterion, $ann(I)$ is a submodule of $M$. 
+
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{10.1.11}] Let $M$ be the abelian group $\ZZ/24\ZZ \times \ZZ/15\ZZ \times \ZZ/50\ZZ$.
+  \begin{enumerate}
+    \item[(a)] Find the annihilator of $M$ in $\ZZ$ (i.e, a generator for this principal ideal).
+    \begin{proof} Consider the ideal generated by the $l = \lcm(24, 15, 50)$. We will proceed by showing that $(l) = ann_{\ZZ}(M)$.
+      Suppose $a \in (l)$ so $a = lj$ some $j$ multiple of $l$ in $\ZZ$
+      and let $m \in M$ such that $m = (a, b, c)$ where $a \in \ZZ/24\ZZ$, $b \in \ZZ/15\ZZ$ and $c \in \ZZ/50\ZZ$. 
+      Then note that since $l = \lcm(24, 15, 50)$ we get $am = (lja, ljb, ljc) = (0, 0, 0)$. So $a \in ann_{\ZZ}(M)$ and $(l)\subseteq ann_{\ZZ}(M)$. 
+      
+      Let $j \in ann_{\ZZ}(M)$. Then by definition for all $m = (a, b, c) \in M$ we get that $jm = (ja, jb, jc) = 0$. So it must follow that
+      that $j(1, 1, 1) = (j, j, j) = (0, 0, 0)$ so it must be the case that $j \in (\lcm(24, 15, 50)) = (l)$. Therefore
+      $ann_{\ZZ}(M) \subseteq (l)$, thus finally $(l) = ann_{\ZZ}(M)$
+    \end{proof}
+\vspace{.15in}
+
+
+    \item[(b)] Let $I = 2\ZZ$. Describe the annihilator of $I$ in $M$ as a direct product of cyclic groups. 
+   \begin{proof}
+
+    \end{proof}
+\vspace{.15in}
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.5in}
+
+
+\section*{\textbf{Section 10.2}} In these exercises $R$ is a ring with 1 and $M$ is a left $R$-module. 
+ \begin{exercise}[\textbf{10.2.1}] Use the submodule criterion to show that kernels and images of $R$-module homomorphisms are 
+  submodules. 
+    \begin{proof} Suppose that $R$ is a ring with $1$ and $M$ and $N$ be $R$-modules with the map $\varphi: M \to N$ being
+      an $R$-module homomorphism. We want to show that $ker(\varphi)$ is a submodule of $M$ and $\varphi(M)$ is a submodule of $N$.
+      Note that $ker(\varphi) \neq \emptyset$ since $1 \in ker(\varphi)$. Let $x, y \in \ker(\varphi)$ and $r \in R$. Note that since $\varphi$ is an $R$-module homomorphism we know that $\varphi(x + ry) = \varphi(x) + r\varphi(y) = 0 + r0 = 0$. So $x + ry \ker(\varphi)$ and therefore by the submodule criterion $\ker(\varphi)$ is a submodule. 
+
+      Now let $x, y \in \varphi(M)$ and $r \in R$. Note that if $x, y \in \varphi(M)$ then there exists an $a, b \in M$ such that 
+      $\varphi(a) = x$ and $\varphi(b) = y$. Since $\varphi$ is an $R$-module homomorphism we know that $\varphi(a + rb) = \varphi(a) + r\varphi(b) = x + ry$ and so $x + ry \in \varphi(M)$. By the submodule criterion we know that $\varphi(M)$ is a submodule.  
+      \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}[\textbf{10.2.2}] Show that the relation 'is $R$-module isomorphic to' is an equivalence relation on any set of $R$-modules.
+    \begin{proof}
+    \end{proof}
+\end{exercise}
+
+
+
+\end{document} 
+
+

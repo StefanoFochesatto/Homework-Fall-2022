@@ -1,0 +1,579 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%\textbf{Code:}
+%\begin{center}
+%  \lstinputlisting{NewtonsMethodP5.m}
+%\end{center}
+%
+%\textbf{Console:}
+%\begin{center}
+%  \lstinputlisting{P5C.txt}
+%\end{center}
+%\vspace{.15in}
+
+
+%\begin{figure}[H]
+%  \begin{center}
+%    \caption{The one-norm unit ball}
+%    \includegraphics[width=.76\textwidth]{1norm.png}
+%  \end{center}
+%\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 7}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+\begin{exercise}{2.7} Consider the problem, 
+  \begin{equation*}
+    \text{minimize } f(x_1, x_2) = (x_2 - x_1^2)(x_2 - 2x_1^2)
+  \end{equation*}
+  \begin{enumerate}
+    \item[(i)] Show that the first- and second order necessary conditions for optimality are satisfied at $(0,0)^T$. 
+    \begin{proof}[Solution] First we compute $\nabla f(x_1, x_2)$ and $\nabla^2 f(x_1, x_2)$ 
+      \begin{equation*}
+        \nabla f(x_1, x_2) = (8x_1^3-6x_2x_1 ,2x_2-3x_1^2)^T
+      \end{equation*}
+      \begin{equation*}
+        \nabla^2 f(x_1, x_2) = 
+        \begin{pmatrix}
+          24x_1^2-6x_2 & -6x_1\\
+          -6x_1 & 2
+        \end{pmatrix}
+      \end{equation*}
+      Checking the first order necessary condition, $\nabla f(0, 0) = (8(0)^3-6(0)(0) ,2(0)-3(0)^2) = (0, 0)^T$. 
+      Checking the second order necessary condition. Computing the determinant we get $det(\nabla^2 f(0, 0)) = 0$. 
+      This Hessian is not definite therefore second order necessary conditions are not satisfied at $(0,0)^T$.
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(ii)] Show that the origin is a local minimizer of $f$ along any line passing through the origin (that is, $x_2 = mx_1$). 
+    \begin{proof}[Solution] Let $x_2 = mx_1$ and by substitution into $f(x_1, x_2)$ we get $f(x_1) = (mx_1 - x_1^2)(mx_1 - 2x_1^2) = m^2x_1^2-3mx_1^3+2x_1^4$
+      Computing the first and second derivatives we get $f'(x_1) = 2m^2x_1-9mx_1^2+8x_1^3$, $f''(x_1) = 2m^2-18mx_1+24x_1^2$ and clearly $x_1 = 0$ produces a minimum
+      with $f'(0) = 0$ and $f''(0) = 2m^2$. 
+      \end{proof}
+    
+
+    \item[(iii)] Show that the origin is not a local minimizer of $f$ (consider, for example, curves of the form $x_2 = kx_1^2$). What conclusions 
+    can you draw from this?  
+    \begin{proof}[Solution] Let $x_2 = kx_1^2$ and by substitution into $f(x_1, x_2)$ we get $f(x_1) = (kx_1^2 - x_1^2)(kx_1^2 - 2x_1^2) = k^2x_1^4-3kx_1^4+2x_1^4 = (k^2-3k+2)x_1^4$.
+      Computing the first derivative we get $f'(x_1) = 4(k^2-3k+2)x_1^3$ and plugging in $x_1 = 0$ we see that $f'(0) = 0$. Applying the first derivative test, suppose $k$ is chosen such that 
+      $(k^2-3k+2) > 0$ and let $\epsilon > 0$. Note that $f'(-\epsilon) = 4(k^2-3k+2)(-\epsilon)^3 = -4(k^2-3k+2)(\epsilon)^3 < 0$ and also note that $f'(-\epsilon) = 4(k^2-3k+2)(\epsilon)^3 > 0$. 
+      Thus when $k$ is chosen such that $(k^2-3k+2) > 0$, $f(0, 0)$ becomes a local maximum along the curve $x_2 = kx_1^2$. 
+      %% Ask Sasha about this
+
+      We can conclude that $f(x_1, x_2)$ is a saddle. 
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{2.10} Let 
+  \begin{equation*}
+    f(x) = cx_1^2 + x_2^2 - 2x_1x_2 - 2x_2
+  \end{equation*}
+  where $c$ is some scalar. 
+  \begin{enumerate}
+    \item[(i)] Determine the stationary points of $f$ for each value of $c$.
+    \begin{proof}[Solution] The condition for a stationary point is 
+      \begin{equation*}
+        \nabla f(x) = \begin{pmatrix}
+          2cx_1 - 2x_2\\
+          2x_2 - 2x_1 - 2
+        \end{pmatrix} = 0.
+      \end{equation*}
+      We conclude that $x_1 = 1/(c - 1)$ and $x_2 = c/(c - 1)$. 
+    \end{proof}
+    \vspace{.15in}
+
+
+
+
+    \item[(ii)] For what values of $c$ can $f$ have a minimizer? For what values of $c$ can
+    $f$ have a maximizer? Determine the minimizers/maximizers corresponding to such values of $c$
+    and indicate what kind of minima or maxima they are.
+    \begin{proof}[Solution] The condition for $x$ being a minimizer is $\nabla^2f(x)$ being positive definite. 
+      Computing the Hessian, 
+      \begin{equation*}
+        \nabla^2 f(x) = \begin{pmatrix}
+          2c & -2\\
+          -2 & 2
+        \end{pmatrix}
+      \end{equation*}
+      Since $\nabla^2 f(x)$ is $2x2$ the sign of the determinant gives us definiteness. Note that 
+      $det(\nabla^2 f(x)) = 4c - 4 = 4(c - 1)$. When $c>1$ the determinant is positive and we have definiteness.
+      Note that performing the row operation $r_2 = r_2 + \frac{r_1}{c}$ gives,
+      \begin{equation*}
+        \nabla^2 f(x) = \begin{pmatrix}
+          2c & -2\\
+          0 & 2 - \frac{2}{c}
+        \end{pmatrix}.
+      \end{equation*}
+      Recall that since $\nabla^2 f(x)$ is symmetric it is also positive definite if all it's pivots are positive. Note that when $c > 1$
+      we get $2c, 2 - \frac{2}{c}> 0$. Thus this matrix is only ever positive definite, specifically when $c > 1$.
+
+      So when $c > 1$, $f$ has a minimizer, $f$ will never have a maximizer for any value of $c$. The minimizer when $c > 1$ is $(1/(c - 1), c/(c - 1))$
+      and this must be a global minimizer since $\nabla^2 f(x)$ is constant for all values of $x$. 
+    \end{proof}
+    \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.2} Use Newton's method to solve
+  \begin{equation*}
+    \text{minimize } f(x) = 5x^5 + 2x^3 - 4x^2 - 3x + 2
+  \end{equation*}Look for a solution in the interval $-2 \leq x \leq 2$. Make sure 
+  that you have found a minimum and not a maximum. You may want to experiment with different initial guesses of the solution. 
+  \begin{proof}[Solution] Newton's method for optimization requires us to find $f'(x)$ and $f''(x)$, 
+    \begin{equation*}
+      f'(x) = 25x^4 + 6x^2 - 8x - 3,
+    \end{equation*}
+    \begin{equation*}
+      f''(x) = 100x^3 + 12x - 8.
+    \end{equation*}
+    With our iteration being, 
+    \begin{equation*}
+      x_{n + 1} = x_n - \frac{f'(x_n)}{f''(x_n)}.
+    \end{equation*}
+    Consider the following code\\
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \footnotesize]{r1.txt}
+    \end{center}
+    Note that $f''(x)>0$ therefore our solution is a minimum. Clearly our solution is a local minimum even on the 
+    interval $-2 \leq x \leq 2$ since $f(-2) < f(x)$. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}{3.3} Use Newton's method to solve, 
+  \begin{equation*}
+    \text{minimize } f(x_1, x_2) = 5x_1^4 + 6x_2^4 - 6x_1^2 + 2x_1x_2 + 5x_2^2 + 15x_1 - 7x_2 + 12.
+  \end{equation*}
+  Use the initial guess $(1, 1)^T$. Make sure that you have found the minimum and not the maximum. 
+  \begin{proof}[Solution] Newton's method for optimization requires us to find $\nabla f(x)$ and $\nabla^2 f(x)$, 
+    \begin{equation*}
+      \nabla f(x) = 
+      \begin{pmatrix}
+        20x_1^3 - 12x_1 + 2x_2 + 15\\
+        24x_2^3 + 2x_1 + 10x_2 - 7
+      \end{pmatrix}
+    \end{equation*}
+    \begin{equation*}
+      \nabla^2 f(x) = 
+      \begin{pmatrix}
+        60x_1^2 - 12 & 2\\
+        2 & 72x_2^2 + 10
+      \end{pmatrix}
+    \end{equation*}
+    With our iteration being, 
+    \begin{equation*}
+      x_{n + 1} = x_n - [\nabla^2 f(x_n)]^{-1} \nabla f(x_n).
+    \end{equation*}
+    Really we are going to be using, 
+    \begin{equation*}
+      [\nabla^2 f(x_n)]^{-1}p = -\nabla f(x_n)
+    \end{equation*}
+    where $x_{n + 1} = x_n + p$. Consider the following code\\
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \footnotesize]{r2.txt}
+    \end{center}
+    Note that $\nabla^2 f(x)$ is positive definite and $\nabla f(x) = 0$ therefore our solution is a minimum.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.4} Consider the problem
+  \begin{equation*}
+    \text{minimize } f(x) = x^4 - 1.
+  \end{equation*}
+  Solve this problem using Newton's method. Start from $x_0 = 4$ and perform three iterations. Prove that the 
+  iterates converge to the solution. What is the rate of convergence? Can you explain this?
+    \begin{proof}[Solution] To do Newton's method for optimization we must first note that $f'(x) = 4x^3$ and
+      $f''(x) = 12x^2$. Now consider the Newton iteration, 
+      \begin{equation*}
+        x_{n+1} = x_n - \frac{4x_n^3}{12x_n^2} = x_n - \frac{1}{3}x_n = \frac{2}{3}x_n
+      \end{equation*} 
+      With $x_0 = 4$ we get that 
+      \begin{equation*}
+      x_n = \left(\frac{2}{3}\right)^n(4).
+      \end{equation*}
+      The first three iterations are $x_1 \approx 2.666$, $x_2 \approx 1.777$, and $x_3 \approx 1.185$. 
+      Note that the limit, 
+      \begin{equation*}
+        \lim_{n \to \infty} 4\left(\frac{2}{3}\right)^n = 4\lim_{n \to \infty} \left(\frac{2}{3}\right)^n = 0.
+      \end{equation*}
+      Therefore this sequence must converge to 0 which is the solution to the minimization problem. 
+      Clearly the rate of convergence is $2/3$ (linear convergence) since $x_{n+1}/x_n = 2/3$. Each new term in the sequence is two thirds the size of the 
+      previous one, hence the rate of convergence is $2/3$.
+      \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.6} Consider the problem
+  \begin{equation*}
+    \text{minimize } f(x) = \frac{1}{2}x^TQx - c^tx
+  \end{equation*}
+  where $Q$ is a positive-definite matrix. Prove that Newton's method will determine the minimizer of $f$ in one iteration, regardless 
+  of the starting point. 
+    \begin{proof}[Solution] Performing Newton's method on this problem we first must compute the $\nabla f(x)$ and $\nabla^2 f(x)$.
+      Note that, 
+      \begin{equation*}
+        \nabla f(x) = Qx - c,
+      \end{equation*}
+      \begin{equation*}
+        \nabla^2 f(x) = Q.
+      \end{equation*}
+      Computing and simplifying the Newton step we get 
+      \begin{align*}
+        x_{n + 1} &= x_n - [\nabla^2 f(x_n)]^{-1} \nabla f(x_n),\\
+         &= x_n - Q^{-1} (Q(x_n) - c),\\
+         &= x_n - Q^{-1}Q(x_n) + Q^{-1}c,\\
+         &= x_n - x_n + Q^{-1}c,\\
+         &= Q^{-1}c.
+      \end{align*}
+      So Newton's method on this problem will converge at $Q^{-1}c$ after the first iteration. Note that 
+      \begin{equation*}
+        \nabla f(Q^{-1}c) = Q(Q^{-1}c) - c = 0
+      \end{equation*}
+      and since $Q$ is positive-definite, $Q^{-1}c$ is a minimizer for the problem. 
+      \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{P13} Let $c \in \RR^n$ and suppose $Q \in \RR^{n\times n}$ is a symmetric positive definite matrix. Consider this 
+  quadratic function on $x \in \RR^n$
+  \begin{equation*}
+    f(x) = \frac{1}{2}x^TQx - c^Tx
+  \end{equation*}
+  \begin{enumerate}
+    \item[(a)] Show that $\nabla f(x) = Qx - c$. (This is shown explicitly in Appendix B5)
+    \begin{proof}{Solution} Note that we can rewrite the function in terms of sums, 
+      \begin{equation*}
+        f(x) =\frac{1}{2}\sum_{j = 1}^n\sum_{k = 1}^n Q_{j,k}x_jx_k - \sum_{j = 1}^nb_jx_j. 
+      \end{equation*}
+      For every $x_i \in x$ we have the following, 
+      \begin{equation*}
+        \frac{1}{2}Q_{i, i}x_i^2 + \left(\frac{1}{2}\sum_{j \neq 1} Q_{j, i}x_jx_i\right) + \left(\frac{1}{2}\sum_{k \neq 1} Q_{i, k}x_ix_k\right) - b_ix_i 
+      \end{equation*}
+      Partial derivative with respect to $x_i$ gives the following, 
+      \begin{equation*}
+        \frac{\delta f}{\delta x_i} = Q_{i, i}x_i + \frac{1}{2}\sum_{j \neq 1} Q_{j, i}x_j + \frac{1}{2}\sum_{j \neq 1} Q_{i, k}x_k - b_i
+      \end{equation*}
+      Since $Q$ is symmetric we can combine the sums to get, 
+      \begin{equation}
+        \frac{\delta f}{\delta x_i} = \sum_{j = 1}^n Q_{i, j}x_j - b_i = (Qx - b)_i
+      \end{equation}
+      Across all rows $i$ we get that $\nabla f(x) = Qx - b$. 
+    \end{proof} 
+\vspace{.15in}
+
+    \item[(b)] Show that $f$ is strictly convex. (Hint. Use facts from section 2.3)
+    \begin{proof} Suppose $f(x) = \frac{1}{2}x^TQx - c^Tx$ with $x \in \RR^n$, $c \in \RR^n$ and $Q \in \RR^{n\times n}$ is a symmetric positive definite matrix.
+      Recall from Section 2.3 that a function is strictly convex if and only if, 
+      \begin{equation*}
+      f''(x) > 0
+      \end{equation*}
+      for all $x \in S$ the feasible set. In the multidimensional case the Hessian matrix must be positive definite.
+      Computing the Hessian of $f(x)$, consider equation (1), taking the derivative with respect to a single $x_j$ in the sum we get, 
+      \begin{equation}
+        \frac{\delta^2 f}{\delta x_i \delta x_j} = Q_{i, j}
+      \end{equation}
+      Therefore $\nabla^2 f(x) = Q$ which is positive definite on all $\RR^n$. Therefore $f$ is strictly convex. 
+    \end{proof}
+\vspace{.15in}
+
+
+      \item[(c)] Suppose $p$ is a descent direction at $x$, so that $p^T \nabla f(x) < 0$. Prove that the exact solution of the line search problem 
+      $min_{\alpha > 0}f(x + \alpha p)$ is, 
+      \begin{equation*}
+        \alpha = \frac{-p^T\nabla f(x)}{p^TQp}.
+      \end{equation*}
+      \begin{proof} Let $g(\alpha) = f(x + \alpha p)$ where $p$ is a descent direction. Note the minimum of $g$ is the solution to the line search problem. 
+        Substituting $x + \alpha p$ in $f(x)$ we get, 
+        \begin{align*}
+          f(x + \alpha p) &= \frac{1}{2}(x + \alpha p)^TQ(x + \alpha p) - c^T(x + \alpha p)\\
+          &= \frac{1}{2}x^TQx + \frac{\alpha^2}{2}p^TQp + \alpha p^TQx - c^Tx - \alpha c^Tp\\
+          &= (\frac{1}{2}x^TQx - c^Tx) + \frac{\alpha^2}{2}p^TQp + \alpha p^T(Q(x) - c^T)\\
+          &= f(x) + \frac{\alpha^2}{2}p^TQp + \alpha p^T\nabla f(x)
+        \end{align*}
+        Taking the derivative with respect to $\alpha$ to compute $g'(\alpha)$,
+        \begin{equation*}
+          g'(\alpha) = \alpha p^TQp + p^T\nabla f(x).
+        \end{equation*}
+        Setting $g'(\alpha)$ equal to zero and solving for $\alpha$, 
+        \begin{equation*}
+          \alpha = \frac{-p^T\nabla f(x)}{p^TQp}.
+        \end{equation*}
+        This value of $\alpha$ must be a minimum since $g''(\alpha) = p^TQp > 0$ because $Q$ is positive definite. 
+      \end{proof}
+  \end{enumerate}
+  
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{P14} 
+  \begin{enumerate}
+    \item[(a)] Implement steepest descent with optimal step size for quadratic functions (1):
+    \begin{equation*}
+      \text{function z = sdquad(x0, Q, c, tol)}
+    \end{equation*}
+    As before, stop when $||\nabla f(x_k)|| < tol$
+    \begin{proof}[Solution]
+
+      \textbf{Code:}
+      \begin{center}
+        \lstinputlisting{r3.txt}
+      \end{center}
+    \end{proof}
+\vspace{.15in}
+
+    \item[(b)] Use $sdquad()$ to reproduce the result of Example 12.1 on pages 404-405 of 
+    the textbook. Specifically, you should get $k = 216$ iterations using $tol = 10^{-8}$.
+    \begin{proof}[Solution]
+  
+      \textbf{Code:}
+      \begin{center}
+        \lstinputlisting{r4.txt}
+      \end{center}
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] Now change $Q$ to 
+    \begin{equation*}
+      Q = \begin{pmatrix}
+        2.3 & 0.19 & -0.89\\
+        0.19 & 1.84 & 0.32\\
+       -0.89 & 0.32 & 1.86
+      \end{pmatrix}
+    \end{equation*}
+    But keep the same  $c$, $x_0$, and $tol$. What is $x^*$? How many iterations does sdquad() need? Why is this problem easier than part b?
+      \begin{proof}[Solution]
+        Running sdquad() gives us an $x^* \approx (-0.7296,-0.3236,-0.8311)^T$ in 26 iterations. Running eig() on both $Q$ matrices we find that 
+        our new $Q$ has relatively closer eigenvalues. One could imagine the effect this has in the two dimensional case where the level curves of our 
+        quadric surface objective function look more like circles, so the steepest descent direction actually points towards the minimum. Another idea is to note that in the second problem the 
+        identity matrix used in computing the decent direction, 
+        \begin{equation*}
+          p_k = -1^{-1}\nabla f(x_k), 
+        \end{equation*}
+        is doing a better job at approximating the Hessian, 
+        \begin{equation*}
+          p_k = -(\nabla^2f(x_k))^{-1}\nabla f(x_k).
+        \end{equation*}
+        which for quadratic problems as we have shown in the previous problems gives the minimum in one iteration.\\
+      \textbf{Code:}
+      \begin{center}
+        \lstinputlisting{r5.txt}
+      \end{center}
+    \end{proof}
+  \end{enumerate}
+  \end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}{P15} 
+  \begin{enumerate}
+    \item[(a)] Let ${x_k}$ be a sequence which converges super linearly to $x_*$. Show that
+    \begin{equation*}
+      \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} = 1
+    \end{equation*}
+    \begin{proof} Suppose ${x_k}$ is a sequence which converges super-linearly to $x_*$. By definition we know that 
+      for $e_{k + 1} = x_{k + 1} - x_*$ and $e_{k} = x_{k} - x_*$ we get, 
+      \begin{equation*}
+      \lim_{k \to \infty} \frac{||e_{k + 1}||}{||e_k||} = \frac{||x_{k + 1} - x_*||}{||x_{k} - x_*||} = 0.
+      \end{equation*}
+      Consider the following limit,
+      \begin{equation*}
+        \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||}
+      \end{equation*}
+      Adding $0$ to the numerator in the form of $x_* - x_*$, and simplifying we get
+      \begin{align*}
+        \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} &=  \lim_{k \to \infty} \frac{||x_{k + 1} - x_k + (x_* - x_*)||}{||x_k - x_*||}\\
+        &=  \lim_{k \to \infty} \frac{||(x_{k + 1} - x_*) + (x_* - x_k)||}{||x_k - x_*||}\\
+        &\leq  \lim_{k \to \infty} \frac{||x_{k + 1} - x_*|| + ||x_* - x_k||}{||x_k - x_*||}\\
+        &=  \lim_{k \to \infty} \frac{||x_{k + 1} - x_*|| + ||x_k - x_*||}{||x_k - x_*||}\\
+        &=  \lim_{k \to \infty} \frac{||x_{k + 1} - x_*||}{||x_k - x_*||} + \frac{||x_k - x_*||}{||x_k - x_*||}\\
+        &=  \lim_{k \to \infty} \frac{||e_{k + 1}||}{||e_k||} + 1.
+      \end{align*}
+      Therefore we get the following, 
+      \begin{align*}
+        \lim_{k \to \infty} -\frac{||e_{k + 1}||}{||e_k||} + 1 \leq \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} &\leq  \lim_{k \to \infty} \frac{||e_{k + 1}||}{||e_k||} + 1\\
+         1 \leq \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} &\leq 1.
+      \end{align*}
+      So we conclude that,
+      \begin{equation*}
+        \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} = 1.
+      \end{equation*}
+
+    \end{proof}
+\vspace{.15in}
+
+    \item[(b)] Explain why a super-linearly converging iterative algorithm for approximating some unknown number $x_*$
+    which stops according to the criterion $||x_{k + 1} - x_k|| < tol$, for some user-supplied tolerance $tol> 0$, is probably going to work acceptably. Does
+    the same apply to iterations which converge only linearly?
+    \begin{proof}[Solution] From our previous result it's clear that at the limit $||x_{k + 1} - x_k|| = ||x_k - x_*||$ so using $||x_{k + 1} - x_k||$ as 
+      stopping criteria in place of what we actually want, which is $||x_k - x_*||$ is going to work. In a linearly converging algorithm
+      it is not guaranteed that $||x_{k + 1} - x_k|| = ||x_k - x_*||$ at the limit. We would likely get something like, 
+      \begin{equation*}
+        -C + 1 \leq \lim_{k \to \infty} \frac{||x_{k + 1} - x_k||}{||x_k - x_*||} \leq C + 1.
+      \end{equation*}
+ 
+    
+
+    \end{proof}
+  \vspace{.15in}
+
+
+  \end{enumerate}
+  \end{exercise}
+\vspace{.5in}
+
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

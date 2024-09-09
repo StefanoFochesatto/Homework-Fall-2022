@@ -1,0 +1,18 @@
+>> dfforrealthistime = @(x, y) [10*exp(10*x + 2*y^2), 
+                                4*y*exp(10*x + 2*y^2)]
+dfforrealthistime =
+  function_handle with value:
+
+    @(x,y)[10*exp(10*x+2*y^2),4*y*exp(10*x+2*y^2)]
+
+>> df = dfforrealthistime(-1,1)
+df =
+   0.003354626279025   0.001341850511610
+
+>> norm(df - dfc)
+ans =
+     1.567514002442148e-11
+
+>> norm(df - dfs)
+ans =
+     2.535874569394526e-10

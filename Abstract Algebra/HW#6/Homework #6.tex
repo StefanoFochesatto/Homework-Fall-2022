@@ -1,0 +1,390 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#6 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+
+
+% 4.2 10.
+% 4.3 2c, 4
+
+% Stabilizer definition for each $a \in A$ the stabilizer of $a$ in $G$ is the set of elements of $G$
+% that  fix the element $a:\{g\in G| g \cdot a = a} and is denoted by $G_a$. 
+
+
+
+\section*{\textbf{Section 4.1}}
+
+\begin{exercise}[\textbf{4.1.1}] Let $G$ act on the set $A$. Prove that if $a, b \in A$ and 
+  $b = g\cdot a$ for some $g \in G$, then $G_b = gG_ag^{-1}$ ($G_a$ is the stabilizer of $a$). 
+  Deduce that if $G$ acts transitively on $A$ then the kernel of the action is $\cap_{g \in G} gG_ag^{-1}$. 
+  \begin{proof} Let $G$ act on the set $A$. Suppose $a, b \in A$, and $b = g\cdot a$ for some $g \in G$. Let $g_1 \in G_b$ and consider 
+    $g^{-1}g_1g \cdot a$. Note that since $g \cdot a = b$ and $g_1 \in G_b$ we get that $g^{-1}g_1(g \cdot a) = g^{-1}g_1\cdot b = g^{-1}b = a$.
+    It follows that $g^{-1}g_1g \in G_a$, therefore $g_1\in gG_ag^{-1}$ and thus $G_b \subseteq gG_ag^{-1}$. Let $g_1 \in gG_ag^{-1}$, therefore 
+    $g_1 = gg_ag^{-1}$ where $g_a \in G_a$. Consider $g_1 \cdot b$ and note that since $g \cdot a = b$ and $g_a \in G_a$ we get 
+    $g_1 \cdot b = gg_a(g^{-1} \cdot b) = gg_a \cdot a = g \cdot a = b$. It follows that $g_1 \in G_b$ and therefore $gG_ag^{-1} \subseteq G_b$ thus 
+    $G_b = gG_ag^{-1}$.\\
+
+    Suppose $G$ acts transitively on $A$. Recall that the kernel of an action is the set of all $g \in G$ that map 
+    everything in $A$ to itself, and therefore must be the intersection of all the stabilizers. Fix $a \in A$, and note that since 
+    $G$ acts transitively on $A$ for all $b \in A$ there exists a $g \in G$ such that $g\cdot a = b$ thus by the previous result we get,
+    $\cap_{b \in A} G_b = \cap_{g \in G} gG_ag^{-1}$
+  
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{4.1.6}] As in Exercise 12 of Section 2.2 let $R$ be the set of all polynomials with 
+  integer coefficient in the independent variables $x_1, x_2, x_3, x_4$ and let $S_4$ act on $R$ by permuting 
+  the indices of the four variables, 
+  \begin{equation*}
+    \sigma \cdot (x_1, x_2, x_3, x_4) = p(x_{\sigma(1)}, x_{\sigma(2)}, x_{\sigma(3)}, x_{\sigma(4)})
+  \end{equation*}
+  for all $\sigma \in S_4$.
+  \begin{enumerate}
+    \item[a.] Find the polynomials in the orbit of $S_4$ on $R$ containing $x_1 + x_2$.\\
+    \begin{proof}[Solution] Applying the Orbit Stabilizer Theorem we know that, $|O(x_1 + x_2)| = |S_4:\text{Stab}(x_1 + x_2)|$. 
+      Note that $\text{Stab}(x_1 + x_2) = \{1, (1 2), (3 4), (1 2)(3 4)\}$. Therefore we know that $|O(x_1 + x_2)| = 24/4 = 6$.
+      Permuting the indices of $x_1 + x_2$ until we have six distinct polynomials we get, 
+      \begin{equation*}
+        O(x_1 + x_2) = \{(x_1 + x_2), (x_1 + x_3), (x_1 + x_4), (x_2 + x_3), (x_2 + x_4), (x_3 + x_4)\}.
+      \end{equation*}
+      
+    \end{proof}
+    \item[b.] Find the polynimials in the orbit of $S_4$ on $R$ containing $x_1x_2 + x_3x_4$. 
+    \begin{proof}[Solution] Applying the Orbit Stabilizer Theorem we know that, $|O(x_1x_2 + x_3x_4)| = |S_4:\text{Stab}(x_1x_2 + x_3x_4)|$. 
+      Note that $\text{Stab}(x_1x_2 + x_3x_4) = \{1, (1 2), (3 4), (1 2)(3 4)$, 
+      $(1 3)(2 4), (1 4)(2 3) (1 4 2 3), ( 1 3 2 4)\}$. Therefore we know that $|O(x_1x_2 + x_3x_4)| = 24/8 = 3$.
+      Permuting the indices of $x_1x_2 + x_3x_4$ until we have 3 distinct polynomials we get, 
+      \begin{equation*}
+        O(x_1x_2 + x_3x_4) = \{(x_1x_2 + x_3x_4), (x_1x_3 + x_2x_4), (x_1x_4 + x_2x_3)\}.
+      \end{equation*}
+    \end{proof}
+    \item[c.] Find the polynomials in the orbit of $s_4$ on $R$ containing $(x_1 + x_2)(x_4 + x_3)$. 
+  \begin{proof}[Solution] Note that since the same elements are being paired together, i.e. $x_1, x_2$ and $x_3,x_4$ and since addition and multiplication are commutative we should get that $\text{Stab}(x_1x_2 + x_3x_4) = \text{Stab}((x_1 + x_2)(x_4 + x_3))$. Therefore $|O(x_1 + x_2)(x_4 + x_3)| = 24/8 = 3$.
+    Permuting the indices of $(x_1 + x_2)(x_4 + x_3)$ until we have 3 distinct polynomials we get, 
+    \begin{equation*}
+      O((x_1 + x_2)(x_4 + x_3)) = \{(x_1 + x_2)(x_4 + x_3), (x_1 + x_3)(x_4 + x_2), (x_1 + x_4)(x_2 + x_3)\}.
+    \end{equation*}
+  \end{proof}
+\end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\section*{\textbf{Section 4.2}}
+
+
+\begin{exercise}[\textbf{4.2.2}] List the elements of $S_3$ as $1, (12), (23), (13), (123), (132)$ and label 
+  these with the integers $1, 2, 3, 4, 5, 6$ respectively. Exhibit the image of each element of $S_3$ under the left 
+  regular representation of $S_3$ into $S_6$. 
+  \begin{proof}[Solution] Note that $S_3 = \langle(12), (23)\rangle$. First let's compute the image of $(12)$ under the 
+    left regular representation of $S_3$, 
+    \begin{align*}
+      (12)1 = (12) &= \sigma_{(12)}(1) = 2\\
+      (12)(12) = 1 &= \sigma_{(12)}(2) = 1\\
+      (12)(23) = (132) &= \sigma_{(12)}(3) = 6\\
+      (12)(13) = (123) &= \sigma_{(12)}(4) = 5\\
+      (12)(123) = (13) &= \sigma_{(12)}(5) = 4\\
+      (12)(132) = (23) &= \sigma_{(12)}(6) = 3.
+    \end{align*} 
+    Thus $\sigma_{(12)} = (12)(45)(36)$. Computing the image of $(23)$ under the left regular representation of $S_3$, 
+    \begin{align*}
+      (23)1 = (23) &= \sigma_{(23)}(1) = 3\\
+      (23)(12) = (123) &= \sigma_{(23)}(2) = 5\\
+      (23)(23) = 1 &= \sigma_{(23)}(3) = 1\\
+      (23)(13) = (132) &= \sigma_{(23)}(4) = 6\\
+      (23)(123) = (12) &= \sigma_{(23)}(5) = 2\\
+      (23)(132) = (13) &= \sigma_{(23)}(6) = 4.
+    \end{align*} 
+    Thus $\sigma_{(23)} = (13)(25)(46)$. 
+    Since the permutation representation of a group is a homomorphism we know that the generators have the following property, 
+    $\sigma_{S_3} = \sigma_{\langle(12), (23)\rangle} = \langle (12)(45)(36), (13)(25)(46)\rangle$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.2.8}] Prove that if $H$ has finite index $n$ then there is a normal subgroup $K$ of $G$ with $K \leq H$ and $|G:K| \leq n!$. 
+  \begin{proof} Suppose that $H$ has finite index $n$ in $G$ or in other words $|G:H| = |G/H| = n$. Let $G$ act by left multiplication on the set $G/H$. Now let $\pi_H$ be the associated permutation representation of this action i.e. there exists some subgroup $S_{G/H}$ of $S_n$ isomorphic to $G/H$ so $\pi_H: G \to S_{G/H}$. By Theorem 3(3) we get that $\ker \pi_H$ is $\cap_{x \in G}xHx^{-1}$ and that it is the larges normal subgroup of $G$ contained in $H$. Quickly recalling the argument in the text, by definition and some algebra we know that
+    \begin{align*}
+      \ker \pi_H  &= \{g \in G| g \cdot xH = xH\text{ for all }x \in G\},\\
+      &= \{g \in G| x^{-1}gxH = H\text{  for all }x \in G\},\\
+      &= \{g \in G| x^{-1}gx \in H\text{  for all }x \in G\},\\
+      &= \{g \in G| g \in xHx^{-1}\text{  for all x }\in G\},\\
+      &= \cap_{x \in G}xHx^{-1}.
+    \end{align*} 
+    Suppose $N \trianglelefteq G$ with $N \leq H$. Therefore we know that $xNx^{-1} \leq xHx^{-1}$ for all $x \in G$. Then it follows that $N \leq \cap_{x \in G}xHx^{-1} = \ker \pi_h$. 
+    By the First Isomorphism Theorem we know that $G/\ker \pi_H \cong \pi_H(G) \leq S_{G/H} \leq S_n$. Thus $|G:\ker \pi_H| \leq n!$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.2.10}] Prove that every non-abelian group of order 6 has a nonnormal subgroup of order 2. Use this to classify groups of order 6. [Produce an injective homomorphism into $S_3$]
+  \begin{proof} Suppose $G$ is a non-abelian group, with $|G| = 6$. Note that $2|6$ and $3|6$ therefore by Cauchy's Theorem, there exists $a, b \in G$ such that $|a| = 2$ and $|b| = 3$. Consider $\langle a \rangle$, and note that since $|a| = 2$ we know that $\langle a \rangle = \{1, a\}$. Suppose for the sake of contradiction that $\langle a \rangle$ is normal in $G$, then for all $g \in G$ it follows that $gag^{-1} = a$, thus $a \in Z(G)$. Note that $|Z(G)| \neq 6$ as it would imply that $G$ is abelian. Since $1, a \in Z(G)$, by Lagrange's Theorem $|G/Z(G)| = 2 \text { or } 3$. In either case $G/Z(G)$ will be cyclic and therefore $G$ must be abelian (Exercise 3.1.36). Thus a contradiction and therefore $\langle a \rangle$ must be nonnormal.
+
+
+  Consider the cosets $G/\langle a \rangle$ and note that, $|G:\langle a \rangle| = 3$. Let $G$ act by left multiplication on $G/\langle a \rangle$. Now let $\pi_{\langle a \rangle}$ be the associated permutation representation of this action i.e.there exists some subset $S_{G/ \langle a \rangle }$ of $S_3$ isomorphic to $G/ \langle a \rangle $, so we have that $\pi_{ \langle a \rangle }: G \to S_{G/ \langle a \rangle }$. Note that the $\ker \pi_{ \langle a \rangle }$ must be normal in $G$ and contained in $\langle a\rangle$, thus $\ker \pi_{ \langle a \rangle } = 1$ and the map from  $\pi_{ \langle a \rangle }: G \to S_{G/ \langle a \rangle }$ is injective. Therefore since $|G| = 6$, it follows that $G \cong S_3$.
+  
+  Now suppose $G$ were abelian. Since $2|6$ and $3|6$ by Cauchy's Theorem, there exists $a, b \in G$ such that $| a | = 2$ and $| b | = 3$. Then clearly it follows that $(ab)^6 = (a^2)^3(b^3)^2 = 1$ and since 2 and 3 are coprime and 6 is the least common multiple, so $|ab| = 6$. Thus $G = \langle ab\rangle$ and therfore $G \cong \ZZ_6$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+\section*{\textbf{Section 4.3}}
+
+
+\begin{exercise}[\textbf{4.3.4}] Prove that if $S \subseteq G$ and $g \in G$ then $gN_g(S)g^{-1} = N_G(gSg^{-1})$ and $gC_G(S)g^{-1} = C_G(gSg^{-1})$.
+  \begin{proof}Suppose $S \subseteq G$ and fix some $g_x \in G$. Let $g \in g_xN_g(S)g_x^{-1}$ and 
+    consider $g(g_xSg_x^{-1})g^{-1}$. Note there exists some $g_s \in N_g(S)$ such that $g = g_xg_sg_x^{-1}$. By substitution we get that,
+    \begin{equation*}
+      g(g_xSg_x^{-1})g^{-1} = g_xg_sg_x^{-1}(g_xSg_x^{-1})g_xg_s^{-1}g_x^{-1} = g_x(g_sSg_s^{-1})g_x^{-1} = g_xSg_x^{-1}.
+    \end{equation*} 
+    Therefore $g \in N_G(g_xSg_x^{-1})$.\\
+    Let $g \in N_g(g_xSg_x^{-1})$, and note that 
+    \begin{equation*}
+      (g_x^{-1}gg_x)S(g_x^{-1}g^{-1}g_x) = g_x^{-1}(g(g_xSg_x^{-1})g^{-1})g_x = g_x^{-1}(g_xSg_x^{-1})g_x = S.
+    \end{equation*} 
+    Therefore $g_x^{-1}gg_x \in N_g(S)$ so it follows that $g \in g_xN_g(S)g_x^{-1}$. Thus $g_xN_g(S)g_x^{-1} = N_G(g_xSg_x^{-1})$.\\
+
+
+    Let $g \in g_xC_G(S)g_x^{-1}$, and consider $g(g_xSg_x^{-1})g$. Note that there exists some $g_c$ such that $g = g_xg_cg_x^{-1}$. By substitution we get that, 
+    \begin{equation*}
+      g(g_xSg_x^{-1})g = g_xg_cg_x^{-1}(g_xSg_x^{-1})g_xg_c^{-1}g_x^{-1} = g_x(g_cSg_c^{-1})g_x^{-1} = g_x(C_G(S))g_x^{-1}.
+    \end{equation*}
+    Note that the second to last equality preserves $S$ since $g_c \in C_G(S)$. Thus $g \in C_G(g_xSg_x^{-1})$.
+    Let $g \in C_G(g_xSg_x^{-1})$ and note that,
+    \begin{equation*}
+      (g_x^{-1}gg_x)S(g_x^{-1}g^{-1}g_x) = g_x^{-1}(g(g_xSg_x^{-1})g^{-1})g_x = g_x^{-1}(g_xSg_x^{-1})g_x = S.
+    \end{equation*}
+    Again here $g(g_xSg_x^{-1})g^{-1} = g_xSg_x^{-1}$ preserves $g_xSg_x^{-1}$ since $g \in C_G(g_xSg_x^{-1})$. Thus $g_x^{-1}gg_x \in C_g(S)$ so it follows that $g \in g_xC_g(S)g_x^{-1}$. Thus $g_xC_g(S)g_x^{-1} = C_G(g_xSg_x^{-1})$
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+\begin{exercise}[\textbf{4.3.5}] If the center of $G$ is of index $n$, prove that every conjugacy class has at most $n$ elements. 
+  \begin{proof} Suppose that $|G/Z(G)| = n$. Suppose $C_G(g)$ is a conjugacy class of $G$. By definition we know that $C_G(g) = O(g)$ where $O(g)$ is the orbit of $g$ under conjugation by $G$.
+  By the Orbit Stabilizer Theorem we know that $|C_G(g)| = |O(g)| = |G/G_g|$. Note that under conjugation $G_g = C_G(\{g\})$. Recall that $Z(G) = \cap_{g \in G} C_G(\{g\})$ and therefore $Z(G) \leq  C_G(\{g\})$ for all $g \in G$. Thus by Lagrange's Theorem $|C_G(g)| = |G/C_G(\{g\})| \leq |G/Z(G)| = n$.
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.3.6}] Assume $G$ is a non-abelian group of order 15. Prove that $Z(G) = 1$. Use the fact that $\langle g \rangle \leq C_G(g)$ for all $g \in G$ to show that there is at most one possible class equation for $G$. 
+  \begin{proof} Suppose $G$ is a non-abelian group of order 15. By Lagrange's Theorem we know that
+    if $G$ is non-abelian, then $|Z(G)| = 1, 3 \text{ or }5$. If $|Z(G)| = 3$ then by Lagrange's Theorem $|G/Z(G)| = 5$ and therefore cyclic. By Exercise 3.1.36 it would then follow that $G$ is cyclic and therefore abelian, a contradiction. Similarly if $|Z(G)| = 5$ then by Lagrange's Theorem $|G/Z(G)| = 3$ and therefore cyclic. Again it follows that $G$ is cyclic and abelian, a contradiction. Therefore $Z(G) = 1$.\\
+
+    Suppose that $\langle g \rangle \leq C_G(g)$ for all $g \in G$. Note that $3|15$ and $5|15$ therefore by Cauchy's Theorem there exists an $a, b \in G$ such that $|a| = 3$ and $|b| = 5$.
+    Since $\langle a \rangle \leq C_G(a) \leq G$ and $a \not\in Z(G)$ with $|G : \langle a \rangle| = 5$, we get that $C_G(a) = \langle a \rangle$. Similarly since $\langle b \rangle \leq C_G(b) \leq G$ and $b \not\in Z(G)$ with $|G : \langle b \rangle| = 3$, we get that $C_G(b) = \langle b \rangle$. Applying the class equation we know that,
+      \begin{equation*}
+      |G| = |Z(G)| + \sum_{i = 1}^r|G:C_G(g_i)|,
+    \end{equation*}
+    For some conjugacy class representatives $g_1, g_2, \dots g_r$.
+    By substitution of $|G:C_G(a)|$, $|G:C_G(b)|$ and $|Z(G)|$ we get, 
+    \begin{equation*}
+      |G| = 1 + 3 + 5 + \sum_{i = 1}^{r-2}|G:C_G(g_i)|.
+    \end{equation*}
+    Note that each summand in $\sum_{i = 1}^{r-2}|G:C_G(g_i)|$ must be a divisor of $|G| = 15$ and 
+    total to 6. It cannot be $5 + 1$ since that would imply there exists a $|C_G(g_i)| = 15$ which would have $g_i \in Z(G)$. Therefore the final class equation looks like this, 
+    \begin{equation*}
+      |G| = 1 + 3 + 5 + (3 + 3).
+    \end{equation*}
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.3.8}] Prove that $Z(S_n) = 1$ for all $n \geq 3$. 
+  \begin{proof} Suppose $S_n$ where $n \geq 3$ and suppose for the sake of contradiction that $|Z(S_n)| > 1$. Let $\sigma \in S_n$ be a nontrivial permutation which fixes a single element $i \in [n]$, and has an arbitrary cycle decomposition $(a_1a_2\dots a_k)(b_1b_2\dots b_{k_2})\dots$. Let $\tau \in Z(S_n)$ and note that by Proposition 10 we know that $\tau \sigma \tau^{-1} = (\tau(a_1)\tau(a_2)\dots \tau(a_k))(\tau(b_1)\tau(b_2)\dots \tau(b_{k_2}))\dots$. Since $\tau \in Z(S_n)$ it must also fix $i$. Let $\varphi$ be of the same cycle type as $\sigma$ but with the property that it doesn't fix $i$. Note $\varphi \in S_n$ since $n \geq 3$. Thus $\tau \varphi \tau^{-1} = (\tau(c_1)\tau(c_2)\dots \tau(c_k))(\tau(d_1)\tau(d_2)\dots \tau(d_{k_2}))\dots$. Note $\varphi$ cannot equal $\tau \varphi \tau^{-1}$ since $\tau$ fixes $i$ and $\varphi$ doesn't. Thus a contradiction, and therefore $|Z(S_n)| = 1$.
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{4.3.12}] Find a representative for each conjugacy class of elements of order $4$ in $S_8$
+   and in $S_{12}$.
+  \begin{proof}[Solution] Recall that the number of conjugacy classes of $S_n$ equals the number of partitions of $n$. 
+    Also recall that the order of a permutation is the least common multiple of the lengths of it's cycle decomposition. Note that the partitions of 8 containing parts of size 2 and or just 4 are,
+    \begin{center}
+      \begin{tabular}{c | c }
+       \text{Partition of 8 with lcm(4)}& \text{ Representative of Conjugacy Class} \\
+       \hline
+       4, 4& (1 2 3 4)(5 6 7 8)\\
+       4, 2, 2& (1 2 3 4)(5 6)(7 8)\\
+       4, 2, 1, 1& (1 2 3 4)(5 6)\\
+       4, 1, 1, 1, 1& (1 2 3 4)
+      \end{tabular}
+    \end{center}
+    Similarly we can apply this method to solve $S_{12}$,
+    \begin{center}
+      \begin{tabular}{c | c }
+       \text{Partition of 12 with lcm(4)}& \text{ Representative of Conjugacy Class} \\
+       \hline
+       4, 4, 4& (1 2 3 4)(5 6 7 8)(9 10 11 12)\\
+       4, 4, 2, 2& (1 2 3 4)(5 6 7 8)(9 10)(11 12)\\
+       4, 4, 2, 1, 1 & (1 2 3 4)(5 6 7 8)(9 10)\\
+       4, 4, 1, 1, 1, 1 & (1 2 3 4)(5 6 7 8)\\
+       4, 2, 2, 2, 2 & (1 2 3 4)(5 6)(7 8)(9 10)(11 12)\\
+       4, 2, 2, 2, 1, 1 & (1 2 3 4)(5 6)(7 8)(9 10)\\
+       4, 2, 2, 1, 1, 1, 1 & (1 2 3 4)(5 6)(7 8)\\
+       4, 2, 1, 1, 1, 1, 1, 1 & (1 2 3 4)(5 6)\\
+       4, 1, 1, 1, 1, 1, 1, 1, 1 & (1 2 3 4)
+      \end{tabular}
+    \end{center}
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.3.17}] Let $A$ be a nonempty set and let $X$ be any subset of $S_A$. Let 
+  \begin{equation*}
+    F(X) = \{a \in A| \sigma(a) = a\text{ for all }\sigma \in X\}
+  \end{equation*}
+  Let $M(X) = A - F(X)$ be the elements which are moved by some element of $X$. Let $D = \{\sigma \in S_A | |M(\sigma)| < \infty\}$. 
+  Prove that $D$ is a normal subgroup of $S_A$.  
+ \begin{proof} Consider the problem statement and suppose $D = \{\sigma \in S_A | |M(\sigma)| < \infty\}$. Let $\sigma \in D$ and 
+  $\tau \in S_A$. Note that by definition $\sigma$ is a finite permutation and therefore has a some finite cycle permutation representation, 
+  $(a_1a_2\dots a_k)(b_1b_2\dots b_{k_2})\dots$. Note that by Proposition 10 we know that $\tau \sigma \tau^{-1} = (\tau(a_1)\tau(a_2)\dots \tau(a_k))(\tau(b_1)\tau(b_2)\dots \tau(b_{k_2}))\dots$. Since $\tau \sigma \tau^{-1}$ has a finite cycle permutation representation it must also have finite order, and it fixes all the elements that $\sigma$ fixes and it moves every element that $\sigma$ moves. Therefore 
+  $\tau \sigma \tau^{-1} \in D$ and thus $D \trianglelefteq S_A$. 
+ \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+
+\end{document} 
+
+
+

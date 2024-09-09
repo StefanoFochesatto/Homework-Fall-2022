@@ -1,0 +1,385 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math  \mod e
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+\def\FF{{\ensuremath\mathbb F}}
+
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+% \mod ify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#12 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+% 
+% 9.2 1, 2, 3, 7.
+% 9.3 1, 3 (Note the statement of 2.)
+% 9.4 1, 2, 5, 6, 18.
+% 9.5 1, 3.
+% 
+
+
+
+
+\section*{\textbf{Section 9.2}}
+
+\begin{exercise}[\textbf{9.2.1}] Let $f(x) \in F[x]$ be a polynomial of degree $n > 1$ and let bars denote passage 
+  to the quotient $F[x]/(f(x))$. Prove that for each $\overline{g(x)}$ there is a unique polynomial $g_0(x)$ of degree $\leq n - 1$
+  such that $\overline{g(x)} = \overline{g_0(x)}$.
+  \begin{proof} Let $F$ be a field and let $x$ be indeterminate over $F$ also let $f(x) \in F[x]$ be a 
+    polynomial of degree $n > 1$. Suppose $g(x) \in F[x]$, since $F$ is a field we know that $F[x]$ is a Euclidean Domain, 
+    applying the division algorithm we get that there are unique $q(x)$ and $r(x)$ in $F[x]$ such that, 
+    \begin{equation*}
+      g(x) = q(x)f(x) + r(x).  
+    \end{equation*}
+    with $r(x) = 0$ or degree $deg(r(x)) < deg(f(x)) = n$. Note that in the quotient $F[x]/(f(x))$, $\overline{g(x)} = \overline{r(x)}$
+    and $r(x)$ is unique with  degree $\leq n - 1$.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.2.2}] Let $F$ be a finite field of order $q$ and let $f(x)$ be a polynomial in $F(x)$ of degree $n \geq 1$.
+  Prove that $F[x]/(f(x))$ has $q^n$ elements. 
+  \begin{proof} Suppose $F$ is a finite field of order $q$ and let $f(x)$ be a polynomial in $F(x)$ of degree $n \geq 1$. By the previous result 
+    we know that the elements $\overline{1}, \overline{x} \dots \overline{x^{n - 1}}$ are a basis of the vector space $F[x]/((f(x)))$ over $F$ - in particular
+    $F[x]/(f(x))$ is dimension $n$ over $F$. Since $F$ is order $q$ and $F[x]/(f(x))$ is dimension $n$ over $F$ it must follow that $F[x]/(f(x))$ has $q^n$ elements.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.2.3}] Let $f(x)$ be a polynomial in $F[x]$. Prove that $F[x]/(f(x))$ is a field if and only if $f(x)$
+  is irreducible.[Use Proposition 7, Section 8.2]
+  \begin{proof} Let $F$ be a field with $x$ indeterminate over $F$ and $f(x) \in F[x]$. Since $F$ is a field 
+    we know that $F[x]$ is a Euclidean Domain and is also therefore a Principal Ideal Domain.
+    Suppose $F[x]/(f(x))$ is a field, therefore by Proposition 12, Section 7.4 $(f(x))$ must have been a maximal ideal in $F[x]$.
+    Since $F[x]$ is commutative and $(f(x))$ is maximal, by Corollary 14, Section 7.4 $(f(x))$ is prime and therefore irreducible. 
+
+    Suppose $(f(x))$ is irreducible, it is therefore prime and also by Proposition 7, Section 8.2 $(f(x))$ is also maximal in $F[x]$.
+    Again by Proposition 12, Section 7.4 $F[x]/(f(x))$ is a field. 
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.2.7}] Determine all the ideals of the ring $\ZZ/(2, x^3 + 1)$.
+  \begin{proof} 
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+
+\section*{\textbf{Section 9.3}}
+
+\begin{exercise}[\textbf{9.3.1}] Let $R$ be an integral domain with quotient field $F$ and let $p(x)$
+  be a monic polynomial in $R[x]$. Assume that $p(x) = a(x)b(x)$ where $a(x)$ and $b(x)$ are monic polynomials in $F[x]$
+  of smaller degree than $p(x)$. Prove that if $a(x) \not\in R[x] $ then $R$ is not a UFD. Deduce that $\ZZ[2\sqrt{2}]$ is not a UFD.
+  \begin{proof} Let $R$ be an integral domain with quotient field $F$ and let $p(x)$
+    be a monic polynomial in $R[x]$. Also let $p(x) = a(x)b(x)$ where $a(x)$ and $b(x)$ are monic polynomials in $F[x]$
+    of smaller degree than $p(x)$. Suppose $a(x) \not\in R[x] $ and $R$ is a UFD. Since $R$ is a UFD, and $p(x)$ is reducible in 
+    $F[x]$, i.e. $p(x) = a(x)b(x)$ in $F[x]$, by Gauss' Lemma there are $r, s \in F$ such that $ra(x), sb(x) \in R[x]$ where 
+    $p(x) = ra(x)sb(x)$ is a factorization in $R[x]$. Consider that the leading coefficient of $rsa(x)b(x)$ is 1 and $r, s \in R$, since $a(x)$ and $b(x)$ are monic 
+    polynomials, therefore we conclude that $rs = 1$ so finally we get that $rsa(x) = a(x) \in R[x]$ a contradiction.  
+
+    Consider $x^2 - 2 \in \ZZ[2\sqrt{2}]$ and note that $x^2 - 2 = (x + \sqrt{2})(x - \sqrt{2})$ in the field of fractions $\QQ[2\sqrt{2}]$ since $\frac{1}{2}(2\sqrt{2}) = \sqrt{2} \in \QQ[2\sqrt{2}]$, yet $(x + \sqrt{2}), (x - \sqrt{2}) \not\in \ZZ[2\sqrt{2}]$ so by the previous result $\ZZ[2\sqrt{2}]$ is not a UFD.
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{9.3.3}] Let $F$ be a field. Prove that the set $R$ of polynomials in $F[x]$ whose coefficient of $x$
+is equal to 0 is a subring of $F[x]$ and that $R$ is not a UFD.
+    \begin{proof} Let $F$ be a field. Suppose $R$ is the set of polynomials in $F[x]$ whose coefficient of $x$ is equal to zero. 
+      Let $p(x), q(x) \in R$ with coefficients $a_i, b_i \in F$ respectively, and $deg(p) = m$, $deg(q) = n$. Note that $p(x) - q(x)$ will still have a coefficient of zero on the $x$ term.
+      Consider $p(x)q(x)$, an recall that the coefficient on the $x$ term will be given by the following sum, $a_0b_1 + a_1b_0 = 0$ thus $R$ is a subring of $F[x]$.
+      
+      Since there are no polynomials with degree 1 in $R$, reducing $x^2 = a(x)b(x)$ where both $a(x), b(x)$ are nonzero is impossible so 
+      $x^2$ is irreducible in $R$. Similarly we find that $x^3$ is irreducible in $R$. Yet we find that $x^6$ has two distinct factorizations 
+      into irreducibles, namely $x^6 = x^2x^2x^2$ and $x^6 = x^3x^3$, thus $R$ is not a UFD.  
+        \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\section*{\textbf{Section 9.4}}
+
+\begin{exercise}[\textbf{9.4.1}] Determine whether the following polynomials are irreducible in the rings indicated. For those that are reducible, determine their factorization into irreducibles. The notation $\FF_p$
+  denotes the finite field $\ZZ/p\ZZ$, $p$ a prime.
+  \begin{enumerate}
+    \item[(a)] $x^2 + x + 1$ in $\FF_2[x]$.
+    \begin{proof} Recall Proposition 10, which states a polynomial of degree two or three over field $F$ is reducible if and only if it has a root in $F$. Note that $(0)^2 + (0) + 1 = 1$ and $(1)^2 + (1) + 1 = 1$
+      so by the converse of the forward direction of Proposition 10, $x^2 + x + 1$ is irreducible. Also this is just Example (4) on p.308. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] $x^3 + x + 1$ in $\FF_3[x]$.
+    \begin{proof} Again we can check if there are any roots and apply Proposition 10. Note that, 
+      $(1)^3 + (1) + 1 = 0$. So we get that $(x - 1)$, or more accurately $(x + 2)$ is a factor of  
+      $x^3 + x + 1$ in $\FF_3[x]$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] $x^4 + 1$ in $\FF_5[x]$.
+    \begin{proof} Note that in $\FF_5[x]$, $x^4 + 1 = x^4 - 4$. A difference of squares, which can still be factored in $\FF_5[x]$, $x^4 + 1 = x^4 - 4 = (x^2 + 2)(x^2 - 2) = (x^2 + 2)(x^2 + 3)$ in $\FF_5[x]$.
+      Thus $x^4 + 1$ is reducible in $\FF_5[x]$ with factors $(x^2 + 2)$ and $(x^2 + 3)$.
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[(d)] $p(x) = x^4 + 10x^2 + 1$ in $\ZZ$.
+    \begin{proof} Let $g(x) = p(3x + 1) = (3x + 1)^4 + 10(3x + 1)^2 + 1  = 81 x^4 + 108 x^3 + 144 x^2 + 72 x + 12$. Applying Eisenstien's Criterion on $g(x)$ with $p = 3$ we get that $g(x)$ is irreducible. Therefore it follows that $p(x)$ is also irreducible since any factorization of $p(x)$, by substitution would give a factorization for $g(x)$. ??? Questionable $g(x)$ is not a monic polynomial. 
+
+     \end{proof}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.4.2}] Prove that the following polynomials are irreducible in $\ZZ[x]$: 
+  \begin{enumerate}
+    \item[(a)] $x^4 - 4x^3 + 6$
+    \begin{proof}Applying Eisenstien's Criterion with $p = 2$ we get that $x^4 - 4x^3 + 6$ is irreducible in $\ZZ[x]$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] $x^6 + 30x^5 - 15x^3 + 6x - 120$
+    \begin{proof}Applying Eisenstien's Criterion with $p = 3$ we get that $x^6 + 30x^5 - 15x^3 + 6x - 120$ is irreducible in $\ZZ[x]$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] $p(x) = x^4 + 4x^3 + 6x^2 + 2x + 1$
+    \begin{proof}Consider $g(x) = p(x - 1) = (x - 1)^4 + 4(x - 1)^3 + 6(x - 1)^2 + 2(x - 1) + 1 = x^4 - 2x + 2$. Applying Eisenstien's Criterion with $p = 2$ we find that $g(x)$ is irreducible and therefore $p(x)$ is also irreducible in $\ZZ[x]$.
+    \end{proof}
+
+      \vspace{.15in}
+
+    \item[(d)] $\frac{(x + 2)^p - 2^p}{x}$ where $p$ is an odd prime. 
+    \begin{proof} Expanding our polynomial using the Binomial Theorem we get, 
+      \begin{equation*}
+        \frac{(x + 2)^p - 2^p}{x} = \frac{\left(\sum_{k = 0}^p {p \choose k}x^{p - k}2^k\right) - 2^p}{x} = \frac{\left(\sum_{k = 0}^{p - 1} {p \choose k}x^{p - k}2^k\right)}{x} = \sum_{k = 0}^{p - 1} {p \choose k}x^{p - k - 1}2^k.
+      \end{equation*}
+      Note that the degree 0 term in this polynomial is $2^{p - 1}{p \choose (p - 1)} = 2^{p - 1}(p)$ which since $p$ is odd, $p^2$ does not divide $p$. Since ${p \choose k}$ is divisible by $p$ for $k > 0$, and our polynomial is monic since ${p \choose 0}2^0 = 1$, we conclude by Eisenstien's Criterion with prime $p$ that $\frac{(x + 2)^p - 2^p}{x}$ is irreducible. 
+
+    \end{proof}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.4.5}]Find all monic irreducible polynomials of degree $\leq 3$ in $\FF_2[x]$, 
+  and the same in $\FF_3[x]$.
+      \begin{proof}[Solution] To find all monic irreducible polynomials we will use Proposition 10 as we did 
+        in problem 1 and check if all monic polynomials of degree $\leq 3$ in $\FF_2[x]$ have roots, 
+        \begin{center}
+          \begin{tabular}{c | c | c}
+           \text{Monic Polynomial}& \text{Roots}& \text{Irreducible?} \\
+           \hline
+           $x^3 + x^2 + x + 1$& 1 & $\text{reducible}$\\
+           $x^3 + x^2 + x$& 0 &$\text{reducible}$ \\
+           $x^3 + x^2 + 1$& $\text{none}$& $\text{irreducible}$ \\
+           $x^3 + x + 1$&$\text{none}$& $\text{irreducible}$ \\
+           $x^2 + x + 1$&$\text{none}$& $\text{irreducible}$ \\
+           $x^3 + x^2$& 0 &$\text{reducible}$ \\
+           $x^3 + x$& 0 &$\text{reducible}$ \\
+           $x^3 + 1$& 1&$\text{reducible}$ \\
+           $x^2 + x$&0 &$\text{reducible}$ \\
+           $x^2 + 1$& 1 &$\text{reducible}$ \\
+           $x^3$&0 &$\text{reducible}$ \\
+           $x^2$&0 &$\text{reducible}$ \\
+          \end{tabular}
+        \end{center} 
+        Therefore we get that $x^3 + x^2 + 1$, $x^3 + x + 1$, $x^2 + x + 1$, $x + 1$, $x$, and $1$ are irreducibles in $\FF_2[x]$.
+      \end{proof}
+  \end{exercise}
+  \vspace{.5in}
+
+
+  \begin{exercise}[\textbf{9.4.6}] Construct fields for which the following orders: $(a)9$, $(b)49$, $(c)8$, and $(d)81$.
+          \begin{enumerate}
+            \item[(a)] A field of order 9.
+            \begin{proof}
+              Consider $F = \FF_3[x]$ a field or order 3. Let $f(x) = x^2 + 1$ an irreducible polynomial of order 2 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 9.
+            \end{proof}
+            \vspace{.15in}
+
+            \item[(b)] A field of order 49.
+            \begin{proof}
+              Consider $F = \FF_7[x]$ a field or order 7. Let $f(x) = x^2 + 1$ an irreducible polynomial of order 2 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 49.
+            \end{proof}
+            \vspace{.15in}
+
+            \item[(c)] A field of order 8.
+            \begin{proof}
+              Consider $F = \FF_2[x]$ a field or order 2. Let $f(x) = x^3 + x + 1$ an irreducible polynomial of order 3 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 8.
+            \end{proof}
+            \vspace{.15in}
+
+
+            \item[(d)] A field of order 81.
+            \begin{proof}
+              Consider $F = \FF_3[x]$ a field or order 3. Let $f(x) = x^4 + x + 2$, showing that $f(x)$ is irreducible in $F$
+              implies that $F/(f(x))$ is order $3^4 = 81$ as we have done in previous exercises. Clearly  $f(x) = x^4 + x + 2$ has no linear factors as it has no roots in $\FF_3$, $f(0) = 1$, $f(1) = 1$, and $f(2) = 2$. Suppose for the sake of contradiction that  $f(x)$ has quadratic factors
+
+              $f(x) = (x^2 + ax + b)(x^2 + cx + d) = x^4 + (a + c)x^3 + (ac + b + d)x^2 + (ad + bc)x + bd$. Therefore we get that $a + c = 0$, $ac + b + d = 0$, $ad + bc = 1$, and $bd = 2$. Since $c = -a$, by substitution we get $ad + bc = a(d - b) = 1$. So $b \neq d$ and since $bd = 2$, either $b = 2$ and $d = 1$ or vice versa.
+              Let $b = 2$ and $d = 1$ then $a(d - b) = 1$ gives that $a = -1$ and therefore $c = 1$, however we get that 
+              $-1 = (-1)(1) + 2 + 1 = ac + b + d = 0$ a contradiction. Let $b = 1$ and $d = 2$ then $a(d - b) = 1$ gives that $a = 1$ and therefore $c = -1$, however $-1 = (1)(-1) + 1 + 2 = ac + b + d = 0$ so we arrive at another contradiction. Therefore $f(x)$ is irreducible in $F$ and thus $F/(f(x))$ is order $3^4 = 81$.
+            \end{proof}
+          \end{enumerate}
+
+    \end{exercise}
+    \vspace{.5in}
+
+
+    \begin{exercise}[\textbf{9.4.18}] Show that $6x^5 + 14x^3 - 21x + 35$ and $18x^5 - 30x^2 + 120x + 360$ are 
+      irreducible over $\QQ[x]$.
+      \begin{proof}
+        Applying Eisenstien's Criterion with prime $p = 7$ to show that $6x^5 + 14x^3 - 21x + 35$ is irreducible over $\ZZ[x]$ and also applying Eisenstein's Criterion with prime $p = 5$ to show that $18x^5 - 30x^2 + 120x + 360$ is irreducible 
+        over $\ZZ[x]$. By the contrapositive of Gauss's Lemma we can conclude that both polynomials are irreducible over $\QQ[x]$.
+      \end{proof}
+      \end{exercise}
+      \vspace{.5in}
+      
+  
+  
+
+
+      \section*{\textbf{Section 9.5}}
+
+\begin{exercise}[\textbf{9.5.1}] Let $F$ be a field and let $f(x)$ be a nonconstant polynomial in $F[x]$. Describe the nilradical of $F[x]/(f(x))$ in terms of the factorization of $f(x)$. 
+    \begin{proof} Suppose $F$ is a field and let $f(x)$ be a nonconstant polynomial in $F[x]$. Let $f(x) = f_1(x)^{n_1}f_2(x)^{n_2}\dots f_k(x)^{k_1}$ be its factorization into distinct irreducibles. Recall that the nilradical of $F[x]/(f(x))$ is the set of nilpotent elements of $F[x]/(f(x))$. If a polynomial $g(x)^n$ in $F[x]$ is some multiple $f(x)$, i.e $f(x)\nmid g(x)^n$, then $\overline{g(x)}$ will be  nilpotent in $F[x]/(f(x))$ and contained in the nilradical of $F[x]/(f(x))$ \dots
+
+      Not sure where to go from here\dots
+      The nilradical of $F[x]/(f(x))$ is the set of nilpotent elements of $F[x]/(f(x))$.
+      The elements of $F[x]/(f(x))$ look like the remainders\dots
+      \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{9.5.3}] Let $p$ be an odd prime in $\ZZ$ and let $n$ be a positive integer. Prove that $x^n - p$ is irreducible over $\ZZ[i]$.
+  \begin{proof} Suppose $p$ is an odd prime in $\ZZ$ and let $n$ be a positive integer. Since $p$ is an odd prime in $\ZZ$ it is either $p \cong 3 \mod 4$ or 
+    $p \cong 1 \mod 4$. By Proposition 18 (2.b) we know that if $p \cong 3 mod 4$ then $p$ is irreducible in $\ZZ[i]$. In which case $(p)$ is a prime ideal in $\ZZ[i]$
+    which satisfies Eisenstein's Criterion since $p \not\in (p)^2$. From Proposition 18 (2.c) we get that if
+    $p \cong 1 \mod 4$ then $p = (a + bi)(a - bi)$ where $(a + bi)$ and $(a - bi)$ are irreducible in $\ZZ[i]$. In which case $(a + bi)$ is a prime ideal in $\ZZ[i]$
+    which satisfies Eisenstein's Criterion since $p \not\in (a + bi)^2$. So $x^n - p$ is irreducible over $\ZZ[i]$.
+    \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+\end{document} 
+
+

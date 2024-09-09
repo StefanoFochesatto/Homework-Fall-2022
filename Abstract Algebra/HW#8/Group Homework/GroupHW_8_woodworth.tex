@@ -1,0 +1,171 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Algebra Group}}
+\lhead{\emph{HW \#8 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Glen Woodworth}
+
+
+%\usepackage{float} <- Throw this in the preamble
+
+
+
+\begin{exercise}[\textbf{5.4.17} --- Glen Woodworth] If $K$ is normal subgroup of $G$ and $K$ is cyclic, prove that $G'\le C_G(K)$. [Recall that the automorphism group of a cyclic group is abelian.]
+  \begin{proof} Let $K\trianglelefteq G$. Recall that the automorphism group of a cyclic group is abelian. Since $K$ is cyclic, Aut$(K)$ is abelian. Consider the map
+  \begin{align*}
+  \Phi:G&\rightarrow \text{Aut }(K)\\
+  g&\mapsto\phi_g:k\mapsto gkg^{-1}.\end{align*}
+  Since $K\trianglelefteq G$, $gkg^{-1}\in K$ for all $k\in K$ and for all $g\in G$. Thus, $\Phi$ is well-defined. We now show that $\Phi$ is a homomorphism. Let $g_1,g_2\in G$ and $k\in K$. Observe,
+  \begin{align*}
+  \Phi(g_1g_2)(k)&=\phi_{g_1g_2}(k)=g_1g_2k(g_1g_2)^{-1}=g_1g_2kg_2^{-1}g_1^{-1}=\phi_{g_1}(g_2kg_2^{-1})\\
+  &=\phi_{g_1}(\phi_{g_2}(k))=(\phi_{g_1}\circ\phi_{g_2})(k)=(\Phi(g_1)\circ\Phi(g_2))(k).
+  \end{align*}
+Thus, $\Phi$ is a homomorphism. We now show that $\ker\Phi= C_G(K)$. Let $x\in C_G(K)$. Then \[\Phi(x)(k)=xkx^{-1}=k.\]
+Thus, $\Phi(x)=Id$. Suppose $y\in\ker\Phi$. We have \[k=\Phi(y)(k)=yky^{-1}.\] Therefore, $y\in C_G(K)$. Hence, $\ker\Phi=C_G(K)$. Proposition 7 from Section 5.4 states that if $\phi:G\rightarrow A$ is any homomorphism where $G$ is a group and $A$ is an abelian group, then $G'\le\ker\phi$. Since Aut$(K)$ is abelian, and $\Phi$ is a homomorphism with $\ker\Phi=C_G(K)$, we have $G'\le\ker\Phi=C_G(K)$.
+  \end{proof}
+\end{exercise}
+
+
+
+\begin{exercise}[\textbf{5.5.8} --- Glen Woodworth] Construct a non-abelian group of order $75$. Classify all groups of order 75 (there are three of them). [Use Exercise 6 to show that the non-abelian group is unique.] (The classification of groups of order $pq^2$, where $p$ and $q$ are primes with $p<q$ and $p$ not dividing $q-1$, is quite similar.)
+  \begin{proof} Consider the homomorphism \begin{align*}\Phi:Z_{25}&\rightarrow\text{Aut}(Z_{3})\\
+\overline{0}&\mapsto\text{Id}:\overline{1}\mapsto\overline{1}\\
+\overline{1}&\mapsto \phi:\overline{1}\mapsto \overline{2}.
+  \end{align*} 
+  We show that $\Phi$ is well-defined. Observe,\[\phi(\overline{1}+\overline{2})=\phi(\overline{0})=\overline{0}=\overline{2}+\overline{1}=\phi(\overline{1})+\phi(\overline{2})\]
+Thus, $\phi$ is a homomorphism. Since $\phi$ is obviously a bijection, $\phi\in$Aut$(Z_3)$. Thus, $\Phi$ is well-defined. We now show $\Phi$ is a homomorphism. First, observe that since $\Phi(\overline{1})(\overline{1})=\phi(\overline{1})=\overline{2}$ and since there are only two options in the image, if $x\in Z_{25}$ is odd, then $\Phi(x)(\overline{1})=\phi(\overline{1})=\overline{2}$. Similarly, if $y\in Z_{25}$ is even, then $\Phi(y)(\overline{1})=$Id$(\overline{1})=\overline{1}$. Now, suppose $g_1,g_2\in Z_{25}$. We have three cases to consider. For the first case, suppose $g_1$ and $g_2$ are both even. Then $g_1+g_2$ is even. Observe,\[
+\Phi(g_1+g_2)(\overline{1})=\text{Id}(\overline{1})=\text{Id}(\text{Id}(\overline{1}))=\Phi(g_1)(\Phi(g_2)(\overline{1}))=(\Phi(g_1)\circ\Phi(g_2))(\overline{1}).\]
+For the second case, suppose $g_1$ and $g_2$ are both odd. Then $g_1+g_2$ is even. We have
+\[\Phi(g_1+g_2)(\overline{1})=\text{Id}(\overline{1})=\overline{1}=\phi(\overline{2})=\phi(\phi(\overline{1}))=\Phi(g_1)(\Phi(g_2)(\overline{1}))=(\Phi(g_1)\circ\Phi(g_2))(\overline{1}).\]
+For the last case, suppose $g_1$ is even and $g_2$ is odd. Then $g_1+g_2$ is odd. Observe,
+\[\Phi(g_1+g_2)(\overline{1})=\phi(\overline{1})=\text{Id}(\phi(\overline{1}))=\Phi(g_1)(\Phi(g_2)(\overline{1}))=(\Phi(g_1)\circ\Phi(g_2))(\overline{1}).\]
+Thus, $\Phi$ is a well-defined homomorphism. Hence, by the definition of semidirect product and Theorem 10, $G=Z_3\rtimes_\Phi Z_{25}$ is a group of order $75$. Let $\cdot$ denote the left action of $Z_{25}$ on $Z_3$ determined by $\Phi.$ To see that $G$ is nonabelian, consider $(\overline{1},\overline{3}),(\overline{2},\overline{4})\in G$. Observe,
+\begin{align*}
+(\overline{1},\overline{3})(\overline{2},\overline{4})(\overline{1},\overline{3})^{-1}&=(\overline{1}+\overline{3}\cdot\overline{2},\overline{3}+\overline{4})(\overline{22}\cdot\overline{2},\overline{22})=(\overline{1}+\Phi(\overline{3})(\overline{2}),\overline{7})(\Phi(\overline{22})(\overline{2}),\overline{22})\\
+&=(\overline{1}+\phi(\overline{2}),\overline{7})(\text{Id}(\overline{2}),\overline{22})=(\overline{1}+\overline{1},\overline{7})(\overline{2},\overline{22})=(\overline{2},\overline{7})(\overline{2},\overline{22})\\
+&=(\overline{2}+\overline{7}\cdot\overline{2},\overline{7}+\overline{22})=(\overline{2}+\Phi(\overline{7})(\overline{2}),\overline{4})=(\overline{2}+\phi(\overline{2}),\overline{4})=(\overline{2}+\overline{1},\overline{4})\\
+&=(\overline{0},\overline{4}).
+\end{align*}
+Since $(\overline{2},\overline{4})\ne(\overline{0},\overline{4})$, $G$ is nonabelian. We are given that there are only three groups of order 75. The other two groups of order 75 are $Z_{75}$ and $Z_{15}\times Z_{5}$, which are both abelian. Note that since $(5,15)\ne 1$, $Z_{75}$ is not isomorphic to $Z_{15}\times Z_{5}$. Exercise 6 of section 5.5 states that if there exists another homomorphism $\Phi_1$ from $Z_{25}$ to Aut$(Z_3)$ such that $\Phi(Z_{25})$ and $\Phi_1(Z_{25})$ are conjugate subgroups of Aut$(Z_3)$, then $Z_3\rtimes_{\Phi}Z_{25}\cong Z_3\rtimes_{\Phi_1}Z_{25}.$ If we suppose that $\Phi_1$ is non-trivial, then $\phi\in\Phi_1(Z_{25})$ because $\phi$ is the only non-identity element in Aut$(Z_3)$. Since Id$\in\Phi_1(Z_{25})$ by the definition of a homomorphism, $\Phi_1(Z_{25})=\Phi(Z_{25})$. By Exercise 6, $Z_3\rtimes_{\Phi}Z_{25}\cong Z_3\rtimes_{\Phi_1}Z_{25}.$
+  \end{proof}
+ 
+\end{exercise}
+
+\begin{exercise}[\textbf{5.1.5} --- Glen Woodworth] Exhibit a nonnormal subgroup of $Q_8\times Z_4$ (note that every subgroup of each factor is normal).
+  \begin{proof} Consider the subgroup $\langle (-k,0)\rangle=\{(-k,0),(1,0)\}$ in $Q_8\times Z_4$. Observe, \begin{align*}
+  (j,0)(-k,0)(-j,0)&=(j(-k),0)(-j,0)=(-jk,0)(-j,0)=(i,0)(-j,0)\\
+  &=(i(-j),0)=(-ij,0)=(k,0)\notin\langle (-k,0)\rangle.\end{align*}
+ Hence, $\langle (-k,0)\rangle$ is not a normal subgroup of $Q_8\times Z_4$.
+  \end{proof}
+\end{exercise}
+
+
+
+
+  \end{document}

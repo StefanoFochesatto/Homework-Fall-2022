@@ -1,0 +1,12 @@
+function [x, iter] = sdquad(x0, Q, c, tol)
+
+x = x0;
+p = -(Q*x - c);
+iter = 0;
+    while norm(p) >= tol
+        alpha = -(p'*(Q*x - c))/(p'*Q*p);
+        x = x + alpha*p;
+        p = -(Q*x - c);
+        iter = iter + 1;
+    end
+end

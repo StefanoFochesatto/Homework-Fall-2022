@@ -1,0 +1,24 @@
+% Defining original inline function
+>> f = @(x, y) exp(10*x + 2*y^2)
+
+% Defining second order partial derivatives
+>> dfdx = @(x, y) 100*exp(10*x + 2*y^2);
+>> dfdy = @(x, y) exp(10*x + 2*y^2)*(16*y^2 + 4);
+
+% Computing 'complex' h value 
+>> h1 = sqrt((2*abs(f(-1,1))*eps)/abs(dfdx(-1,1)))
+h1 =
+     2.107342425544702e-09
+
+>> h2 = sqrt((2*abs(f(-1,1))*eps)/abs(dfdy(-1,1)))
+h2 =
+     4.712160915387242e-09
+
+% Defining 'complex' feed forward difference formula
+>> fcomplex = @(x, y) [(f((x + h1), y) - f(x, y))/h1, 
+                       (f(x, (y + h2)) - f(x, y))/h2];
+
+$ Computing 'complex' estimation of gradient
+>> dfc = fcomplex(-1,1)
+dfc =
+   0.003354626263876   0.001341850507582

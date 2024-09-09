@@ -1,0 +1,45 @@
+function [fmin, xmin] = bisection(f, a, b)
+%% Recursive bisection function, takes an interval [a, b]
+%% returns a local minimizer (fmin, xmin)
+    if abs(f(b) - f(a)) < 1e-6
+        fmin = f(a + (b - a)/2);
+        xmin = a + (b - a)/2;
+        return
+    end
+
+    %% Identifying bounds for sub intervals. 
+    u = a + (b - a)/3;
+    v = a + (2*(b - a))/3;
+
+    %% Recurse
+    if f(u) < f(v)
+       [fmin, xmin] =  bisection(f, a, v);
+       return
+    end
+
+    if f(v) < f(u)
+        [fmin, xmin] = bisection(f, u, b);
+        return
+    end
+end
+
+
+function [fmin,xmin] = BisectionMethod(f, a, b, n)
+%% Solution to calcone, bisection method applied to n sub intervals. 
+%% Initializing minimum vectors. 
+fmin = [];
+xmin = [];
+
+%% Applying bisection to n sub intervals
+interval = (b - a)/n;
+for i = 1:n
+    [fminInterval,xminInterval] = bisection(f, a + ((i - 1)*interval), a + (i*interval));
+    fmin = [fminInterval fmin];
+    xmin = [xminInterval xmin];
+end
+
+%% Pulling smallest f(x), x pair of all sub intervals. 
+[y, index] = min(fmin);
+x = xmin(index);
+end
+

@@ -1,0 +1,522 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math  \mod e
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+% \mod ify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#9 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+
+
+
+% 7.3  10bcd, 17, 24, 34.
+% 7.4  5, 11, 13.
+% 8.1  1ace, 2ace, 3, 7.
+% 8.2  1, 3, 5.
+
+
+To show a set is a subring we need to show that it is a subgroup under addition and closed under multiplication. 
+a - b is in the subring
+ab is in the subgring. 
+
+
+\section*{\textbf{Section 7.3}}
+
+\begin{exercise}[\textbf{7.3.10}] Decide which of the following are ideals of the ring $\ZZ[x]$
+  \begin{enumerate}
+    \item[b.] The set of all polynomials whose coefficient of $x^2$ is a multiple of 3.
+    \begin{proof} Let $G$ be the set fo all polynomials whose coefficient of $x^2$ is a multiple of 3. Note that 
+      the polynomials $p(x) = 0x^2 + x$ and $q(x) = 3x^2 + x$ are in $G$. By multiplication we find that $p(x)q(x) = 3x^3 + (1)x^2$ cannot
+      be in $G$ since 1 is not a multiple of 3. Thus $G$ is not a subring of $\ZZ[x]$ and therefore not an ideal $\ZZ[x]$.
+    \end{proof}
+    \vspace{.15in}
+
+    \item[c.] The set of all polynomials whose constant term, coefficient of $x$ and coefficient of $x^2$ are all zero. 
+    \begin{proof} Let $G$ be the set of all polynomials whose constant term, coefficient of $x$ and coefficient of $x^2$ are all zero.
+      Let $p(x), q(x) \in G$, such that $p(x) = \alpha_3 x^3 + \alpha_4 x^4 \dots \alpha_{j}x^{j}$ and $q(x) = \beta_3 x^3 + \beta_4 x^4 \dots \beta_{n}x^{n}$ 
+      where $\alpha_0, \alpha_1, \alpha_2, \beta_0, \beta_1, \beta_2 = 0$. By polynomial addition we know that the additive inverse of $q(x) \in G$. Note that
+      $p(x) - q(x)$ is a polynomial of the form $p(x) - q(x) = (\alpha_3 - \beta_3)x^3 + (\alpha_4 - \beta_4)x^4 \dots $, so by definition $p(x) - q(x) \in G$. 
+      Now consider $p(x)q(x)$, 
+      \begin{equation*}
+        p(x)q(x) = \sum_{i = 0}^{j + n} \left(\sum_{k = 0}^i \alpha_k \beta_{i - k}\right) x^i.
+      \end{equation*}
+      Note that the sum $\sum_{k = 0}^i \alpha_k \beta_{i - k}$ is guaranteed to have zero terms until at least $i = 6$ and we get $\alpha_3\beta_3 x^6$. Therefore
+      $p(x)q(x) \in G$. Therefore $G$ is a subring of $\ZZ[x]$. 
+
+
+      Now let $q(x) \in \ZZ[x]$, defined as before with $\beta_0, \beta_1, \beta_2$ possibly nonzero and consider $p(x)q(x)$. Note that again, the sum  $\sum_{k = 0}^i \alpha_k \beta_{i - k}$ 
+      is guaranteed to have zero terms until at least $i = 3$ where we get $\alpha_3\beta_0 x^3$. So $p(x)q(x) \in G$ and since multiplication is commutative in $\ZZ$ we get $q(x)p(x) \in G$.
+      Thus $G$ is an ideal. 
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[d.] $\ZZ[x^2]$ (i.e., the set of all polynomials in which only even powers of $x$ appear). 
+    \begin{proof} Suppose for the sake of contradiction that $\ZZ[x^2]$ is an ideal of $\ZZ[x]$. Note that 
+      $p(x) = x^2 \in \ZZ[x^2]$ and $q(x) = x \in \ZZ[x]$. Since $\ZZ[x^2]$ is an ideal we know that $p(x)q(x) \in \ZZ[x^2]$
+      however $p(x)q(x) = x^3$ which is not in $\ZZ[x^2]$. 
+    \end{proof}
+    \vspace{.15in}
+
+  \end{enumerate} 
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{7.3.17}] Let $R$ and $S$ be nonzero rings with identity and denote there respective identities by $1_R$ and $1_S$.
+  Let $\varphi: R \to S$ be a nonzero homomorphism of rings. 
+  \begin{enumerate}
+    \item[a.] Prove that if $\varphi(1_R) \neq 1_S$ then $\varphi(1_R)$ is a zero divisor in $S$. Deduce that if $S$ is an integral domain
+    then every ring homomorphism from $R$ to $S$ sends the identity of $R$ to the identity of $S$. 
+    \begin{proof} Suppose $R$ and $S$ be nonzero rings, $\varphi: R \to S$ be a nonzero homomorphism of rings and $\varphi(1_R) \neq 1_S$.
+      Let $\varphi(1_R) = s \in S$. Since $\varphi$ is a homomorphism we know that $\varphi(1_R) = \varphi(1_R1_R) = \varphi(1_R)\varphi(1_R)$, by substitution we get
+      $s = s^2$, by subtraction we get $s - s^2 = 0$ which implies $s(1_S - s) = 0$. Since $s = \varphi(1_R) \neq 1_S$ it must follow that $(1_S - s)$ is nonzero and since
+      $\varphi$ is a nonzero homomorphism and with $s \neq 0$ we conclude that $s$ is a zero divisor. 
+
+
+      Suppose $S$ was an integral domain. By definition $S$ has no zero divisors, therefore by the contrapositive of the previous result we find that $\varphi(1_R)  =  1_S$.\\\\
+      If $\varphi(1_R) \neq 1_S$ then $S$ is not an integral domain. $\to$ If $S$ is an integral domain then $\varphi(1_R) = 1_S$.
+    \end{proof}
+    \vspace{.15in}
+
+    \item[b.] Prove that if $\varphi(1_R) = 1_S$ then $\varphi(u)$ is a unit in $S$ and that $\varphi(u^{-1}) = \varphi(u)^{-1}$ for each unit $u$ in $R$. 
+    \begin{proof} Suppose $\varphi(1_R) = 1_S$. Let $u \in R$ be a unit, and note that $\varphi(u)\varphi(u^{-1}) = \varphi(uu^{-1}) = \varphi(1_R) = 1_S$. Thus $\varphi(u)$ is 
+      unit in $S$. Thus $\varphi(u^{-1}) = \varphi(u)^{-1}$.
+    \end{proof}
+    \vspace{.15in}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}[\textbf{7.3.24}] Let $\varphi: R \to S$ be a ring homomorphism. 
+  \begin{enumerate}
+    \item[a.] Prove that if $J$ is an ideal of $S$ then $\varphi^{-1}(J)$ is an ideal of $R$. Apply this to the special case when $R$
+    is a subring of $S$ and $\varphi$ is the inclusion homomorphism to deduce that if $J$ is an ideal of $S$ then $J \cap R$ is an ideal of $R$. 
+    \begin{proof} Suppose $J$ is an ideal of $S$ and let $\varphi^{-1}(J)$ be the pre-image of $J$ in $R$. We will show that $\varphi^{-1}(J)$ is closed under 
+      subtraction and multiplication. Let $a, b \in \varphi^{-1}(J)$, and note that $\varphi(a - b) = \varphi(a) - \varphi(b)$, since $J$ is a subring we know that $\varphi(a - b) \in J$ thus $a - b \in \varphi^{-1}(J)$.
+      Similarly we get $\varphi(ab) = \varphi(a)\varphi(b)$, since $J$ is a subring we know that $\varphi(ab) \in J$ thus $ab \in \varphi^{-1}(J)$.
+      
+
+      Let $j \in J$, $\varphi^{-1}(j) \in \varphi^{-1}(J)$, and $r \in R$. 
+      Note that $\varphi(\varphi^{-1}(j)r) = \varphi(\varphi^{-1}(j))\varphi(r) = j\varphi(r) = j'$ where $j' \in J$ since $J$ is an ideal. Since $\varphi^{-1}(j)r$ maps to an element in $J$
+      it must be the case that $\varphi^{-1}(j)r \in \varphi^{-1}(J)$. Since $J$ is an ideal the same argument can be made for $r\varphi^{-1}(j) \in \varphi^{-1}(J)$. Thus $\varphi^{-1}(J)$ is an ideal of $R$.
+
+
+      Suppose $R$ is a subring of $S$ and $\varphi$ is the inclusion homomorphism. In this case $\varphi^{-1}(J)$, the pre-image of $J$ in $R$ is simply $J \cap R$ which by the previous result must be an ideal of $R$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[b.] Prove that if $\varphi$ is surjective and $I$ is and ideal of $R$ then $\varphi(I)$ is an ideal of $S$. Give and example where this fails if $\varphi$ is not surjective. 
+    \begin{proof} Suppose that $\varphi$ is surjective and $I$ is and ideal of $R$. Let $a, b \in \varphi(I)$ and note that there exists $i, j \in I$ such that $\varphi(i) = a$, $\varphi(j) = b$.
+      By substitution we get, $a - b = \varphi(i) - \varphi(j) = \varphi(i - j)$, since $I$ is also a subring we get that $i - j \in I$ so $a - b = \varphi(i - j) \in \varphi(I)$. Similarly we know that 
+      $ab = \varphi(i)\varphi(j) = \varphi(ij)$, and since $I$ is also a subring we know that $ij \in I$ so $ab = \varphi(ij) \in \varphi(I)$.
+
+      Let $s \in S$ and note that since $\varphi$ is a surjection there exists some $n \in R$ such that $\varphi(n) = s$. Note that $as = \varphi(i)\varphi(n) = \varphi(in)$ since $I$ is an ideal we know that $in \in I$ and thus 
+      $as \in \varphi(I)$. The same argument can be made for $sa$ since $I$ is an ideal. Thus $\varphi(I)$ is an ideal in $S$.
+
+      For an example consider the inclusion map from $\ZZ$ to $\QQ$. Let $I = \ZZ$ and note that $\varphi(\ZZ) = \ZZ$ in $\QQ$. We find that $1(\frac{1}{3}) = \frac{1}{3} \not\in I$. 
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}[\textbf{7.3.34}] Let $I$ and $J$ be ideal in $R$.
+    \begin{enumerate}
+    \item[a.] Prove that $I + J$ is the smallest ideal of $R$ containing both $I$ and $J$. 
+    \begin{proof} Suppose $I$ and $J$ be ideal in $R$ and consider $I + J = \{a + b: a \in I, b \in J\}$. Let $a, b \in I + J$ such that $a = a_i + a_j$ and $b = b_i + b_j$. 
+      Note that $a - b = (a_i + a_j) - (b_i + b_j) = (a_i - b_i) + (a_j - b_j)$ since $I, J$ are both subrings we get that  $a - b = (a_i - b_i) + (a_j - b_j) \in I + J$. 
+      Note that $ab = (a_i + a_j)(b_i + b_j) = a_i(b_i + b_j) + a_j(b_i + b_j)$ since $I, J$ are both ideals we get that $ab = a_i(b_i + b_j) + a_j(b_i + b_j) \in I + J$. 
+      Similarly let $r \in R$ and note that $ar = (a_i + a_j)r = a_ir + a_jr$ and since $I, J$ are both ideals we get that $ar = a_ir + a_jr \in I + J$. The same argument applies to show $ra \in I + J$. 
+
+
+      Now suppose that $S$ is an ideal of $R$ such that $I, J \subseteq S$. Note that $a_i, a_j \in S$ and since $S$ is also a subring we know that $a_i + a_j \in S$ thus $I + J \subseteq S$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[b.] Prove that $IJ$ is an ideal contained in $I \cap J$. 
+    \begin{proof} Suppose $I$ and $J$ be ideal in $R$ and consider $IJ$. Let $a, b \in IJ$, by definition we know that $a = \sum_k^n \alpha_k\beta_k$ and $b = \sum_k^m i_k j_k$ where $\alpha_k, i_k \in I$ and $\beta_k, j_k \in J$. 
+      Note that $a - b = \sum_k^n \alpha_k\beta_k - \sum_k^m i_k j_k$ is just another finite sum of products of ideals $I$ and $J$. Note that $ab = (\sum_k^n \alpha_k\beta_k)(\sum_k^m i_k j_k) = \sum_k^n (\sum_l^m i_l j_l)\alpha_k\beta_k$ 
+      since $I$ is an ideal we know that $(\sum_l^m i_l j_l)\alpha_k = O_k$ for some $O_k \in I$. Thus $ab = \sum_k^n O_k\beta_k \in IJ$.
+      
+      Let $r \in R$ and note that $ar = (\sum_k^n \alpha_k\beta_k)r = \sum_k^n \alpha_k(\beta_kr)$, since $J$ is an ideal we know that $(\beta_kr) \in I$ and thus $ar \in IJ$. A similar argument can be made for $ra$, noting that $I$ is an ideal. 
+      Note that by definition $a =\sum_k^n \alpha_k\beta_k$ every term $(\alpha_k\beta_k)$ is in $I$ and $J$ since $\alpha_k \in I$ and $\beta_k \in J$. Therefore $a \in I \cap J$ and thus $IJ$ is an ideal contained in $I \cap J$.
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[c.] Give and example where $IJ \neq I \cap J$.
+    \begin{proof} Let $I = 2\ZZ$ and $J = 4\ZZ$. Note that $IJ = 2\ZZ 4\ZZ = 8\ZZ$ and $I \cap J = 2\ZZ \cap 4\ZZ = 4\ZZ$. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[d.] Prove that if $R$ is commutative and if $I + J = R$ then $IJ = I\cap J$. 
+    \begin{proof} Suppose $R$ is commutative and $I + J = R$. By the previous results we have show that $IJ \subseteq I\cap J$. 
+      Let $a \in I \cap J$. Note that since $I$ and $J$ are ideals we know that $I \cap J$ is an ideal. Let $r \in R$, since $R = I +J$
+      let $r = i + j$. Since $I \cap J$ is an ideal $ar \in I \cap J$. Note that $ar = a(i + j) = ai + aj$. Since $I$ and $J$ are ideals 
+      $ar \in I + J$. Therefore $I \cap J \subseteq IJ$ thus $IJ = I\cap J$.
+    \end{proof}
+    \vspace{.15in}
+
+
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+\section*{\textbf{Section 7.4}}
+
+
+
+\begin{exercise}[\textbf{7.4.5}]Let $R$ be a ring with identity $1 \neq 0$. Prove that if $M$ is an ideal such that $R/M$ is a field then $M$
+  is a maximal ideal. 
+    \begin{proof} Suppose $M$ is an ideal such that $R/M$ is a field. For the sake of contradiction suppose $M$ is not a maximal ideal. Therefore there exists some ideal $I$
+      such that $M \subseteq I \subset R$. By the Lattice Isomorphism Theorem the ideals of $R$ containing $M$ correspond bijectively to 
+      the ideals of $R/M$. Note that $R/M$ is commutative, let $aM, bM \in R/M$ and note that $aMbM = aMM = aM = M = bM = bMM = bMaM$. Since $R/M$ is also a field we know by Proposition 9 that it's only ideals must be
+      $0$ and $R/M$. Since the Lattice Isomorphism Theorem gives us three ideals of $R/M$ but Proposition 9 gives only 2, we have a contradiction.
+
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{7.4.11}] Assume $R$ is commutative. Let $I$ and $J$ be ideals of $R$ and assume $P$ is a prime ideal of $R$ that contains $IJ$. Prove either $I$ or $J$ is contained in $P$. 
+    \begin{proof} Suppose $I$ and $J$ be ideals of $R$ and let $P$ be a prime ideal of $R$ that contains $IJ$. Without loss of generality suppose $I \not\subseteq P$. 
+      Let $a \in IJ$ such that $a = ij$ where $i \in I$ and $j \in J$. Note that by the definition of a prime ideal since $R$ is commutative we know that if $ij \in P$ either $i \in P$ or $j \in P$. Since $I \not\subseteq P$ we conclude that 
+      $j \in P$ and therefore $J \subseteq P$. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{7.4.13}]  Let $\varphi: R \to S$ be a homomorphism of commutative rings.\\
+  \begin{enumerate}
+    \item[a] Prove that if $P$ is a prime ideal of $S$ then either $\varphi^{-1}(P) = R$ or $\varphi^{-1}(P)$ is a prime ideal of $R$. Apply this to 
+    the special case when $R$ is a subring of $S$ and $\varphi$ is the inclusion homomorphism to deduce that if $P$ is a prime ideal of $S$ then 
+    $P \cap R$ is either $R$ or a prime ideal of $R$. 
+    \begin{proof} Suppose $P$ is a prime ideal of $S$. By 7.3.24(a) we know that $\varphi^{-1}(P)$ is an ideal in $R$. Consider $a, b \in R$ such that $ab \in \varphi^{-1}(P)$. 
+      Note that $\varphi(ab) = \varphi(a)\varphi(b) \in P$ and since $P$ is a prime ideal and $S$ is commutative at least one of the two elements $\varphi(a) \in P$ or $\varphi(b) \in P$.
+      If only one element is in $P$ without loss of generality we know that $a \in \varphi^{-1}(P)$ and thus $\varphi^{-1}(P)$ is prime. If both elements are in $P$ we conclude that 
+      $R \subseteq \varphi^{-1}(P)$ and therefore $\varphi^{-1}(P) = R$ since we would conclude that both $a, b \in \varphi^{-1}(P)$.
+
+      Again like in problem $7.3.24(a)$ when $R$ is a subring of $S$ and $\varphi$ is the inclusion map $\varphi^{-1}(P) = P \cap R$ and the result follows from above. 
+    \end{proof}
+\vspace{.15in}
+
+    \item[b]Prove that if $M$ is a maximal ideal of $S$ and $\varphi$ is surjective then $\varphi^{-1}(M)$ is a maximal ideal of $R$. Give an example to show that this need not be the case of $\varphi$ is not surjective. 
+     \begin{proof} Suppose $M$ is a maximal ideal of $S$ and $\varphi$ is surjective. For the sake of contradiction suppose $\varphi^{-1}(M)$ is not a maximal ideal of $R$, then there exists some 
+      ideal $I$ such that $\varphi^{-1}(M) \subset I \subset R$. By 7.3.24(b) since $\varphi$ is surjective and $I$ is an ideal it must follow that $\varphi(I)$ is an ideal in $S$. However since 
+      $\varphi^{-1}(M) \subset I$ and $M$ is maximal in $S$ it must follow that $\varphi(I) = S$. Yet since $\varphi$ is surjective it must also follow that $I = R$ a contradiction. 
+
+      %% Add example
+    \end{proof}
+
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.5in}
+
+
+
+\section*{\textbf{Section 8.1}}
+
+\begin{exercise}[\textbf{8.1.1}] For each of the following pairs of integers $a$ and $b$, determine their greatest common divisor $d$
+  and write $d$ as a linear combination $ax + by$ of $a$ and $b$. 
+  \begin{enumerate}
+    \item[a.] $a = 20$, $b = 13$ 
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        20 &= 13(1) + 7\\
+        13 &= 7(1) + 6\\
+        7 &= 6(1) + 1\\
+        6 &= 6(1) + 0
+      \end{align*}
+      Which gives us $(20, 13) = 1$. By back substitution we get the following, $1 = 7 - 6 = 7 - (13 - 7) = 2(7) - 13 = 2(20 - 13) - 13 = 2(20) - 3(13)$.
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[c.] $a = 11391$, $b = 5673$
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        11391 &= 5673(2) + 45\\
+      5673 &= 45(126) + 3\\
+        45 &= 3(15) + 0
+      \end{align*}
+      Which gives us $(11391, 5673) = 3$. By back substitution we get the following, $3 = 5673 - 45(126) = 5673 - (11391 - (2)5673)(126) = 253(5673) - 126(11391)$
+    \end{proof}
+    \vspace{.15in}
+
+
+
+    \item[e.] $a = 91442056588823$, $b = 779086434385541$
+    \begin{proof} Using the euclidean algorithm we get the following, 
+      \begin{align*}
+        779086434385541 &= 91442056588823(8) + 47549981674957\\
+        91442056588823 &= 47549981674957(1) + 43892074913866\\
+        47549981674957 &= 43892074913866(1) + 3657906761091\\
+        43892074913866 &= 3657906761091(11) + 3655100541865\\
+        3657906761091 &=  3655100541865(1) + 2806219226\\
+        3655100541865 &= 2806219226(1302) + 1403109613\\
+        2806219226 &= 1403109613(2) + 0
+      \end{align*}
+      Which gives us $(91442056588823,779086434385541) = 1403109613$. By back substitution we get, $1403109613 = 277522(91442056588823) - 32573(779086434385541)$
+    \end{proof}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}[\textbf{8.1.2}] For each of the following pairs of integers $a$ and $n$, show that $a$ is relatively prime
+  to $n$ and determine the inverse of $a  \mod  n$
+  \begin{enumerate}
+    \item[a.] $a = 13$, $n = 20$
+    \begin{proof} In the previous problem we found that $a$ and $n$ are relatively prime since the $gcd(a, n) = 1$. We also showed that 
+      $1 = 2(20) - 3(13)$ so we get $-3(13) \cong 1  \mod  20$ and therefore $-3  \mod  20 = 17  \mod  20$ is the inverse of $13$. 
+      \end{proof}
+    \vspace{.15in}
+
+    \item[c.] $a = 1891$, $n = 3797$ 
+    \begin{proof} By the euclidean algorithm we get the following, 
+      \begin{align*}
+        3797 &= 1891(2) + 15\\
+        1891 &= 15(126) + 1\\
+        15 &= 1(15) + 0.
+      \end{align*}
+      Which gives us that $(1891,3797) = 1$. By back substitution we get that $ 1 = 253(1891) - 126(3797)$. Therefore 
+      we know that $-126(3797) = 1  \mod  1891$ and therefore $-126  \mod  1891 = 1765  \mod  1891$ is the inverse of $3797  \mod  1891$. 
+      \end{proof}
+
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{8.1.3}] Let $R$ be a Euclidean Domain. Let $m$ be the minimum integer in the set of norms of nonzero 
+  elements of $R$. Prove that every nonzero element of $R$ of norm $m$ is a unit. Deduce that a nonzero element of norm zero (if 
+  such an element exists) is a unit.  
+    \begin{proof} Let $R$ be a Euclidean Domain. Suppose $m$ is the minimum integer in the set of norms of nonzero 
+      elements of $R$. Choose $n\in R$ such that $N(n) = m$. By definition of Euclidean Domain for all $a \in R$ 
+      there exists $q, r \in R$ such that $a = qn + r$ where either $r = 0$ or $N(r) < N(n)$. Since $N(n)$ is minimal for all $R$
+      we know that $r = 0$ and therefore $a = qn$. Since $1 \in R$ there exists a $q \in R$ such that $1 = qn$ thus $n$ is a unit in $R$.
+      
+      Since the norm function is defined on $N: \RR \to \ZZ \cup \{0\}$ we know that if a $n \in R$ such that $N(n) = 0$ and $n \neq 0$ will have the property 
+      that for every $a \in R$ there exists $q, r \in R$ such that $a = qn + r$ forces $r = 0$. Since $1 \in R$ we know that for some $q$, $1 = qn$. Thus $n$ is a unit.   
+       \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{8.1.7}] Find the generator for the ideal $(85, 1 + 13i)$ in $\ZZ[i]$, i.e. the greatest common divisor for $85$
+  and $1 + 13i$, by the Euclidean Algorithm. Do the same for the ideal $(47 - 13i, 53 + 56i)$.
+    \begin{proof}[Solution] As outlined in Example $3$ of Section 8.1 we know that The Gaussian integers are a Euclidean Domain under the norm $N(a + bi) = a^2 + b^2$. 
+      Recall the division algorithm for The Gaussian integers under norm $N$, for all $\alpha, \beta \in \ZZ[i]$ there exists some $(p + qi), \gamma \in \ZZ[i]$ such that 
+      $\alpha = (p + qi)\beta + \gamma$ where $N(\gamma) \leq \frac{1}{2}N(\beta)$. 
+      We begin the Euclidean algorithm, note that 
+      \begin{equation*}
+        \frac{85}{1 + 13i} = \frac{85(1 - 13i)}{(1 + 13i)(1 - 13i)} = \frac{85 - (85)13i}{170} = \frac{1}{2} - \frac{13}{2}i. 
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = 1 - 7i$. Finding the product $(1 + 13i)(1 - 7i) = 92 + 6i$. Solving for $\gamma = 85 - (92 + 6i) = -7 - 6i$.
+      Double checking norms we get, $N(-7 - 6i) = 7^2 + 6^2 = 85 \leq 85 = \frac{1}{2}170 N(1 + 13i)$. 
+      So our first step looks like, 
+      \begin{equation*}
+        85 = (1 - 7i)(1 + 13i) + (-7 - 6i).
+      \end{equation*}
+      Computing the next step we first check the quotient,
+      \begin{equation*}
+        \frac{1 + 13i}{-7 - 6i} = \frac{(1 + 13i)(-7 + 6i)}{(-7 - 6i)(-7 + 6i)} = \frac{-85 - 85i}{85} = -1 - 1i.
+      \end{equation*}
+      Which gives us our final step, 
+      \begin{equation*}
+        1 + 13i = (-7 - 6i)(-1 - 1i) + 0.
+      \end{equation*}
+      Therefore the greatest common divisor for $85$ and $1 + 13i$ is $(-7 - 6i)$.\\\\
+
+      
+      Applying the Euclidean algorithm for $47 - 13i$ and $53 + 56i$, first we compute the following quotient, 
+      \begin{equation*}
+        \frac{53 + 56i}{47 - 13i} = \frac{(53 + 56i)(47 + 13i)}{(47 - 13i)(47 + 13i)} = \frac{1763 + 3321i}{2378} = \frac{43}{58} + \frac{81}{58}i 
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = 1 + i$. Finding the product $(47 - 13i)(1 + i) = 60 + 34i$. Solving for $\gamma = (53 + 56i) - (60 + 34i) = -7 + 22i$.
+      Double checking norma we get, $N(-7 + 22i) = 533 \leq 1189  = \frac{2378}{2} = \frac{1}{2}N(47 - 13i)$. So our first step looks like, 
+      \begin{equation*}
+        53 + 56i = (1 + i)(47 - 13i) + (-7 + 22i).
+      \end{equation*}
+      Computing the next step we first check the quotient, 
+      \begin{equation*}
+        \frac{47 - 13i}{-7 + 22i} = \frac{(47 - 13i)(-7 - 22i)}{(-7 + 22i)(-7 - 22i)} = \frac{-615 - 943i}{533} = -\frac{15}{13} - \frac{23}{13}i.
+      \end{equation*}
+      Choosing a close $(p + qi) \in \ZZ[i]$ we get $(p + qi) = -1 - 2i$. Finding the product $(-7 + 22i)( -1 - 2i) = 51 - 8i$. Computing $\gamma = (47 - 13i) - (51 - 8i) = - 4 -5i$.
+      So our next step is 
+      \begin{equation*}
+        47 - 13i = (-1 - 2i)(-7 + 22i) + (-4-5i).
+      \end{equation*}
+      For the next step we compute the following quotient, 
+      \begin{equation*}
+        \frac{-7 + 22i}{-4-5i} = \frac{(-7 + 22i)(-4+5i)}{(-4-5i)(-4+5i)} = \frac{-82 - 123 i}{41} = -2 -3i.
+      \end{equation*}
+      Which gives us our final step, 
+      \begin{equation*}
+        -7 + 22i = (-2 -3i)(-4-5i) + 0.
+      \end{equation*}
+      Therefore greatest common divisor for $47 - 13i$ and $53 + 56i$ is $(-4-5i)$.
+
+    \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\section*{\textbf{Section 8.2}}
+%  ideals are comaximal if A + B = R
+
+\begin{exercise}[\textbf{8.2.1}]  Prove that in an Principal Ideal Domain $R$, two ideals $(a)$ and $(b)$ 
+  are comaximal if and only if a greatest common divisor of $a$ and $b$ is $1$. 
+    \begin{proof} Suppose $R$ is a Principal Ideal Domain and two ideal $(a)$ and $(b)$ 
+      are comaximal. By the definition of comaximal we know that $(a) + (b) = R$. By Proposition 6 we know that if 
+      $d$ is a generator for the principal ideal generated by $a$ and $b$ then $d = gcd(a, b)$. Therefore $(a), (b) \subseteq (d)$ and 
+      by (2) of Proposition 6, $(a) + (b) \subseteq (d)$. Since $(a)$ and $(b)$ are comaximal we know that $(a) + (b) = R$ therefore $(d) = R$. 
+      Thus $d = 1$ and therefore $gcd(a, b) = 1$. 
+
+       \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}[\textbf{8.2.3}] Prove that a quotient of a $P.I.D$ by a prime ideal is again a $P.I.D$.
+    \begin{proof} Suppose $R$ is a $P.I.D$ and $P$ is a prime ideal. If $P$ non zero then by Proposition 7
+      we know that $P$ is maximal in $R$. By Proposition 12 of Section 7.4, since $R$ is a $P.I.D$ it is therefore commutative and thus 
+      if $P$ is maximal $R/P$ is a field. Thus $R/P$ has only two ideals $0$ and $R/P$ which are both principal, thus $R/P$ is a $P.I.D$.
+       \end{proof}
+
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\end{document} 
+
+

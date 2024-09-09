@@ -1,0 +1,317 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+%Some useful shortcuts for our favorite fields
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\FF}{{\mathbb F}}
+
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\Longleftrightarrow}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Commenting tools
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\def\midd{\,\middle\vert\, }
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+
+\title{Assignment \#12 \today}
+
+\author{Coordinator: Stefano Fochesatto}
+\begin{document}
+\maketitle
+%\setstretch{2.5} %Use for 2.5 spacing
+\doublespacing %Use for double spacing
+
+
+\section*{Section 9.2}
+
+\begin{exercise}[\textbf{9.2.2} --- Noah Palmer] Let $\FF$ be a finite field of order $q$ and let $f(x)$ be a polynomial in $\FF[x]$ of degree $n\ge 1$. Prove that $\FF[x]/(f(x))$ has $q^n$ elements. [Use the preceding exercise.]
+  \begin{proof}
+  Let $\FF$ be a finite field of order $q$ and let $f(x)$ be a polynomial in $\FF[x]$ of degree $n\ge 1$. From the previous exercise we know that the elements $\overline{1}, \overline{x} ,\ldots,\overline{x^{n-1}}$ form a basis for the vector space $\FF[x]/(f(x))$. Thus, each element of $\FF[x]/(f(x))$ has the form $g(x)=a_0\overline{1}+a_1\overline{x}+\ldots+a_{n-1}\overline{x^{n-1}}$ for $a_i\in\FF$. Since there are $q$ elements in $\FF$ we have $q$ options for each $a_i$. There are $q^n$ choices for the $n$ coefficients of each element in $\FF[x]/((f(x))$ and so there are $q^n$ possible elements in $\FF[x](f(x))$.
+  \end{proof}
+  \end{exercise}
+  \vspace{.15in}
+
+  \begin{exercise}[\textbf{9.2.3} --- Oleksandr Bobrovnikov]
+    Let $f(x)$ be a polynomial in $F[x]$. Prove that $F[x]/(f(x))$ is a field if and only if $f(x)$ is irreducible. [Use Proposition 7, Section 8.2.]
+    \begin{proof}
+      We will use the following facts:
+      \begin{enumerate}[(i)]
+        \item If $F$ is a field then $F[x]$ is a PID.
+        \item In a PID every nonzero prime ideal is maximal.
+        \item Let $R$ be a commutative ring. The ideal $M\subset R$ is maximal if and only if $R/M$ is a field.
+        \item Let $R$ be a PID. Then $r\in R$ is prime if and only if it is irreducible.
+        \item Every maximal ideal of a commutative ring is a prime ideal.
+      \end{enumerate}
+      Suppose $f(x)$ is irreducible.
+      Then $f(x)$ is prime. Since $\deg f(x)\geq 1$, we deduce that $(f(x))$ is prime and nonzero, and thus is maximal.
+      Since $F[x]$ is a commutative ring, we deduce that $F[x]/(f(x))$ is a field.
+  
+      Suppose now $F[x]/(f(x))$ is a field. Then $(f(x))$ is maximal, and thus is prime and nonzero, so $f(x)$ is prime.
+      Since $F[x]$ is a PID, $f(x)$ is irreducible. 
+    \end{proof}
+  \end{exercise}
+  \vspace{.15in}
+
+  \begin{exercise}[\textbf{9.2.7} --- Glen Woodworth] Determine all the ideals of the ring $\ZZ[x]/(2,x^3+1)$.
+    \begin{proof}
+   By the correspondence isomorphism theorem for rings, we know that the ideals of $\ZZ[x]/(2,x^3+1)$ will bijectively correspond with the ideals of $\ZZ[x]$ containing $(2,x^3+1)$. Since $2$ is irreducible in $\ZZ[x]$, we know that 2 must be one of the generators in any ideal containing $(2)$. Note that $x^3+1=(x+1)(x^2-x+1)$ so that $(2,x+1)$ and $(2,x^2-x+1)$ are both ideals in $\ZZ[x]$ containing $(2,x^3+1)$.  Moreover, $x+1$ and $x^2-x+1$ are both irreducible in $\ZZ[x]$. Thus, there are only two proper ideals in $\ZZ[x]/(2,x^3+1)$. Thus, $(2,x+1)/(2,x^3+1)$ and $(2,x^2-x+1)/(2,x^3+1)$ are the only unique proper ideals in $ \ZZ[x]/(2,x^3+1)$. 
+     \end{proof}
+   \end{exercise}
+  \vspace{.15in}
+
+   
+
+
+\section*{Section 9.3}
+
+
+
+\begin{exercise}[\textbf{9.3.1} --- Glen Woodworth]Let $R$ be an integral domain with quotient field $\FF$ and let $p(x)$ be a monic polynomial in $R[x]$. Assume that $p(x)=a(x)b(x)$ where $a(x)$ and $b(x)$ are monic polynomials in $\FF[x]$ of smaller degree than $p(x)$. Prove that if $a(x)\notin R[x]$ then $R$ is not a unique factorization domain. Deduce that $\ZZ[2\sqrt{2}]$ is not a UFD. 
+  \begin{proof}
+ Suppose $a(x)\notin R[x]$. For a contradiction, suppose $R$ is a UFD. Note that $a(x)\ne 1$ because $a$ is monic and $a(x)\notin R[x]$. If $b(x)$ is constant, then $b(x)=1$, so $a(x)=p(x)\in R[x]$, a contradiction. Now, suppose $a(x),b(x)$ are nonconstant polynomials. By Gauss' Lemma there are nonzero elements $r,s\in\FF$ such that $ra(x)=a'(x)$ and $sb(x)=b'(x)$ both lie in $R[x]$ and $p(x)=a'(x)b'(x)$ is a factorization in $R[x]$.  We have 
+ \[p(x)=a'(x)b'(x)=ra(x)sb(x)=rsa(x)b(x).\]
+ Since $p,a,$ and $b$ are all monic polynomials, and $a(x)b(x)$ is be monic, which means $rs=1\in R$. Note that since $a(x)$ is monic while $ra(x)=a'(x)\in R[x],$ we know $r\in R[x]$. Similarly, since $b(x)$ is monic and $sb(x)=b'(x)\in R[x]$, $s$ must be in $R[x]$ as well. Then $a(x)=1a(x)=sra(x)\in R[x]$, a contradiction because we assumed $a(x)\notin R[x]$.  \\
+ Consider $\ZZ[2\sqrt{2}]$. We have $x^2-2\in\ZZ[2\sqrt{2}][x]$. Note $x^2-2=(x-\sqrt{2})(x+\sqrt{2})$.
+ Since $1/2\in\QQ[2\sqrt{2}]$, we know $\pm\sqrt{2}\in\QQ[2\sqrt{2}]$ so that $(x-\sqrt{2}),(x+\sqrt{2})\in\QQ[2\sqrt{2}][x]$. Since $\sqrt{2}\notin\ZZ[2\sqrt{2}]$, we know $(x-\sqrt{2}),(x+\sqrt{2})\notin\ZZ[2\sqrt{2}][x]$. By the result above, $\ZZ[2\sqrt{2}]$ is not a UFD.
+   \end{proof}
+ \end{exercise}
+ \vspace{.15in}
+
+
+
+
+
+\begin{exercise}[\textbf{9.3.3} --- Noah Palmer] Let $\FF$ be a field. Prove that the set $R$ of polynomials in $\FF[x]$ whose coefficient of $x$ is equal to $0$ is a subring of $\FF[x]$ and that $R$ is not a UFD. [Show that $x^6=(x^2)^3=(x^3)^2$ gives two distinct factorization of $x^6$ into irreducibles.]
+  \begin{proof}
+  Let $\FF$ be a field and consider the set $R$ of polynomials in $\FF[x]$ whose coefficient of $x$ is equal to $0$. Observe that $R$ is nonempty since $1\in R$. Now let $p(x),q(x)\in R$ such that $p(x)=p_0+p_2x^2+\ldots+p_kx^k$ and $q(x)=q_0+q_2x^2+\ldots+q_nx^n$ and  assume without loss of generality that $k<n$. Observe that $p(x)-q(x)=(p_0-q_0)+(p_2-q_2)x^2+\ldots+(p_k-q_k)x^k+\ldots-q_nx^n\in R$ and $p(x)q(x)=p_0q_0+(p_0q_2+q_0p_2)x^2+\ldots+p_kq_mx^{n+k}\in R$. Hence, $R$ is a subring of $\FF[x]$. Note that $x^2$ and $x^3$ are irreducible in $R$ since $x\not\in R$. Hence, $x^6=(x^2)(x^2)(x^2)$ and $x^6=(x^3)(x^3)$ and so $R$ is not a UFD.
+  \end{proof}
+  \end{exercise}
+  \vspace{.15in}
+
+
+
+
+
+\section*{Section 9.4}
+\begin{exercise}[\textbf{9.4.1} --- Noah Palmer] Determine whether the following polynomials are irreducible in the rings indicated. For those that are reducible, determine their factorization into irreducibles. The notation $\FF_p$ denotes the finite field $\ZZ/p\ZZ$, $p$ a prime.
+  \begin{enumerate}[(a)]
+  \item $x^2+x+1$ in $\FF_2[x]$.
+  \item $x^3+x+1$ in $\FF_3[x]$.
+  \item $x^4+1$ in $\FF_5[x]$.
+  \item $x^4+10x^2+1$ in $\ZZ[x]$.
+  \end{enumerate}
+  \begin{proof}We show that the following polynomials are either irreducible or reducible.
+  \begin{enumerate}[(a)]
+  \item Note that $x^2+x+1$ has no roots in $\FF_2$ and so by Proposition $10$ in Section $9.4$ it is irreducible.
+  \item Note that $x^3+x+1$ has the root $x=1\mod(3)$ in $\FF_3$ and so it is reducible. We can factor it as follows $x^3+x+1=(x+2)(x^2+x+2)$.
+  \item Note that $x^4+1\equiv x^4-4=(x^2-2)(x^2+2)$ thus $x^4+1$ is reducible in $\FF_5[x]$. 
+  \item We apply the rational roots test, note that $1$ is the only integer which divides $a_0$ and is the only integer which divides $a_4$. Thus, the only possible roots of $x^4+10x^2+1$ are $1$ and $-1$. Since $(1)^4+10(1)^2+1\neq 0$ and $(-1)^4+10(-1)^2+1\neq 0$ it follows that it has no roots. Now to check if $x^4+10x^2+1$ has any quadratic factors we suppose that $(x^2+ax+b)(x^2+cx+d)=x^4+10x^2+1$. Thus, $bd=1$, $(ac+b+d)x^2=10x^2$, $(a+c)x^3=0$, and $(bc+ad)x=0$. Hence, $a=-c$ and $b,d=1$ or $-1$. If $b,d=1$ then $2-c^2=10$ which has no integer solutions. Instead, if $b,d=-1$ then $-2-c^2=10$ which has no integer solutions and so no quadratic factors exist. Thus, since no linear or quadratic factors exist it follows that $x^4+10x^2+1$ is irreducible.
+  \end{enumerate}
+  \end{proof}
+  \end{exercise}
+  \vspace{.15in}
+
+  \begin{exercise}[\textbf{9.4.2} --- Oleksandr Bobrovnikov]
+    Prove that the following polynomials are irreducible in $\ZZ[x]$:
+    \begin{enumerate}[(a)]
+      \item $x^4-4x^3+6$
+      \begin{proof}
+        Using Eisenstein's Criterion for $2\in\mathbb P$, since $2\mid 4$, $2\mid 6$, and $2^2\nmid 6$, we deduce that this polynomial is irreducible over $\ZZ$.
+      \end{proof}
+      \item $x^6 +30 x^5-15x^3+6x-120$
+      \begin{proof}
+        Using Eisenstein's Criterion for
+         $3\in\mathbb P$,
+         since $3\mid 30$, $3\mid 15$, $3\mid 6$, $3\mid 120$  and $3^2\nmid 12$,
+         we deduce that this polynomial is irreducible over $\ZZ$.
+      \end{proof}
+      \item $x^4+4x^3+6x^2+2x+1$
+      \begin{proof}
+        Let $x=t-1$. Then $x^4+4x^3+6x^2+2x+1=(t-1)^4+4 (t-1)^3+6 (t-1)^2+2 (t-1)+1=t^4-2 t+2$.
+        Using Eisenstein's Criterion for
+         $2\in\mathbb P$,
+         since $2\mid 2$,   and $2^2\nmid 2$,
+         we deduce that this polynomial is irreducible over $\ZZ$.
+      \end{proof}
+      \item $\frac{(x+2)^p-2^p}{x}$, where $p$ is an odd prime.
+      \begin{proof}
+        % \comment{{\Huge BLA}}
+        Note that
+        % \begin{equation}
+        %   \frac{(x+2)^p-2^p}{x}=\frac{(x+2-2)\sum\limits_{k=0}^{p-1} (x+2)^k 2^{p-k-1} }{x}=
+        %   \sum\limits_{k=0}^{p-1} (x+2)^k 2^{p-k-1}=
+        %   2^{p-1}+2^{p-2}(x+2)+2^{p-3}(x+2)^2+\dots+2(x+2)^{p-2} +(x+2)^{p-1}.
+        % \end{equation}
+        % Now we use Eisenstein's Criterion for
+        % $2\in\P$,
+        % since $2\mid 2$,   and $2^2\nmid 2$,
+        \begin{multline}
+          \frac{(x+2)^p-2^p}{x}=\frac{\sum\limits_{k=0}^p {p\choose k} x^{p-k} 2^{k} -2^p}{x}=
+          \frac{\sum\limits_{k=0}^{p-1} {p\choose k} x^{p-k} 2^{k}}{x}=
+          \sum\limits_{k=0}^{p-1} {p\choose k} x^{p-1-k} 2^{k}=\\
+          x^{p-1}+\underset{p\text{ divides all coefficients}}{\underbrace{2px^{p-2}+\dots+2^{p-3}(p-1)px}}+2^{p-1}p.
+        \end{multline}
+        Using Eisenstein's Criterion for
+         $p\in\mathbb P$, since $p^2\nmid 2^{p-1}p$,
+         we deduce that this polynomial is irreducible over $\ZZ$.
+      \end{proof}
+    \end{enumerate}
+  \end{exercise}
+  \vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{9.4.5} --- Glen Woodworth] Find all the monic irreducible polynomials of degree $\le 3$ in $\FF_2[x]$, and the same in $\FF_3[x].$
+  \begin{proof}
+ We need only check the polynomials in $\FF_2[x]$ containing 1 because these are the only ones that may be irreducible. We must check $1, x+1,x^2+1,x^2+x+1,x^3+1,x^3+x+1,x^3+x^2+1,$ and $x^3+x^2+x+1$. Clearly, 1 and $x+1$ are irreducible but $x^2+1=(x+1)^2$ in $\FF_2[x]$, so $x^2+1$ is reducible. We now apply Proposition 10, which states that a polynomial of degree two or three is reducible over a field $F$ if and only if it has a root in $F$.  For $a(x)=x^2+x+1$, we have $a(0)=1$ and $a(1)=1$, so $a(x)$ has no roots in $\FF_2$. Thus, $a(x)=x^2+x+1$ is irreducible. For $b(x)=x^3+1$, we have $b(1)=0$, so $b(x)=x^3+1$ is reducible. For $c(x)=x^3+x+1$, we have $c(0)=1$ and $c(1)=1$. Hence, $c(x)=x^3+x+1$ is irreducible. For $d(x)=x^3+x^2+1$, we have $d(0)=1$ and $d(1)=1$, so $d(x)=x^3+x^2+1$ is irreducible. For $e(x)=x^3+x^2+x+1$, note $e(1)=0$, so $e(x)=x^3+x^2+x+1$ is reducible. Hence, the monic irreducible polynomials of degree $\le 3$ in $\FF_2[x]$ are $1,x+1,x^2+x+1,x^3+x+1,$ and $x^3+x^2+1$.\\
+ For $\FF_3[x]$, we must check polynomials of the following forms $x+a$, $x^2+ax+b$, and $x^3+ax^2+bx+c$ where $a,b,c\in\FF_3$. For $x+a$, we have to check $x+1$, $x+2$, $2x+1$, and $2x+2$. Note that $2x+2=2(x+2)$ where $2$ is not a unit in $\FF[x]$, so $2x+2$ is reducible. On the other hand, it is clear that $x+1,$ $x+2,$ and $2x+1$ are irreducible because no constant can be factored out of any of these in the integers. For $x^2+ax+b$, we apply Proposition 10. Using the quadratic formula, we have \[x=\frac{-a\pm\sqrt{a^2-4b}}{2}.\] We check the five possibilities, $a=0$ and $b=1$, $a=0$ and $b=2$,  $a=1$ and $b=1$, $a=1$ and $b=2$, and $a=b=2$. If $a=0$ and $b=1$, we have \[x=\sqrt{-4}/2\equiv\sqrt{2}/2\mod 3,\] which is not an integer so that $x^2+1$ is irreducible by Proposition 10. If $a=0$ and $b=2$, we have \[x=\sqrt{-8}/2\equiv\sqrt{1}/2\mod 3,\] which is not an integer so that $x^2+2$ is irreducible. If $a=1$ and $b=1$, we have \[x=(-1\pm\sqrt{1-4})/2\equiv2/2\equiv 1\mod 3.\] To check, we have $1^2+1(1)+1=3\equiv 0\mod 3$, so $x^2+x+1$ is reducible. If $a=1$ and $b=2$, we have \[x=(-1\pm\sqrt{1-8})/2\equiv(2\pm\sqrt{2})/2\mod 3,\] which is not an integer so $x^2+x+2$ is irreducible. If $a=b=2$, we have \[x=(-2\pm\sqrt{4-4})/2\equiv1/2\mod 3,\] which is not an integer so $x^2+2x+2$ is irreducible. We now need to check polynomials of the form $p(x)=x^3+ax^2+bx+c$. We check each element of $r\in\FF_3$ to see if $a,$ $b$, and $c$ could be chosen so that $p(r)=0$ but we omit the trivial cases. We have $p(1)=1+a+b+c$. So long as $a+b+c\equiv 2\mod 3$, we have $p(1)\equiv 0\mod 3$. Since anytime $c=0$, $p(x)$ is clearly reducible for any $x$, $a+b+c\equiv 2\mod 3$ means that the following combinations of $(a,b,c)$ will ensure $p(1)$ is reducible: $(a,b,c)=(0,1,1),(1,0,1),(0,0,2).$ Now, note $p(2)\equiv 2+a+2b+c\mod 3$. To ensure $p(2)$ has a root, we need $a+2b+c\equiv 1\mod 3$. Once again, we rule out $c=0$ as a trivial case, so we need only check when $a+2b+1\equiv 1\mod 3$ and $a+2b+2\equiv 1\mod3$. Simplifying, we need only check $a+2b\equiv0\mod 3$ and $a+2b\equiv 2\mod 3$. Then the following combinations of $(a,b,c)$ will ensure $p(2)$ is reducible: $(a,b,c)=(0,0,1),(1,1,1),(2,2,1),(0,1,2),(1,2,2),(2,0,2)$. Thus, every other combination of $a,b,$ and $c$ will be reducible (so long as $c\ne 0$). The monic irreducible polynomials of degree $\le 3$ in $\FF_3[x]$ are $1, x+1, x+2, 2x+1, x^2+1,x^2+2,x^2+x=2, x^2+2x+2,x^3+2x+1,x^3+2x+2,x^3+x^2+x+2,x^3+x^2+2x+1,x^3+x^2+2,x^3+2x^2+1,x^3+2x^2+x+2,x^3+2x^2+x+1,x^3+2x^2+2x+2.$
+   \end{proof}
+ \end{exercise}
+ \vspace{.15in}
+
+
+
+
+
+
+
+
+\begin{exercise}[\textbf{9.4.6} --- Stefano Fochesatto] Construct fields for which the following orders: $(a)9$, $(b)49$, $(c)8$, and $(d)81$.
+  \begin{enumerate}
+    \item[(a)] A field of order 9.
+    \begin{proof}
+      Consider $F = \FF_3[x]$ a field or order 3. Let $f(x) = x^2 + 1$ an irreducible polynomial of order 2 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 9.
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(b)] A field of order 49.
+    \begin{proof}
+      Consider $F = \FF_7[x]$ a field or order 7. Let $f(x) = x^2 + 1$ an irreducible polynomial of order 2 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 49.
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(c)] A field of order 8.
+    \begin{proof}
+      Consider $F = \FF_2[x]$ a field or order 2. Let $f(x) = x^3 + x + 1$ an irreducible polynomial of order 3 in $F$. By Exercise 2 of Section 9.2 we know that $F/(f(x))$ is order 8.
+    \end{proof}
+    \vspace{.15in}
+
+
+    \item[(d)] A field of order 81.
+    \begin{proof}
+      Consider $F = \FF_3[x]$ a field or order 3. Let $f(x) = x^4 + x + 2$, showing that $f(x)$ is irreducible in $F$
+      implies that $F/(f(x))$ is order $3^4 = 81$ as we have done in previous exercises. Clearly  $f(x) = x^4 + x + 2$ has no linear factors as it has no roots in $\FF_3$, $f(0) = 1$, $f(1) = 1$, and $f(2) = 2$. Suppose for the sake of contradiction that  $f(x)$ has quadratic factors
+
+      $f(x) = (x^2 + ax + b)(x^2 + cx + d) = x^4 + (a + c)x^3 + (ac + b + d)x^2 + (ad + bc)x + bd$. Therefore we get that $a + c = 0$, $ac + b + d = 0$, $ad + bc = 1$, and $bd = 2$. Since $c = -a$, by substitution we get $ad + bc = a(d - b) = 1$. So $b \neq d$ and since $bd = 2$, either $b = 2$ and $d = 1$ or vice versa.
+      Let $b = 2$ and $d = 1$ then $a(d - b) = 1$ gives that $a = -1$ and therefore $c = 1$, however we get that 
+      $-1 = (-1)(1) + 2 + 1 = ac + b + d = 0$ a contradiction. Let $b = 1$ and $d = 2$ then $a(d - b) = 1$ gives that $a = 1$ and therefore $c = -1$, however $-1 = (1)(-1) + 1 + 2 = ac + b + d = 0$ so we arrive at another contradiction. Therefore $f(x)$ is irreducible in $F$ and thus $F/(f(x))$ is order $3^4 = 81$.
+    \end{proof}
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}[\textbf{9.4.18} --- Stefano Fochesatto] Show that $6x^5 + 14x^3 - 21x + 35$ and $18x^5 - 30x^2 + 120x + 360$ are 
+  irreducible over $\QQ[x]$.
+  \begin{proof}
+    Applying Eisenstien's Criterion with prime $p = 7$ to show that $6x^5 + 14x^3 - 21x + 35$ is irreducible over $\ZZ[x]$ and also applying Eisenstein's Criterion with prime $p = 5$ to show that $18x^5 - 30x^2 + 120x + 360$ is irreducible 
+    over $\ZZ[x]$. By the contrapositive of Gauss's Lemma we can conclude that both polynomials are irreducible over $\QQ[x]$.
+  \end{proof}
+  \end{exercise}
+  \vspace{.5in}
+  
+
+
+
+
+
+\section*{Section 9.5}
+\begin{exercise}[\textbf{9.5.1} --- Oleksandr Bobrovnikov]
+  \def\rad{\operatorname{rad}}
+  \def\Nil{\mathfrak N}
+  Let $F$ be a field and let $f(x)$ be a nonconstant polynomial  in $F[x]$. Describe the nilradical of $F[x]/(f(x))$ in terms of factorization of $f(x)$.
+  \begin{proof}[Solution:]
+    Note that $F[x]$ is a UFD and suppose $f(x)=f_1(x)^{n_1}f_2(x)^{n_2}\dots f_k(x)^{n_k}$, where $f_j(x)$ are irreducible.
+    Recall that in the exercise 7.4.30 we proved that  $(\rad I)/I=\Nil (R/I)$ for any commutative ring $R$ and it's ideal $I$. So $\Nil (F[x]/(f(x)))=[\rad (f(x))]/(f(x))$.
+    Note that $\rad (f(x))=\left\{ g(x)\midd g(x)^n \in (f(x))\text{ for some }n \in \ZZ^+ \right\}$. Then $g(x)\in\rad (f(x))$ if and only if $f_j(x)\mid g(x)$ for every $1\leq j\leq k$. So $\rad(f(x))=(f_1(x)f_2(x)\dots f_k(x))$, and thus
+    $\Nil (F[x]/(f(x)))=(f_1(x)f_2(x)\dots f_k(x))/(f(x))$.
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}[\textbf{9.5.3} --- Stefano Fochesatto] Let $p$ be an odd prime in $\ZZ$ and let $n$ be a positive integer. Prove that $x^n - p$ is irreducible over $\ZZ[i]$.
+  \begin{proof} Suppose $p$ is an odd prime in $\ZZ$ and let $n$ be a positive integer. Since $p$ is an odd prime in $\ZZ$ it is either $p \cong 3 \mod 4$ or 
+    $p \cong 1 \mod 4$. By Proposition 18 (2.b) we know that if $p \cong 3 mod 4$ then $p$ is irreducible in $\ZZ[i]$. In which case $(p)$ is a prime ideal in $\ZZ[i]$
+    which satisfies Eisenstein's Criterion since $p \not\in (p)^2$. From Proposition 18 (2.c) we get that if
+    $p \cong 1 \mod 4$ then $p = (a + bi)(a - bi)$ where $(a + bi)$ and $(a - bi)$ are irreducible in $\ZZ[i]$. In which case $(a + bi)$ is a prime ideal in $\ZZ[i]$
+    which satisfies Eisenstein's Criterion since $p \not\in (a + bi)^2$. So $x^n - p$ is irreducible over $\ZZ[i]$.
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\end{document}

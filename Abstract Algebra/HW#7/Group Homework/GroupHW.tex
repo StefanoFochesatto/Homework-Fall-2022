@@ -1,0 +1,210 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Algebra Group}}
+\lhead{\emph{HW \#7 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Oleksandr Bobrovnikov}
+
+
+
+
+
+\begin{exercise}[\textbf{4.4.8} - Stefano Fochesatto] Let $G$ be a group with subgroups $H$ and $K$ with $H \leq K$
+  \begin{enumerate}
+    \item[a.] Prove that if $H$ is characteristic in $K$ and $K$ is normal in $G$ then $H$ is normal in $G$.\\
+    \begin{proof} Suppose that $H$ is characteristic in $K$ and $K$ is normal in $G$. By definition we know that for 
+      all $g \in G$, $gKg^{-1} = K$. Said another way we know that for all $\phi \in Inn(G)$ we get $\phi(K) = K$. Note 
+      that since $\phi(K) = K$ we know that $\phi|_K \in Aut(K)$. Since $H$ is characteristic in $K$, by definition for all $\sigma \in Aut(K)$
+      $\sigma(H) = H$. Thus $\phi|_K(H) = H$ and since $H \leq K$, $\phi(H) = H$ thus $H \trianglelefteq G$. 
+      
+    \end{proof}
+    \item[b.] Prove that if $H$ ic characteristic in $K$ and $K$ is characteristic in $G$ then $H$ is characteristic in $G$. Use this to prove 
+    that the Klein 4-group $V_4$ is characteristic in $S_4$.
+    \begin{proof}
+      Suppose $H \text{ Char } K$, and $k \text{ Char } G$. By definition  for all $\sigma_g \in Aut(G)$ we know that 
+      $\sigma_g(K) = K$. Note that $\sigma_g|_k \in Aut(K)$. We also have by definition that for all $\sigma_k \in Aut(K)$, $\sigma_k(H) = H$. 
+      Therefore $\sigma_g|_k(H) = H$ and since $H \leq K$ we get that $\sigma_g(H) = H$ thus $H \text{ Char } G$.
+      
+
+      We will show that $V_4$ is characteristic in $S_4$ by showing that $V_4\text{ Char }A_4$ and $A_4\text{ Char }S_4$. Note that since automorphisms preserve 
+      element order, for all $\sigma \in Aut(S_4)$, $\sigma(A_4)$ must map $\sigma(\langle(123), (124), (134), (234) \rangle) = \langle(123), (124), (134), (234) \rangle$ and the identity permutations must map together. This 
+      leaves only 3 elements of order 2 in $A_4$ left to map therefore it must be the case that $\sigma(\langle(12)(34), (13)(24)\rangle) = \langle(12)(34), (13)(24)\rangle$ (it can't be either the transpositions or the 4-cycles as we can only map 3 elements and those map in pairs). 
+      Thus for all $\sigma \in Aut(S_4)$, $\sigma(A_4) = A_4$. Note that $V_4 = \sigma(\langle(12)(34), (13)(24)\rangle)$, again since automorphisms preserve element order, for all $\sigma \in Aut(A_4)$, $\sigma(\langle(12)(34), (13)(24)\rangle) = \langle(12)(34), (13)(24)\rangle$ and 
+      identity permutations must map. Thus for all $\sigma \in Aut(A_n)$, $\sigma(V_4) = V_4$. Thus by the previous conclusion $V_4$ is characteristic in $S_4$. 
+    \end{proof}
+
+
+    \item[c.] Give an example to show that if $H$ is normal in $K$ and $K$ is characteristic in $G$ then $H$ need not be normal in $G$. \\
+    \begin{proof}[Solution] We have just shown that $V_4 \text{ Char } A_4$. Consider $H = \langle (12)(34) \rangle$ and note that $H \leq V_4$. Note that 
+      $H \trianglelefteq V_4$, since every $(ab)(cd)$ is it's own inverse we see that $(ab)(cd)(12)(34)(ab)(cd) = (12)(34)$. However $H$ is not normal in $S_4$, 
+      consider $(24)(12)(34)(24) = (14)(23)$.   
+    \end{proof}
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.5.25} - Stefano Fochesatto] Prove that if $G$ is a group of order 385 then $Z(G)$ contains a Sylow 7-subgroup 
+  of $G$ and a Sylow 11-subgroup is normal in $G$. 
+   \begin{proof}Suppose $G$ has order 385. Consider the prime factorization, $385 = (5)(7)(11)$.
+    Therefore in $G$ there exists a Sylow 5-subgroup order of order $5$, a Sylow 7-subgroup $P_7$, of order $7$
+    and a Sylow 11-subgroup $P_{11}$,of order 11. From Sylow's Theorem we know that $n_{7}$ divides $(11)(5) = 55$, and it 
+    has form $n_{7} = 1 + k(7)$. Note that $k > 7$ will not divide $55$. Consider the following table which demonstrates that 
+    for $0<k\leq7$, $n_7$ does not divide 55.  
+    \begin{figure}[H]
+      \begin{tabular}{ c || c | c | c | c | c | c | c | c} 
+        $k(7)$ & $0$ &$7$ &$14$& $21$& $28$& $35$& $42$& $49$\\
+        \hline
+        $n_{7}$ & 1& 8& 15& 22& 29& 36& 43& 50\\
+        \hline
+        remainder & 0 & 1& 5& 11 & 3 & 17 & 32& 45 
+      \end{tabular}.
+    \end{figure}
+    Thus $n_{7} = 1$ and similarly to the previous problem $P_7 \trianglelefteq G$. Therefore $N_G(P_7) = G$ and recall that 
+    the quotient group $N_G(P_7)/C_G(P_7) \cong S_{P_7}$ for some $S_{P_7} \in Aut(P_7)$. Since $P_7$ is cyclic from Proposition 16 of 
+    Section 4.4 we know that $|Aut(P_7)| = \varphi(17) = 16$. Applying Lagrange's Theorem we know that  $S_{P_7} \mid 16$ and therefore 
+    $|N_G(P_7)|/|C_G(P_7)| \mid 16$. Since $P_7$ is normal we get  $385/|C_G(P_7)| \mid 16$, and since and since no divisor of $16$ other than $1$ divides $385$
+    we get that $|N_G(P_7)|/|C_G(P_7)| = 1$ so therefore $|C_G(p_7)| = 385$ which implies that $C_G(P_7) = G$. Thus $P_7 \in Z(G)$.
+
+
+    From Sylow's theorem we know that $n_{11}$ divides $(5)(7) = 35$, and it has the form $n_{11} = 1 + k(11)$. Clearly $12 \nmid 35$, 
+    $23 \nmid 35$ and $34 \nmid 35$, so $n_{11} = 1$ and therefore $P_{11} \trianglelefteq G$. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.5.44} - Stefano Fochesatto] Let $p$ be the smallest prime dividing 
+  the order of the finite group $G$. If $P \in Syl_p(G)$ and $P$ is cyclic prove that 
+  $N_g(P) = C_g(P)$. 
+  \begin{proof} Suppose that $p$ is the smallest prime dividing $|G|$, with $P \in Syl_p(G)$ 
+    being cyclic. By definition there $|P| = p^{\alpha}$, and $|G| = p^{\alpha}m$. Note that 
+    since $P$ is cyclic we have that $P \leq C_G(P)\leq N_G(P)$. Therefore the quotient group 
+    $|N_G(P)/C_G(P)|$ cannot divide $p$. Recall that the quotient group $N_G(P)/C_G(P) \cong S_{P}$ for some $S_{P} \in Aut(P)$. Since $P$ is cyclic from Proposition 16 of 
+    Section 4.4 we know that $|Aut(P)| = \varphi(p^{\alpha}) = (p-1)p^{\alpha - 1}$. From Lagrange's Theorem we know that $|N_G(P)/C_G(P)|\mid p - 1$. 
+    Since $|N_G(P)/C_G(P)|$ cannot divide $p$ we know that $|N_G(P)/C_G(P)| = p - 1$ or $|N_G(P)/C_G(P)| = 1$. If $|N_G(P)/C_G(P)| = p - 1$ since $N(G) \leq G$ it would 
+    imply that $p - 1 \mid |G|$ which is a contradiction since $p$ is the smallest prime dividing $|G|$. Therefore $|N_G(P)/C_G(P)| = 1$ and thus $N(G) = C(G)$.
+  \end{proof}
+
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+
+
+
+  \end{document}

@@ -1,0 +1,15 @@
+function [xf,Hist] = secant(df, dtol, x0, x1)
+%This function takes an inline derivative 
+%a derivative tolerance and an initial value and computes secant method for
+% minimization. 
+Hist = [x0, x1];
+i = 2; 
+    while abs(df(Hist(i))) >= dtol
+        disp(Hist(i))
+        px = -((Hist(i) - Hist(i - 1))*df(Hist(i)))/(df(Hist(i)) - df(Hist(i-1)));
+        x = Hist(i) + px;
+        Hist = [Hist, x];
+        i = i + 1;
+    end
+xf = Hist(i - 1);
+end

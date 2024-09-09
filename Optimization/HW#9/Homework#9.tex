@@ -1,0 +1,515 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%\textbf{Code:}
+%\begin{center}
+%  \lstinputlisting{NewtonsMethodP5.m}
+%\end{center}
+%
+%\textbf{Console:}
+%\begin{center}
+%  \lstinputlisting{P5C.txt}
+%\end{center}
+%\vspace{.15in}
+
+
+%\begin{figure}[H]
+%  \begin{center}
+%    \caption{The one-norm unit ball}
+%    \includegraphics[width=.76\textwidth]{1norm.png}
+%  \end{center}
+%\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 9}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+\begin{exercise}{3.1} Apply symmetric rank-one quasi-Newton method to solve, 
+  \begin{equation*}
+    \text{minimize } f(x) = \frac{1}{2}x^TQx - c^Tx
+  \end{equation*}
+  with, 
+  \begin{equation*}
+    Q = \begin{pmatrix}
+      5 & 2 & 1 \\
+      2 & 7 & 3 \\
+      1 & 3 & 9 
+    \end{pmatrix}
+    \text{ and }
+    c = 
+    \begin{pmatrix}
+      -9\\
+      0\\
+      -8
+    \end{pmatrix}
+  \end{equation*}
+  Initialize the method with $x_0 = (0, 0, 0)^T$ and $B_0 = I$. Use an exact line search. 
+  \begin{proof}[Solution] 
+    Applying symmetric rank one quasi-Newton method to solve this minimization problem begins with finding 
+    a descent direction $p_k$ by solving the following system, 
+    \begin{equation*}
+      B_kp_k = - \nabla f(x_k).
+    \end{equation*}
+    Recall that in Homework \#7 we proved that the step size for exact line search on 
+    a quadratic optimization problem is given by, 
+    \begin{equation*}
+      \alpha_k = \frac{-p_k^T \nabla f(x_k)}{p_k^TQp_k}.
+    \end{equation*}
+    We update $x$ using $\alpha_k$ from exact line search $x_{k + 1} = x_k + \alpha_k p_k$.
+    Then we compute the following to update our estimated hermitian $B$,
+    \begin{equation*}
+      s_k = x_{k + 1} - x_k,
+    \end{equation*}
+    \begin{equation*}
+      y_k = \nabla f(x_{k + 1}) - \nabla f(x_k),
+    \end{equation*}
+    \begin{equation*}
+      B_{k + 1} = B_k + \frac{(y_k - B_ks_k)(y_k - B_ks_k)^T}{(y_k - B_ks_k)^Ts_k}.
+    \end{equation*}
+    Below is an implementation of the symmetric rank-one quasi-Newton method using exact line search applied to the given problem,\\ 
+    \textbf{Code:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{sr1btquad.m}
+    \end{center}
+    
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{r1.txt}
+    \end{center}
+
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{3.3} Let $f$ be a strictly convect quadratic function of one variable. Prove that the 
+  secant method for minimization will terminate in exactly one iteration for any initial starting points
+  $x_0$ and $x_1$. 
+  \begin{proof} Suppose $f$ is a strictly convect quadratic function of one variable and let $x_0$ and $x_1$ be 
+    initial points. Note that $f$ is of the form $f(x) = ax^2 + bx + c$ where $2a > 0$ and $f'$ is of the form 
+    $f'(x) = 2ax + b$. Applying the secant method for minimization our first iteration looks like, 
+    \begin{equation*}
+      x_2 = x_1 - \frac{x_1 - x_0}{f'(x_1) - f'(x_0)}f'(x_1).
+    \end{equation*}
+    Checking if $f'(x_2) = 0$ we get, 
+    \begin{align*}
+      f'(x_2) &= 2a \left(x_1 - \frac{x_1 - x_0}{f'(x_1) - f'(x_0)}f'(x_1)\right) + b\\
+      &= 2a \left(x_1 - \frac{x_1 - x_0}{2a(x_1) + b - (2a(x_0) + b)}(2a(x_1) + b)\right) + b\\
+      &= 2a \left(x_1 - \frac{x_1 - x_0}{2a(x_1) - 2a(x_0)}(2a(x_1) + b)\right) + b\\
+      &= 2a \left(x_1 - \frac{x_1 - x_0}{2a(x_1 - x_0)}(2a(x_1) + b)\right) + b\\
+      &= 2a \left(x_1 - \left(\frac{2a(x_1)}{2a} + \frac{b}{2a}\right)\right) + b\\
+      &= 2a \left(- \frac{b}{2a}\right) + b\\
+      &= 0
+    \end{align*}
+    So the first order necessary conditions and the second order sufficient conditions are satisfied and we conclude that $x_2$ 
+    is a local minimizer. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{3.4} Let $C$ be a symmetric matrix of rank one. Prove that $C$ must have the form $C = \gamma w w^T$, where 
+  $\gamma$ is a scalar and $w$ is a vector of norm one. 
+  \begin{proof} Suppose $C$ is a symmetric matrix of rank one. Let $C = U\Sigma V^T$ be the singular value decomposition. Since 
+    $C$ is symmetric we know that $C = C^T$ and therefore $U\Sigma V^T = V\Sigma U^T$. It then 
+    follows that $U =  U\Sigma U^TV\Sigma^{-1} = U\Sigma V^TU\Sigma^{-1} = V$, and since $C$ is rank one $\Sigma$ has one non-zero 
+    singular value, so our decomposition simplifies to $C = U\Sigma V^T = \sigma_1 uv^T$, and since $U = V$ we get $u = v$. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.8} Let $B_{k + 1}$ be obtained from $B_k$ using the BFGS update formula. Prove that $B_{k + 1}s_k = y_k$. 
+  \begin{proof} Recall that the BFGS update formula give $B_{k + 1}$ by, 
+    \begin{equation*}
+      B_{k + 1} = B_k - \frac{(B_ks_k)(B_ks_k)^T}{s_k^TB_ks_k} + \frac{y_ky_k^t}{y_k^Ts_k}.
+    \end{equation*}
+    Multiplying on the left by $s_k$ and simplifying we get the following, 
+    \begin{align*}
+      B_{k + 1}s_k &=  B_ks_k - \frac{(B_ks_k)(B_ks_k)^Ts_k}{s_k^TB_ks_k} + \frac{y_ky_k^T}{y_k^Ts_k}s_k,\\
+     &=  B_ks_k - \frac{(B_ks_k)(s_k^TB_k^T)s_k}{s_k^TB_ks_k} + \frac{y_k(y_k^Ts_k)}{y_k^Ts_k},\\
+     &=  B_ks_k - \frac{(B_ks_k)(s_k^TB_k^Ts_k)}{s_k^TB_ks_k} + \frac{y_k(y_k^Ts_k)}{y_k^Ts_k},\\
+     &=  B_ks_k - B_ks_k + y_k,\\
+     &=  y_k.
+    \end{align*}
+
+    \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{2.1} Consider the problem, 
+  \begin{align*}
+    \text{minimize:  } &f(x) = x_1^2 + x_1^2x_3^2 + 2x_1x_2 + x_2^4 + 8x_2\\
+    \text{subject to:  } &2x_1 + 5x_2 + x_3 = 3.
+  \end{align*}
+  \begin{enumerate}
+    \item[(i)] Determine which of the following points are stationary points: $(0, 0, 2)^T$, $(0, 0, 3)^T$, and $(1, 0, 1)^T$. 
+    \begin{proof}[Solution] Computing the gradient and Hessian, 
+      \begin{equation*}
+        \nabla f(x) = 
+        \begin{pmatrix}
+          2x_1 + 2x_1x_3^2 + 2x_2\\
+          2x_1 + 4x_2^3 + 8\\
+          2x_1^2x_3
+        \end{pmatrix}
+      \end{equation*}
+      \begin{equation*}
+        \nabla^2 f(x) = 
+        \begin{pmatrix}
+          2x_3^2 + 2 & 2 & 4x_1x_3\\
+          2 & 12x_2^2 & 0\\
+          4x_1x_3 & 0 & 2x_1^2
+        \end{pmatrix}
+      \end{equation*}
+      Using the Lagrange Multipliers Necessary condition for optimality we need to see if there exists 
+      a scalar $\lambda$ such that $\nabla f(x_*) = A^T\lambda$. Note that for our problem $A^T = (2, 5, 1)^T$. 
+      Checking $(0, 0, 2)^T$ we get, 
+      \begin{equation*}
+        \nabla f(x) = 
+        \begin{pmatrix}
+          2(0) + 2(0)(2)^2 + 2(0)\\
+          2(0) + 4(0)^3 + 8\\
+          2(0)^2(0)
+        \end{pmatrix} =         \begin{pmatrix}
+          0\\
+          8\\
+          0
+        \end{pmatrix}
+        \neq
+        \begin{pmatrix}
+          2\\
+          5\\
+          1
+        \end{pmatrix}
+        \lambda.
+      \end{equation*}
+      Clearly there is no value for $\lambda$ which will make this expression true. So $(0, 0, 2)^T$
+      is not a stationary point.
+
+      Checking $(0, 0, 3)^T$ again we get,
+      \begin{equation*}
+        \nabla f(x) = 
+        \begin{pmatrix}
+          2(0) + 2(0)(2)^2 + 2(0)\\
+          2(0) + 4(0)^3 + 8\\
+          2(0)^2(0)
+        \end{pmatrix} =         \begin{pmatrix}
+          0\\
+          8\\
+          0
+        \end{pmatrix}
+        \neq
+        \begin{pmatrix}
+          2\\
+          5\\
+          1
+        \end{pmatrix}
+        \lambda.
+      \end{equation*}
+      Again we have the same situation where no value for $\lambda$ which will satisfy this expression so
+      $(0, 0, 2)^T$ is not a stationary point. 
+      
+      Checking $(1, 0, 1)^T$ we get, 
+      \begin{equation*}
+        \nabla f(x) = 
+        \begin{pmatrix}
+          2(1) + 2(1)(1)^2 + 2(0)\\
+          2(1) + 4(0)^3 + 8\\
+          2(1)^2(1)
+        \end{pmatrix} =         \begin{pmatrix}
+          4\\
+          10\\
+          1
+        \end{pmatrix}
+         = 
+        \begin{pmatrix}
+          2\\
+          5\\
+          1
+        \end{pmatrix}
+        (2).
+      \end{equation*}
+      As we see when we set $\lambda = 2$ we get that expression is satisfied so $(1, 0, 1)^T$ is indeed a minimizer. 
+
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(ii)] Determine whether each stationary point is a local minimizer, local maximizer, or saddle point. 
+    \begin{proof} To see what type of stationary point $x_* = (1, 0, 1)^T$ is we need to observe $Z^T\nabla^2f(x_*)Z$ where 
+      $Z$ is the null space matrix for $A$. Note that $Z$ can look like the following, 
+      \begin{equation*}
+        Z = \begin{pmatrix}
+          -\frac{1}{2} & -\frac{5}{2}\\
+          0 & 1\\
+          1 & 0
+        \end{pmatrix}.
+      \end{equation*}
+      Computing $Z^T\nabla^2f(x_*)Z$ we get, 
+      \begin{align*}
+        Z^T\nabla^2f(x_*)Z & = \begin{pmatrix}
+          -\frac{1}{2} & 0 & 1\\ 
+          -\frac{5}{2} & 1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+          2(1)^2 + 2 & 2& 4(1)(1)\\
+          2& 12(0)^2 & 0\\
+          4(1)(1) & 0 & 2(1)^2
+        \end{pmatrix}
+        \begin{pmatrix}
+          -\frac{1}{2} & -\frac{5}{2}\\
+          0 & 1\\
+          1 & 0
+        \end{pmatrix}\\
+        &=\begin{pmatrix}
+          -\frac{1}{2} & 0 & 1\\ 
+          -\frac{5}{2} & 1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+          4 & 2& 4\\
+          2& 0 & 0\\
+          4 & 0 & 2
+        \end{pmatrix}
+        \begin{pmatrix}
+          -\frac{1}{2} & -\frac{5}{2}\\
+          0 & 1\\
+          1 & 0
+        \end{pmatrix}\\
+        &= 
+        \begin{pmatrix}-1&-6\\ -6&15\end{pmatrix}
+      \end{align*}
+      Quickly solving for eigenvalues we get the following characteristic equation, 
+      $(-1-\lambda)(15 - \lambda) - 36 = \lambda^2-14\lambda-51 = (\lambda + 3)(\lambda - 17)$
+      which gives eigenvalues $-3$ and $17$ so the matrix is indefinite and $x_*$ is a saddle point. 
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{P18} Apply the forward difference formula $f'(x) \approx (f(x + h) - f(x))/h$
+  to estimate the gradient of the function, 
+  \begin{equation*}
+    f(x) = \exp(10x_1 + 2x_2^2)
+  \end{equation*}
+  at point $x = (-1, 1)$. Assuming that $\epsilon_{mach} = 2.2204 \times 10^{-16}$ on the computer 
+  you used, how accurate is the approximated gradient when you actually compute using the best value of $h$ and the 'simpler'
+  value of $h$, form page 425?
+  \begin{proof}[Solution] Applying the feed forward difference formula we get an approximate gradient of, 
+    \begin{equation*}
+      \hat{\nabla f(x)} = 
+      \begin{bmatrix}
+        \frac{e^{10(x_1 + h) + 2x_2^2} - e^{10x_1 + 2x_2^2}}{h}\\
+        \frac{e^{10x_1 + 2(x_2+h)^2} - e^{10x_1 + 2x_2^2}}{h}
+      \end{bmatrix}
+    \end{equation*}
+    Computing our estimated gradient with $hs = \sqrt{\epsilon_{mach}}$(simple h) value we get the following, \\
+
+      \textbf{Console:}
+      \begin{center}
+        \lstinputlisting[basicstyle = \small]{r2.txt}
+      \end{center}
+    The 'complex' value for $h$ is given by the following, 
+    \begin{equation*}
+      h_1 = \sqrt{\frac{2|f(x)|\epsilon}{|\frac{d^2f}{dx_1^2}(x)|}},
+    \end{equation*}
+    \begin{equation*}
+      h_2 = \sqrt{\frac{2|f(x)|\epsilon}{|\frac{d^2f}{dx_2^2}(x)|}}.
+    \end{equation*}
+    The partial derivatives that we will use are, 
+    \begin{equation*}
+      \frac{d^2f}{dx_1^2}(x) = 100e^{10x_1 + 2x_2^2},
+    \end{equation*}
+    \begin{equation*}
+      \frac{d^2f}{dx_2^2}(x) = e^{10x_1 + 2x_2^2}(16x_2^2 + 4).
+    \end{equation*}
+    Computing the separate $h$ values and plugging into our feed forward difference formula we get the following,\\
+
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{r3.txt}
+    \end{center}
+
+    Comparing our two approximation of the gradient we find that the more 'complex' $h$ value led to a single order of magnitude smaller 
+    error than the 'simple' $h$ value.\\
+
+
+    \textbf{Console:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{r4.txt}
+    \end{center}
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{P19} Suppose a user want to solve $min_{x \in \RR}$ for a smooth objective function $f: \RR^n \to \RR$, 
+  but they do not provide a gradient function $\nabla f(x)$. We can still use quasi-Newton if we apply finite differences to replace
+  the missing gradient. Use this idea to write a new code, 
+  \begin{equation*}
+    \text{function [xk, xklist] = sr1btfd(x0, f, tol, maxiters)}
+  \end{equation*}
+  which replaces the user-provided gradient in sr1bt.m with a finite-difference gradient. Test it on the Rosenbrock example, 
+  as is done rosencompare.m, and give iterations. (Don't worry about visualizing, or the contours.) How would it help if the user 
+  provided values for the typical scales of the gradient and the Hessian. 
+  \begin{proof}[Solution] The following is a modification of the sr1bt.m code removing instances where the gradient is computed with the 
+    user supplied function, now we estimate the gradient with a finite difference gradient using a simple value for $h = \sqrt{\epsilon_{mach}}$.\\
+    
+    
+    \textbf{Code:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{sr1btfd.m}
+    \end{center}
+
+    Testing this code on the Rosenbrock example we get 26 iterations, just like if we had provided the gradient information 
+    as in SR1BT. (They actually do also provide different iterations, I checked by subtracting the xklist objects and seeing if they are nonzero) \\
+
+       
+    \textbf{Code:}
+    \begin{center}
+      \lstinputlisting[basicstyle = \small]{r5.txt}
+    \end{center}
+    
+    If the user were to provide information about the scales fo the gradient and the Hessian, we could see if $\sqrt{\epsilon_{mach}}$
+    is a good approximation in the finite differences formula for $h$. Recall that in the finite differences formula 
+    we have a more complex $h$ value that is given by, 
+    \begin{equation*}
+      h_i = \sqrt{\frac{2|f(x)|\epsilon_{mach}}{\frac{d^2f}{dx_i^2}(x)}}.
+    \end{equation*}
+    The scale of the Hessian, or it's condition number would tell us how much these values for $h$ vary in the finite difference formula. 
+    A condition number close to 1 suggests that all second order partial derivatives are of the same order of magnitude and therefore 
+    $h_i$ are relatively similar in terms of size, in which case we might use the 'simple' formula for $h$. More directly if the value of the 
+    function and the value of the diagonal elements of the Hessian are of the same scale then the 'simple' $h$ will be suitable. 
+  \end{proof}
+\end{exercise}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

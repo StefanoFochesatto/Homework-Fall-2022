@@ -1,0 +1,395 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#8 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+
+
+
+%  5.1 4, 5, 10.
+%  5.2 2a-d, 4, 9.
+%  5.4 1, 2, 11, 17.
+%  5.5 1, 2, 8.
+
+
+
+
+\section*{\textbf{Section 5.1}}
+
+\begin{exercise}[\textbf{5.1.4}] Let $A$ and $B$ be finite groups and let $p$ be prime. Prove that any Sylow p-subgroup of $AxB$
+  is of the form $PxQ$, where $P \in Syl_p(A)$ and $Q \in Syl_p(B)$. Prove that $n_p(AxB) = n_p(A)n_p(B)$. Generalize both of these results 
+  to a direct product of any finite number of finite groups.
+  \begin{proof} Suppose $A$ and $B$ are finite groups and let $P$ be prime. We know that $|A| = p^{\alpha}m$ and $|B| = p^{\beta}n$ where $p \nmid m, n$.
+    Note that by properties of direct products we know that $|A x B| = p^{\alpha + \beta}mn$. Therefore by Sylow's Theorem there exists $H \in Syl_p(AxB)$ where 
+    $|H| = p^{\alpha + \beta}$ and $p \nmid m, n$. Consider $P \in Syl_p(A)$ and $Q \in Syl_p(B)$. Note that $P x Q \in Syl_p(AxB)$. By Sylow's Theorem we know every 
+    $H \in Syl_p(AxB)$ is conjugate to $PxQ$. Let $g \in A$ and $h \in B$ then there exists some $(g, h) \in (AxB)$ such that $H = (g, h)(P, Q)(g, h)^{-1} = (gPg^{-1}, hQh^{-1})$. 
+    By Sylow's Theorem, every $Syl_p(A)$ can be represented by some conjugation $gPg^{-1}$ and similarly with $hQh^{-1}$. Therefore every $H \in Syl_p(AxB)$ is of the form $(PxQ)$ where 
+    $P \in Syl_p(A)$ and $Q \in Syl_p(B)$.
+
+
+    Since every $H \in Syl_p(AxB)$ is of the form $(PxQ)$ where $P \in Syl_p(A)$ and $Q \in Syl_p(B)$ we know that there are only 
+    $n_p(A)n_p(B)$ ways to combine Sylow p-subgroups to get a $(PxQ)$ product. Thus $n_p(AxB) = n_p(A)n_p(B)$.
+
+    Let $G_1, G_2, \dots G_n$ be groups and let $G = G_1 x G_2 x \dots x G_n$, then any $X \in Syl_p(G)$ is of the form 
+    $G = (P_1, P_2, \dots ,P_n)$ where $P_i \in Syl_p(G_i)$ and $n_p(G) = \prod n_p(G_i)$. 
+
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{5.1.5}] Exhibit a nonnormal subgroup of $Q_8 X Z_4$
+  \begin{proof}[Solution:] Let $G = \langle k, 1\rangle = \{(k, 1), (-1, 2), (-k, 3), (1, 0)\}$. Note that $(i, 0) \in Q_8 X Z_4$ and 
+    $(i, 0)^{-1} = (-i, 0)$. Now note that $(i, 0) (k, 1) (-i, 0) = (ik(-i), 0) = ((-j)(-i), 0) = (-k, 0) \not\in G$. So $G$ is nonnormal. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{5.1.10}] Let $p$ be prime. Let $A$ and $B$ be two cyclic groups of order $p$ with generators $x$ and $y$, 
+  respectively. Set $E = AxB$ so that $E$ is the elementary abelian group of order $p^2$. Prove that the distinct subgroups of $E$ or order 
+  $p$ are 
+  \begin{equation*}
+    \langle x \rangle, \langle xy \rangle, \langle xy^2 \rangle\dots\langle xy^{p - 1} \rangle, \langle y \rangle
+  \end{equation*}
+  \begin{proof} Suppose $A$ and $B$ be two cyclic groups of order $p$ with generators $x$ and $y$. Let $E = AxB$ so that $E$ is the elementary abelian group of order $p^2$.
+    We have shown previously that $E$ has $p + 1$ distinct subgroups. Let's quickly recall, since each nonidentity element of $E$ has order $p$ by $(x^n, y^m)^{p} = (x^{pn}, y^{pm})$ and 
+    note that the order of $x^n$ and $y^m$ must be $p$ since $x$ and $y$ generate a prime cyclic group. So every element $(x^n, y^m) \in E$ generates a subgroup of order $p$. Considering 
+    Lagrange's Theorem we know that these subgroups intersect trivially, so $p^2 - 1$ total non identity elements get partitioned into subsets of size $p - 1$. This gives us that there are 
+    $\frac{p^2 - 1}{p - 1} = p+1$ subgroups of order $p$. Now we will show that the desired subgroups are distinct. By definition the first $p - 1$ subgroups are 
+    of the form $\langle xy^i\rangle$ where $0 \geq i \leq p - 1$. Suppose for the sake of contradiction that the subgroups are not distinct. Therefore there exists
+    some $\langle xy^i \rangle = \langle xy^j \rangle$ where $i \neq j$ and $0 \geq i, j \leq p - 1$. Therefore $(x^k, y^{i^k}) = (x^k, y^{j^k})$ for all $0 \geq k \leq p - 1$. Note that at $p = 1$
+    we get $(x, y^{i}) = (x, y^{j})$ which implies that $y^{i} = y^{j}$. Since $y$ generates a cyclic group and $0 \geq i, j \leq p - 1$ we have a contradiction. Therefore all subgroups are distinct and there are 
+    $p - 1$ of them so we found all subgroups. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\section*{\textbf{Section 5.2}}
+
+
+\begin{exercise}[\textbf{5.2.2}] In each of the following parts give the list of invariant factors for all abelian groups 
+  of the specified order:
+  \begin{enumerate}
+    \item[a.] A group of order 270.
+    \begin{proof}[Solution] Note that $270 = (2)(3^3)(5)$. To find the invariant factors we must first find the corresponding elementary divisors. 
+      Consider the first elementary divisor, with no grouped prime factors $(2, 3, 3, 3, 5)$ corresponds to the following invariant factor, $\ZZ_{30}\times \ZZ_{3}\times \ZZ_{3}$. 
+      Grouping a pair of $3$s we get $(2, 9, 3, 5)$ which corresponds to the following invariant factor $\ZZ_{90} \times \ZZ_{3}$. Finally we get the final invariant factor which 
+      pairs all $3$s together so we get $(2, 27, 5)$ which corresponds to $\ZZ_{270}$.  
+    \end{proof}
+    \vspace{.15in}
+
+    \item[b.] A group of order 9801. 
+    \begin{proof}[Solution] Note that $9801 = 3^411^2$.
+      \begin{center}
+        \begin{tabular}{c | c}
+         \text{Elementary Divisors}& \text{Invariant Factors} \\
+         \hline
+         3,3,3,3,11,11& $\ZZ_{33}\times \ZZ_{33}\times\ZZ_{3}\times\ZZ_{3}$\\
+         9,3,3,11,11& $\ZZ_{99}\times \ZZ_{33}\times\ZZ_{3}$\\
+         9,9,11,11& $\ZZ_{99}\times \ZZ_{99}$\\
+         27,3,11,11& $\ZZ_{297}\times \ZZ_{33}$\\
+         81,11,11& $\ZZ_{891}\times \ZZ_{11}$\\
+         3,3,3,3,121& $\ZZ_{363}\times \ZZ_{3}\times\ZZ_{3}\times\ZZ_{3}$\\
+         9,3,3,121& $\ZZ_{1089}\times \ZZ_{3}\times\ZZ_{3}$\\
+         9,9,121& $\ZZ_{1089}\times \ZZ_{9}$\\
+         27,3,121& $\ZZ_{3267}\times \ZZ_{3}$\\
+         81,121& $\ZZ_{9801}$
+        \end{tabular}
+      \end{center}
+    \end{proof}
+    \vspace{.15in}
+
+    \item[c.] A group of order 320. 
+    \begin{proof}[Solution] Note that $320 = 2^65$. 
+      \begin{center}
+        \begin{tabular}{c | c}
+         \text{Elementary Divisors}& \text{Invariant Factors} \\
+         \hline
+         2,2,2,2,2,2,5& $\ZZ_{10}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}$\\
+         4,2,2,2,2,5& $\ZZ_{20}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}$\\
+         4,4,2,2,5& $\ZZ_{20}\times\ZZ_{4}\times\ZZ_{2}\times\ZZ_{2}$\\
+         4,4,4,5& $\ZZ_{20}\times\ZZ_{4}\times\ZZ_{4}$\\
+         8,2,2,2,5& $\ZZ_{40}\times\ZZ_{2}\times\ZZ_{2}\times\ZZ_{2}$\\
+         8,4,2,5& $\ZZ_{40}\times\ZZ_{4}\times\ZZ_{2}$\\
+         8,8,5& $\ZZ_{40}\times\ZZ_{8}$\\
+         16,2,2,5& $\ZZ_{80}\times\ZZ_{2}\times \ZZ_{2}$\\
+         16,4,5& $\ZZ_{80}\times\ZZ_{4}$\\
+         36,2,5& $\ZZ_{160}\times \ZZ_{2}$\\
+         64,5& $\ZZ_{320}$
+        \end{tabular}
+      \end{center}
+    \end{proof}
+    \vspace{.15in}
+
+    \item[d.] A group of order 105, 
+    \begin{proof}[Solution] Note that $105 = (3)(5)(7)$. 
+      There is a single invariant factor $\ZZ_{7}\times\ZZ_{5}\times\ZZ_{3}$ corresponding to the $(3, 5, 7)$ elementary divisor. 
+    \end{proof}
+    \vspace{.15in}
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.15in}
+
+\begin{exercise}[\textbf{5.2.4}] In each of the parts a to d determine which pairs of abelian groups listed are isomorphic.
+  \begin{enumerate}
+    \item[a.] $\{ 4, 9\}, \{ 6, 6\}, \{ 8, 3\}, \{ 9, 4\}, \{ 6, 4\}, \{ 64\}$
+    \begin{proof}[Solution:] Finding the elementary divisors of each abelian group we get the following, 
+      \begin{center}
+        \begin{tabular}{c | c}
+         \text{Cyclic Decomposition}& \text{Elementary Divisors} \\
+         \hline
+         $\{ 4, 9\}$ & $(2^2,3^2)$\\
+         $\{ 6, 6\}$ & $(2,2,3,3)$\\
+         $\{ 8, 3\}$ & $(2^3,3)$\\
+         $\{ 4, 9\}$ & $(2^2,2^2)$\\
+         $\{ 6, 4\}$ & $(2,3,2^2)$\\
+         $\{ 64\}$ & $(2^6)$
+        \end{tabular}
+      \end{center}
+      Note only $\{ 4, 9\}$ and $\{ 9, 4\}$ have the same elementary divisor list so they are isomorphic abelian groups. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[b.] $\{2^2, 2(3^2)\}, \{2^2(3), 2(3)\}, \{2^3(3^2)\}, \{2^2(3^2), 2\}$
+    \begin{proof}[Solution:] Finding the elementary divisors of each abelian group we get the following, 
+      \begin{center}
+        \begin{tabular}{c | c}
+         \text{Cyclic Decomposition}& \text{Elementary Divisors} \\
+         \hline
+          $\{2^2, 2(3^2)\}$  & $(2^2,2,3^2)$\\
+          $\{2^2(3), 2(3)\}$ & $(2^2,3,2,3)$\\
+          $\{2^3(3^2)\}$     & $(2^3, 3^2)$\\
+          $\{2^2(3^2), 2\}$  & $(2^2,3^2 2)$
+        \end{tabular}
+      \end{center}
+      So we get that $\{2^2, 2(3^2)\}$ and $\{2^2(3^2), 2\}$ are isomorphic since they share the same elementary divisor list. 
+    \end{proof}
+    \vspace{.15in}
+
+    \item[c.] $\{5^2(7^2), 3^2(5)(7)\}, \{3^2(5^2)(7), 5(7^2)\}, \{3(5^2), 7^2, (3)(5)(7)\}, \{5^2(7), 3^2(5), 7^2\}$
+    \begin{proof}[Solution:] Finding the elementary divisors of each abelian group we get the following, 
+      \begin{center}
+        \begin{tabular}{c | c}
+         \text{Cyclic Decomposition}& \text{Elementary Divisors} \\
+         \hline
+          $\{5^2(7^2), 3^2(5)(7)\}$ & $(5^2,7^2,3^2,5,7)$\\
+          $\{3^2(5^2)(7), 5(7^2)\}$ & $(3^2, 5^2, 7, 5 7^2)$\\
+          $\{3(5^2), 7^2, (3)(5)(7)\}$ & $(3,5^2, 7^2, 3, 5, 7)$\\
+          $\{5^2(7), 3^2(5), 7^2\}$ & $(5^2, 7, 3^2, 5, 7^2)$
+        \end{tabular}
+      \end{center}
+      So we get that $\{5^2(7^2), 3^2(5)(7)\}$, $\{3(5^2), 7^2, (3)(5)(7)\}$, and $\{5^2(7), 3^2(5), 7^2\}$ are isomorphic since they share the same elementary divisor list. 
+    \end{proof}
+  \end{enumerate}
+
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{5.2.9}] Let $A = \ZZ_{60}\times \ZZ_{45}\times \ZZ_{12}\times \ZZ_{36}$. Find the number of elements of order 2
+  and the number of subgroups of index 2 in $A$. 
+  \begin{proof}[Solution:] Since $A$ is a finite abelian group we can construct it's elementary divisor decomposition. First consider the factorization of each 
+    integer group in the direct product, 
+    \begin{equation*}
+      A = \ZZ_{60}\times \ZZ_{45}\times \ZZ_{12}\times \ZZ_{36} \cong (\ZZ_{2^2}\times \ZZ_{3} \times \ZZ_5) \times (\ZZ_{3^2} \times \ZZ_5) \times (\ZZ_{2^2} \times \ZZ_{3}) \times (\ZZ_{2^2} \times \ZZ_{3^2}). 
+    \end{equation*}
+    Now we can reorder into the into the unique factorization in Theorem 5, 
+    \begin{equation*}
+      A \cong \ZZ_{2^2} \times \ZZ_{2^2} \times \ZZ_{2^2} \times \ZZ_{3} \times \ZZ_{3} \times \ZZ_{3^2} \times \ZZ_{3^2} \times \ZZ_{5} \times \ZZ_{5}
+    \end{equation*}
+    Note that there are seven elements of order 2 in $A$, namely, 
+    \begin{align*}
+      &(2,0,0,0,0,0,0)\\
+      &(0,2,0,0,0,0,0)\\
+      &(0,0,2,0,0,0,0)\\
+      &(2,2,0,0,0,0,0)\\
+      &(2,0,2,0,0,0,0)\\
+      &(0,2,2,0,0,0,0)\\
+      &(2,2,2,0,0,0,0)
+    \end{align*}
+
+      \end{proof}
+
+\end{exercise}
+\vspace{.15in}
+
+\section*{\textbf{Section 5.4}}
+
+\begin{exercise}[\textbf{5.4.1}] Prove that if $x, y \in G$ then $[y, x]= [x, y]^{-1}$. Deduce that for any subsets $A, B$ of $G$, $[A, B] = [B, A]$
+  \begin{proof} Suppose if $x, y \in G$ then we know $[y, x] = y^{-1}x^{-1}yx$. Note that $y^{-1}x^{-1}yx = ((xy)^{-1})(yx) = ((yx)^{-1}(xy))^{-1} = (x^{-1}y^{-1}xy)^{-1} = [x, y]^{-1}$.
+
+    Let $A, B \leq G$ and consider the group generated by $[A, B]$. By definition we know that
+    $[A, B] = \langle [a, b] | a \in A, b \in B \rangle$. Since $[A, B]$ is a group generated by a set i.e the set of all commutators, it must also be generated by a set of commutator inverses, $[A, B] = \langle [a, b]^{-1} | a \in A, b \in B \rangle$
+    By the previous result we know that $[a, b]^{-1} = [b, a]$ so $[A, B] = \langle [b, a] | a \in A, b \in B \rangle = [B, A]$. 
+  \end{proof}
+
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{5.4.2}] Prove that a subgroup $H$ of $G$ is normal if and only if $[G, H] \leq H$
+  \begin{proof}$(\rightarrow)$ Suppose $H \trianglelefteq G$. By definition of normal we know that for all $h \in H$ and $g \in G$ $g^{-1}hg \in H$. Note that $h^{-1}g^{-1}hg \in H$ since $h^{-1} \in H$. Therefore we know that $[G, H] = [H, G] \leq H$.\\
+
+  \noindent $(\leftarrow)$ Suppose $[G, H] \leq H$. Then for every $h \in H$ and $g \in G$ we know that 
+  $g^{-1}h^{-1}gh \in H$. Since $h^{-1} \in H$ we know that $g^{-1}h^{-1}gh(h^{-1}) = g^{-1}h^{-1}g \in H$. Since $H$ is a group we get that $(g^{-1}h^{-1}g)^{-1} = g^{-1}hg \in H$. Therefore $H \trianglelefteq G$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{5.4.11}] Prove that if $G = HK$ where $H$ and $K$ are characteristic subgroups of $G$ with $H \cap G = 1$ then $Aut(G) \cong Aut(H) \times Aut(K)$. Deduce that if $G$
+  is an abelian group of finite order then $Aut(G)$ is isomorphic to the direct product of the automorphism group of its Sylow subgroups. 
+  \begin{proof} Suppose $G = HK$ with $H$ and $K$ being characteristic subgroups of $G$ and $H \cap G = 1$. By definition for all $\sigma \in Aut(G)$ we know that $\sigma(H) = H$ and $\sigma(K) = K$.
+    Note that $\sigma|_H \in Aut(H)$ and $\sigma|_K \in Aut(K)$. Consider the map $\Sigma: Aut(G) \to Aut(H) \times Aut(K)$ defined by $\sigma \to (\sigma|_H,\sigma|_K)$.
+    Let $\sigma_1, \sigma_2 \in Aut(G)$ and consider that $\Sigma(\sigma_2 \circ \sigma_1) =((\sigma_2 \circ \sigma_1)|_H,(\sigma_2 \circ \sigma_1)|_K) =(\sigma_2|_H \circ \sigma_1|_H,\sigma_2|_K \circ \sigma_1|_K) = \Sigma(\sigma_2) \circ \Sigma (\sigma_1)$. So $\Sigma$ is a homomorphism.
+    
+    Suppose $\sigma_1. \sigma_2 \in Aut(G)$ such that $\Sigma(\sigma_1) = \Sigma(\sigma_2)$. By definition we know that, 
+    \begin{align*}
+      \Sigma(\sigma_1) &= \Sigma(\sigma_2)\\
+      (\sigma_1|_H, \sigma_1|_K) &= (\sigma_2|_H, \sigma_2|_K)\\
+    \end{align*}
+    Theorem 9 states that if $H, K \trianglelefteq G$ and $H \cap G = 1$ then there exists an isomorphism $\varphi: G = HK \cong H \times K$. So each pair $\sigma_1|_H = \sigma_2|_H$ and $\sigma_1|_K = \sigma_2|_K$ uniquely determines the automorphism in $G$ $\sigma_1 = \sigma_2$, thus $\Sigma$ is injective. Similarly we know that if $\sigma_h \in Aut(H)$ and $\sigma_k \in Aut(K)$ then there exists a $\varphi^{-1}(\sigma_h, \sigma_k) \in Aut(G)$. Thus $\Sigma$ is an isomorphism.
+
+    If $G$ is a finite abelian group then it has an elementary divisor decomposition. From Theorem 9
+    we get that the internal product of it's Sylow subgroups is isomorphic to it's elementary divisor decomposition. Since the orders of these Sylow subgroups are relatively prime we know that they intersect trivially. Furthermore since $G$ is abelian, these subgroups must be normal and therefore characteristic. Applying the previous result we get that $Aut(G)$ is isomorphic to the direct product of the automorphism group of its Sylow subgroups. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+\begin{exercise}[\textbf{5.4.17}] If $K$ is a normal subgroup of $G$ and $K$ is 
+  cyclic, prove that $G' \leq C_G(K)$.
+  \begin{proof} Suppose $K$ is a normal subgroup of $G$ and that $K$ is cyclic. Recall that since $K$ is cyclic, $Aut(K)$ is abelian. Now consider the map $\Sigma: G \to Aut(K)$ defined by 
+    $\Sigma(g) = \sigma_g$ where $\sigma_g$ is the conjugation action of $G$ on $K$.
+    This map is a homomorphism, let $g_1, g_2 \in G$ we get that for all $k \in K$, $\Sigma(g_1g_2) = g_1g_2(k) = g_1g_2 k (g_1g_2)^{-1} = g_1g_2 k g_2^{-1}g_1^{-1} = g_1 \circ g_2(k) = \Sigma(g_1) \circ \Sigma(g_2)$. 
+
+    By definition the $(Ker(\Sigma))$ is the set of all conjugation maps that are equivalent to $Id_K$. Therefore if $g \in Ker(\Sigma)$ then for all $k \in K$, $\sigma_g(k) = gkg^{-1} = k$. Therefore $g \in C_G(K)$. If $g \in C_G(K)$ then by definition for all $k \in K$, $gkg^{-1} = k$
+    therefore $g \in Ker(\Sigma)$. Thus $Ker(\Sigma) = C_G(K)$. 
+
+    By Proposition 7 it then follows that $G' \leq C_G(K)$.
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+\end{document} 
+
+
+
+
+
+

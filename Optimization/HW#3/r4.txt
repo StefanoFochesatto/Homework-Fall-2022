@@ -1,0 +1,15 @@
+>> f = @(x) sech(x)
+
+>> df = @(x) (-1).*f(x).*tanh(x)
+
+>> z = p8a(f,df)
+z =
+   7.609999999999881
+
+
+>> x = linspace(-1, 9, 1000);
+>> plot(x, f(x))
+>> hold on
+>> plot(x, df(x), color = 'r')
+>> plot(z, df(z), color = 'b', marker = 'X')
+>> plot(z, f(z), color = 'b', marker = 'X')

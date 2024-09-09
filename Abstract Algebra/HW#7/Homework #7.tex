@@ -1,0 +1,330 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{amsart}
+\usepackage{multicol}
+\usepackage{float}
+
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage[margin=1in]{geometry}
+
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{setspace} %used for doublespacing, etc.
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[all]{xy}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+	\renewcommand{\headrulewidth}{0.5pt} % and the line
+	\headsep=1cm
+	
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+%Some useful environments.
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{axiom}{Axiom}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem*{exercise}{Exercise}%[section]
+
+%Some useful shortcuts for our favorite fields
+\def\RR{\ensuremath{\mathbb R}} %Note, you can use these WITHOUT entering math mode
+\def\NN{\ensuremath{\mathbb N}}
+\def\ZZ{\ensuremath{\mathbb Z}}
+\def\QQ{{\ensuremath\mathbb Q}}
+\def\CC{\ensuremath{\mathbb C}}
+\def\EE{{\ensuremath\mathbb E}}
+
+%Some useful shortcuts for formatting lists
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+
+%Some useful shortcuts for formatting mathematical symbols
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\oimp}[1]{\overset{#1}{\iff}} %labeled iff symbol
+\newcommand{\bv}[1]{\ensuremath{ \vec{\mathbf{#1}}} } %makes a vector.
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}} %put something in caligraphic font
+\newcommand{\mpg}[1]{\marginpar{ #1}} %to put comments in margins
+\newcommand{\bsl}[1]{\texttt{\symbol{92}{\em #1}}} %for backslashes.
+\newcommand{\normale}{\trianglelefteq}
+\newcommand{\normal}{\triangleleft}
+
+%Code for formatting the proofs a little nicer for submitted homework
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par\doublespacing
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \list{}{%
+    \settowidth{\leftmargin}{\itshape\proofname:\hskip\labelsep}%
+    \setlength{\labelwidth}{0pt}%
+    \setlength{\itemindent}{-\leftmargin}%
+  }%
+  \item[\hskip\labelsep\itshape#1\@addpunct{:}]\ignorespaces
+}{%
+  \popQED\endlist\@endpefalse
+  \singlespacing
+}
+\makeatother
+
+
+%Commenting tools. You can ignore this stuff unless we're exchanging materials where I'm commenting in detail on how you are writing/using LaTeX.
+\usepackage{soul}
+\definecolor{highlight}{rgb}{1,0.6,0.6}
+\sethlcolor{highlight}
+\newcommand{\hlm}[1]{\colorbox{highlight}{$\displaystyle #1$}}
+\newtheoremstyle{mycomment}{\topsep}{-0in}{\small \itshape \sffamily}{}{\small \itshape\sffamily}{:}{.5em}{}
+\theoremstyle{mycomment}
+\newtheorem*{acomment}{\color{BrickRed}{Comment}}
+\newcommand{\com}[1]{{\color{OliveGreen}\begin{acomment}{#1} %#2 \color{black} 
+\end{acomment}\noindent}}
+%\newcommand{\com}[1]{{\color{BrickRed}{\\ Comment:}\color{OliveGreen}{#1} \\}}
+\newcommand{\red}[1]{{\color{BrickRed} #1}}
+\newcommand{\blue}[1]{{\color{MidnightBlue}#1}}
+\newcommand{\green}[1]{{\color{OliveGreen}#1}}
+\newcommand{\mwrong}[2]{\red{\cancel{#1}}\green{#2}}
+\newcommand{\wrong}[2]{\red{\sout{#1}}\green{#2}}
+\definecolor{OliveGreen}{rgb}{.3,.5,.2}
+\definecolor{MidnightBlue}{rgb}{.3,.4,.6}
+\newcommand{\pts}[1]{\hfill\blue{{#1}/5}}
+
+\chead{MATH 631F}
+\pagestyle{fancy}
+%Modify these items:
+\rhead{\emph{Stefano Fochesatto}}
+\lhead{\emph{HW \#7 --- \today}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\begin{document}
+
+\thispagestyle{fancy}
+\author{Coordinator: Coordinator's Name}
+
+%  Read §4.4-6, 5.1.
+%  
+%  Do problems: 
+%  
+%      4.4 1, 6, 7, 8, 9, 12.
+%      4.5 1, 14, 25, 26, 36, 44.
+%      4.6 3.
+%  
+
+
+\section*{\textbf{Section 4.4}}
+
+\begin{exercise}[\textbf{4.4.1}] If $\sigma \in Aut(G)$ and $\varphi_g$ is conjugation by $g$ prove $\sigma \varphi_g \sigma^{-1} = \varphi_{\sigma(g)}$ 
+  Deduce that $Inn(G) \trianglelefteq Aut(G)$. 
+  \begin{proof} Suppose $\sigma \in Aut(G)$ and $\varphi_g$ is conjugation by $g \in G$. Consider the map $\sigma \varphi_g \sigma^{-1}(a)$ for some $a \in G$ with 
+    the property that $\sigma^{-1}(a) = b$. Then by definition we get that 
+    \begin{equation*}
+      \sigma \varphi_g \sigma^{-1}(a) = \sigma \varphi_g(b) = \sigma(gbg^{-1}).
+    \end{equation*}
+    Finally by properties of isomorphisms we get that $\sigma(g)\sigma(b)\sigma(g^{-1}) = \sigma(g)a\sigma(g)^{-1}$. Thus $\sigma \varphi_g \sigma^{-1} = \varphi_{\sigma(g)}$.
+    It follows directly that $Inn(G) \trianglelefteq Aut(G)$ since we have shown that for all $\sigma \in Aut(G)$ and $\varphi_g \in Inn(G)$, then $\sigma \varphi_g \sigma^{-1} = \varphi_{\sigma(g)}$. 
+    We know $\sigma(g) \in G$ and therefore $\varphi_{\sigma(g)} \in Inn(G)$ thus by definition $Inn(G) \trianglelefteq Aut(G)$. 
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{4.4.6}] Prove that characteristic subgroups are normal. Give an example of a normal subgroup that is not characteristic. 
+  \begin{proof} Suppose $H \text{ Char } G$. Therefore by definition for all $\sigma \in Aut(G)$ we know that $\sigma(H) = H$. In the previous exercise
+    we deduced that $Inn(G) \trianglelefteq Aut(G)$. Therefore for all $\phi \in Inn(G)$, $\phi(H) = gHg^{-1} = H$ for all $g\in G$.
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.4.7}] If $H$ is the unique subgroup of a given order in a group $G$ prove $H$ is characteristic in $G$.  
+  \begin{proof} Suppose $H \leq G$ with $|H| = p$ such that $p$ is unique in the set of all subgroup orders, and $H$ is not characteristic in $G$.
+    By definition there exists some $\sigma \in Aut(G)$ such that $\sigma(H) \neq H$. Note that since $\sigma$ is an isomorphism, so $|\sigma(H)| = |H|$ is a contradiction.  
+  \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{4.4.8}] Let $G$ be a group with subgroups $H$ and $K$ with $H \leq K$
+  \begin{enumerate}
+    \item[a.] Prove that if $H$ is characteristic in $K$ and $K$ is normal in $G$ then $H$ is normal in $G$.\\
+    \begin{proof} Suppose that $H$ is characteristic in $K$ and $K$ is normal in $G$. By definition we know that for 
+      all $g \in G$, $gKg^{-1} = K$. Said another way we know that for all $\phi \in Inn(G)$ we get $\phi(K) = K$. Note 
+      that since $\phi(K) = K$ we know that $\phi|_K \in Aut(K)$. Since $H$ is characteristic in $K$, by definition for all $\sigma \in Aut(K)$
+      $\sigma(H) = H$. Thus $\phi|_K(H) = H$ and since $H \leq K$, $\phi(H) = H$ thus $H \trianglelefteq G$. 
+      
+    \end{proof}
+    \item[b.] Prove that if $H$ ic characteristic in $K$ and $K$ is characteristic in $G$ then $H$ is characteristic in $G$. Use this to prove 
+    that the Klein 4-group $V_4$ is characteristic in $S_4$.
+    \begin{proof}
+      Suppose $H \text{ Char } K$, and $k \text{ Char } G$. By definition  for all $\sigma_g \in Aut(G)$ we know that 
+      $\sigma_g(K) = K$. Note that $\sigma_g|_k \in Aut(K)$. We also have by definition that for all $\sigma_k \in Aut(K)$, $\sigma_k(H) = H$. 
+      Therefore $\sigma_g|_k(H) = H$ and since $H \leq K$ we get that $\sigma_g(H) = H$ thus $H \text{ Char } G$.
+      
+
+      We will show that $V_4$ is characteristic in $S_4$ by showing that $V_4\text{ Char }A_4$ and $A_4\text{ Char }S_4$. Note that since automorphisms preserve 
+      element order, for all $\sigma \in Aut(S_4)$, $\sigma(A_4)$ must map $\sigma(\langle(123), (124), (134), (234) \rangle) = \langle(123), (124), (134), (234) \rangle$ and the identity permutations must map together. This 
+      leaves only 3 elements of order 2 in $A_4$ left to map therefore it must be the case that $\sigma(\langle(12)(34), (13)(24)\rangle) = \langle(12)(34), (13)(24)\rangle$ (it can't be either the transpositions or the 4-cycles as we can only map 3 elements and those map in pairs). 
+      Thus for all $\sigma \in Aut(S_4)$, $\sigma(A_4) = A_4$. Note that $V_4 = \sigma(\langle(12)(34), (13)(24)\rangle)$, again since automorphisms preserve element order, for all $\sigma \in Aut(A_4)$, $\sigma(\langle(12)(34), (13)(24)\rangle) = \langle(12)(34), (13)(24)\rangle$ and 
+      identity permutations must map. Thus for all $\sigma \in Aut(A_n)$, $\sigma(V_4) = V_4$. Thus by the previous conclusion $V_4$ is characteristic in $S_4$. 
+    \end{proof}
+
+
+    \item[c.] Give an example to show that if $H$ is normal in $K$ and $K$ is characteristic in $G$ then $H$ need not be normal in $G$. \\
+    \begin{proof}[Solution] We have just shown that $V_4 \text{ Char } A_4$. Consider $H = \langle (12)(34) \rangle$ and note that $H \leq V_4$. Note that 
+      $H \trianglelefteq V_4$, since every $(ab)(cd)$ is it's own inverse we see that $(ab)(cd)(12)(34)(ab)(cd) = (12)(34)$. However $H$ is not normal in $S_4$, 
+      consider $(24)(12)(34)(24) = (14)(23)$.   
+    \end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{4.4.9}] If $r, s$ are the usual generators for the dihedral group $D_{2n}$, use the preceding 
+  two exercise to deduce that every subgroup of $\langle r \rangle$ is normal in $D_2n$. 
+  \begin{proof}  Suppose $r, s$ are the usual generators for the dihedral group $D_{2n}$ and consider the subgroup $\langle r \rangle$. 
+    Recall Theorem 7 of Section 2.3 which stated if a cyclic group $<x>$ has finite order $n$ the subgroups of $\langle x \rangle$ correspond bijectively with the positive divisors of $n$.
+    Therefore every subgroup of $\langle r \rangle$ has unique order and is therefore characteristic in $\langle r\rangle$. Also note that 
+    $|D_{2n}:\langle r \rangle | = 2$, so there are two cosets $\langle r\rangle$, $g\langle r \rangle$ for $g \in D_{2n}$. 
+    Therefore $g\langle r\rangle = \langle r \rangle g$, and thus $\langle r \rangle \trianglelefteq D_{2n}$. By the previous exercise we 
+    get that every subgroup of $\langle r \rangle$ is normal in $D_2n$. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\begin{exercise}[\textbf{4.4.12}]Let $G$ be a group of order $3825$. Prove that if $H$ is a normal subgroup 
+  of order $17$ in $G$ then $H \leq Z(G)$. 
+  \begin{proof} Suppose $G$ is a group of order 3825, and $H \trianglelefteq G$ with $|H| = 17$. Note that 
+    since $H$ has prime order it must also be a cyclic subgroup, and recall that since $H$ is normal by definition 
+    we know that $N_G(H) = G$. Consider Corollary 15, which tells us that the quotient group $N_G(H)/C_G(H) \cong S_H$ where 
+    $S_H \leq Aut(H)$. Applying Proposition 16 we find out that since $H$ is cyclic, $Aut(H) \cong (\ZZ/(17)\ZZ)^*$ with 
+    $|Aut(H)| = \varphi(17) = 16$. Applying Lagrange's Theorem we get that $|S_H| \mid |Aut(H)| = 16$ and therefore 
+    $|N_G(H)|/|C_G(H)| \mid 16$. By substitution we get $3825/|C_G(H)| \mid 16$ and since no divisor of $16$ other than $1$ divides $3825$,
+     $|N_G(H)|/|C_G(H)| = 1$ and therefore $|C_G(H)| = 3825$ thus $C_G(H) = G$ which implies that $H \leq Z(G)$.
+
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\section*{\textbf{Section 4.5}}
+
+\begin{exercise}[\textbf{4.5.1}] Prove that if $P \in Syl_p(G)$ and $H$ is a subgroup of $G$ containing $P$ 
+  then $P \in Syl_p(H)$. Give an example to show that, in general, a Sylow p-subgroup of a subgroup of $G$ need not 
+  be a Sylow p-subgroup of $G$. 
+  \begin{proof} Suppose $P \in Syl_p(G)$ and $H$ is a subgroup of $G$ containing $P$. By definition 
+    $|G| = p^{\alpha}m$ for prime $p$, not dividing $m$. Since $P \in Syl_p(G)$ we know that $|P| = p^{\alpha}$.
+    Since $H \leq G$ and $P \leq H$ by Lagrange's Theorem we know that $|H|\mid|G|$ and $|P|\mid |H|$. Therefore 
+    it must follow that $|H| = p^{\alpha}j$ where $j \leq m$. Thus by definition $P \in Syl_p(H)$.
+
+
+    For an example consider $S_4$, $A_4$, and $V_4$. Note that $V_4$ is a Sylow 2-subgroup of $A_4$. Note that 
+    since $|S_4| =2^33$ any Sylow 2-subgroup of $S_4$ will be order $2^3 = 8$, so $V_4 \not\in Syl_p(A)$. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.5.14}] Prove that a group of order 312 has a normal Sylow p-subgroup for some 
+  prime $p$ dividing its order.
+   \begin{proof} Suppose that $G$ has order 312. Consider the prime factorization of $312 = 2^3(3)(13)$. 
+    Therefore in $G$ there exists a Sylow 2-subgroup order $2^3$, a Sylow 3-subgroup order $3$, 
+    and a Sylow 13-subgroup order $13$. Recall Sylow's Theorem, which states that $n_{13}$, the number of 
+    Sylow 13-subgroups divides $2^3(3) = 26$ and has the form $n_{13} = 1 + k(13)$. Any $k>1$ will result in $n_{13}>26$.
+    With $k = 1$ we get $n_{13} = 14$ which does not divide 26. Therefore $k = 0$ so $n_{13} = 1$. Again by Sylow's Theorem 
+    we get that for our Sylow 13-subgroup $P$, $|G:N_G(P)| = 1$ which means that $N_G(P) = G$ thus $P \trianglelefteq G$.  
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.5.25}] Prove that if $G$ is a group of order 385 then $Z(G)$ contains a Sylow 7-subgroup 
+  of $G$ and a Sylow 11-subgroup is normal in $G$. 
+   \begin{proof}Suppose $G$ has order 385. Consider the prime factorization, $385 = (5)(7)(11)$.
+    Therefore in $G$ there exists a Sylow 5-subgroup order of order $5$, a Sylow 7-subgroup $P_7$, of order $7$
+    and a Sylow 11-subgroup $P_{11}$,of order 11. From Sylow's Theorem we know that $n_{7}$ divides $(11)(5) = 55$, and it 
+    has form $n_{7} = 1 + k(7)$. Note that $k > 7$ will not divide $55$. Consider the following table which demonstrates that 
+    for $0<k\leq7$, $n_7$ does not divide 55.  
+    \begin{figure}[H]
+      \begin{tabular}{ c || c | c | c | c | c | c | c | c} 
+        $k(7)$ & $0$ &$7$ &$14$& $21$& $28$& $35$& $42$& $49$\\
+        \hline
+        $n_{7}$ & 1& 8& 15& 22& 29& 36& 43& 50\\
+        \hline
+        remainder & 0 & 1& 5& 11 & 3 & 17 & 32& 45 
+      \end{tabular}.
+    \end{figure}
+    Thus $n_{7} = 1$ and similarly to the previous problem $P_7 \trianglelefteq G$. Therefore $N_G(P_7) = G$ and recall that 
+    the quotient group $N_G(P_7)/C_G(P_7) \cong S_{P_7}$ for some $S_{P_7} \in Aut(P_7)$. Since $P_7$ is cyclic from Proposition 16 of 
+    Section 4.4 we know that $|Aut(P_7)| = \varphi(17) = 16$. Applying Lagrange's Theorem we know that  $S_{P_7} \mid 16$ and therefore 
+    $|N_G(P_7)|/|C_G(P_7)| \mid 16$. Since $P_7$ is normal we get  $385/|C_G(P_7)| \mid 16$, and since and since no divisor of $16$ other than $1$ divides $385$
+    we get that $|N_G(P_7)|/|C_G(P_7)| = 1$ so therefore $|C_G(p_7)| = 385$ which implies that $C_G(P_7) = G$. Thus $P_7 \in Z(G)$.
+
+
+    From Sylow's theorem we know that $n_{11}$ divides $(5)(7) = 35$, and it has the form $n_{11} = 1 + k(11)$. Clearly $12 \nmid 35$, 
+    $23 \nmid 35$ and $34 \nmid 35$, so $n_{11} = 1$ and therefore $P_{11} \trianglelefteq G$. 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+\begin{exercise}[\textbf{4.5.26}] Let $G$ be a group of order 105. Prove that if a Sylow 3-subgroup of $G$ is normal then 
+  $G$ is abelian. 
+   \begin{proof}
+    Suppose $|G| = 105$ with a Sylow 3-subgroup $P_3$ that is normal in $G$. Since $P_3$ is normal we know that $N_G(P_3) = G$. Consider the factorization
+    $105 = (3)(5)(7)$, so $|P_3| = 3$ and is therefore cyclic. Recall that the quotient group $N_G(P_3)/C_G(P_3) \cong S_{P_3}$ for some $S_{P_3} \in Aut(P_3)$. Since $P_3$ is cyclic from Proposition 16 of Section 4.4 we know that $|Aut(P_7)| = \varphi(3) = 2$. Applying Lagrange's Theorem we know that  $S_{P_3} \mid 2$ and therefore $|N_G(P_3)|/|C_G(P_3)| \mid 2$. Since $2\nmid 105$ we get that $|N_G(P_3)|/|C_G(P_3)| = 1$ so therefore $|C_G(P_3)| = 105$ which implies that $C_G(P_3) = G$. Thus $P_3 \in Z(G)$.
+
+    
+    Now consider the quotient group $G/Z(G)$. By Lagrange's Theorem, since $|G/Z(G)| = |G|/|Z(G)|$ and $|Z(G)| \geq 3$ since $P_3 \leq Z(G)$
+    we know that $|G/Z(G)|$ is either $35, 7, 5$ or $1$. In case that $|G/Z(G)|$ is $7, 5$ or $1$ we get that $G/Z(G)$ is cyclic and therefore $G$ is abelian. 
+    
+    
+    Suppose $|G/Z(G)| = 35$. Therefore $G/Z(G)$ has a Sylow 5-subgroup of order $7$. From Sylow's Theorem we know that $n_{5}$ divides $7$
+    and it has from $n_5 = 1 + k(5)$. Therefore it follows that $k = 0$ and $n_5 = 1$. Thus $P_5$ is normal in $G/Z(G)$.
+    Therefore $G/Z(G)$ is a $pq$ subgroup with $P_5 \trianglelefteq G/Z(G)$, by the Groups of order $pq$ example we know that 
+    $G/Z(G)$ must be cyclic and $G$ is abelian.  
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+\begin{exercise}[\textbf{4.5.36}] Prove that if $N$ is a normal subgroup of $G$ then $n_p(G/N) \leq n_p(G)$. 
+   \begin{proof} Suppose that $N$ is a normal subgroup with order $p^{\beta}n$ and $G$ has order $p^\alpha m$. 
+    Consider the quotient group $G/N$, By Lagrange's Theorem $|G/N| = p^{\alpha - \beta} m/n$. Let $P$ be a Sylow 
+    $p$-subgroup. By Sylow's Theorem we know $n_p(G/N)$ divides $m/n$, and $n_p(G)$ divides $m$.
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+\section*{\textbf{Section 4.6}}
+
+\begin{exercise}[\textbf{4.6.3}] Prove that $A_n$ is the only proper subgroup of index $<n$ in $S_n$ for all $n\leq 5$.
+  \begin{proof} 
+    \end{proof}
+\end{exercise}
+\vspace{.15in}
+
+
+
+
+
+
+
+\end{document} 
+
+
+

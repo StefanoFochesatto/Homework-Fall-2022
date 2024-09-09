@@ -1,0 +1,525 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% This top part of the document is called the 'preamble'.  Modify it with caution!
+%
+% The real document starts below where it says 'The main document starts here'.
+
+\documentclass[12pt]{article}
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multicol}
+% Comment the following line to use TeX's default font of Computer Modern.
+\usepackage{times,txfonts}
+\usepackage{mwe}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newtheoremstyle{homework}% name of the style to be used
+  {18pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {12pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {:}% punctuation between head and body
+  {2ex}% space after theorem head; " " = normal interword space
+  {}% Manually specify head
+\theoremstyle{homework} 
+
+% Set up an Exercise environment and a Solution label.
+\newtheorem*{exercisecore}{Exercise \@currentlabel}
+\newenvironment{exercise}[1]
+{\def\@currentlabel{#1}\exercisecore}
+{\endexercisecore}
+
+\newcommand{\localhead}[1]{\par\smallskip\noindent\textbf{#1}\nobreak\\}%
+\newcommand\solution{\localhead{Solution:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Stuff for getting the name/document date/title across the header
+\makeatletter
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot[C]{\ifnum \value{page} > 1\relax\thepage\fi}
+\fancyhead[L]{\ifx\@doclabel\@empty\else\@doclabel\fi}
+\fancyhead[C]{\ifx\@docdate\@empty\else\@docdate\fi}
+\fancyhead[R]{\ifx\@docauthor\@empty\else\@docauthor\fi}
+\headheight 15pt
+
+\def\doclabel#1{\gdef\@doclabel{#1}}
+\doclabel{Use {\tt\textbackslash doclabel\{MY LABEL\}}.}
+\def\docdate#1{\gdef\@docdate{#1}}
+\docdate{Use {\tt\textbackslash docdate\{MY DATE\}}.}
+\def\docauthor#1{\gdef\@docauthor{#1}}
+\docauthor{Use {\tt\textbackslash docauthor\{MY NAME\}}.}
+\makeatother
+
+% Shortcuts for blackboard bold number sets (reals, integers, etc.)
+\newcommand{\Reals}{\ensuremath{\mathbb R}}
+\newcommand{\Nats}{\ensuremath{\mathbb N}}
+\newcommand{\Ints}{\ensuremath{\mathbb Z}}
+\newcommand{\Rats}{\ensuremath{\mathbb Q}}
+\newcommand{\Cplx}{\ensuremath{\mathbb C}}
+%% Some equivalents that some people may prefer.
+\let\RR\Reals
+\let\NN\Nats
+\let\II\Ints
+\let\CC\Cplx
+
+%\textbf{Code:}
+%\begin{center}
+%  \lstinputlisting{NewtonsMethodP5.m}
+%\end{center}
+%
+%\textbf{Console:}
+%\begin{center}
+%  \lstinputlisting{P5C.txt}
+%\end{center}
+%\vspace{.15in}
+
+
+%\begin{figure}[H]
+%  \begin{center}
+%    \caption{The one-norm unit ball}
+%    \includegraphics[width=.76\textwidth]{1norm.png}
+%  \end{center}
+%\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% The main document start here.
+
+% The following commands set up the material that appears in the header.
+\doclabel{Math 661: Homework 8}
+\docauthor{Stefano Fochesatto}
+\docdate{\today}
+
+
+\begin{document}
+
+\begin{exercise}{4.4} Let $M$ be a positive-definite matrix and let 
+  \begin{equation*}
+    p = -M^{-1}\nabla f(x_k).
+  \end{equation*}
+  Prove that $p$ is a descent direction for $f$ at $x_k$. 
+  \begin{proof} Suppose $p = -M^{-1}\nabla f(x_k)$. For $p$ to be a descent direction we need $p^T \nabla f(x_k) < 0$. By
+    substitution we get $(-M^{-1}\nabla f(x_k))^T\nabla f(x_k) = -\nabla f(x_k)(M^{-1})^T\nabla f(x_k)$. Since $M$ is positive definite 
+    we know that $\nabla f(x_k)(M^{-1})^T\nabla f(x_k) > 0$ and therefore $-\nabla f(x_k)(M^{-1})^T\nabla f(x_k) < 0$. So $p$ must be a descent direction. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{5.2} Let  
+  \begin{equation*}
+    f(x_1, x_2) = 2x_1^2 + x_2^2 - 2x_1x_2 + 2x_1^3 + x_1^4
+  \end{equation*}
+  \begin{enumerate}
+    \item[(i)]Suppose that the function is minimized stating from $x_0 = (0, -2)^T$. Verify that 
+    $p_0 = (0, 1)^T$ is a direction of descent. 
+    \begin{proof} First we need to compute the gradient, 
+      \begin{equation*}
+        \nabla f(x_1, x_2) = (4x_1 - 2x_2 + 6x_1^2 + 4x_1^3, 2x_2 - 2x_1)^T
+      \end{equation*}
+      Checking if $p_0$ is a descent direction, 
+      \begin{equation*}
+        p_0^T\nabla f(0, -2) = (0, 1)(4(0) - 2(-2) + 6(0)^2 + 4(0)^3, 2(-2) - 2(0))^T = (0, 1)(4, -4)^T = -4 < 0.
+      \end{equation*}
+      So $p_0$ is a descent direction. 
+    \end{proof}
+\vspace{.25in}
+
+
+\item[(ii)] Suppose that a line search is used to minimize the function $F(\alpha) = f(x_0 + \alpha p_0)$, 
+and that a backtracking line search is used to find the optimal step length $\alpha$. Does $\alpha = 1$ 
+satisfy the sufficient decrease condition for $\mu = .5$? For what values of $\mu$ does $\alpha = 1$ satisfy the 
+sufficient decrease condition?
+\begin{proof} Recall that the sufficient decrease condition states that, 
+  \begin{equation*}
+    f(x_k + \alpha_k p_k) \leq f(x_k) + \mu \alpha p_k^T\nabla f(x_k), 
+  \end{equation*}
+  for some scalar $0 < \mu< 1$. 
+  Checking if $\alpha = 1$ satisfies the sufficient decrease condition for $\mu = .5$, 
+  \begin{equation*}
+    f(x_0 + (1)p_0) = f(0, -1) = 2(0)^2 + (-1)^2 - 2(0)(-1) + 2(0)^3 + (0)^4 = 1, 
+  \end{equation*}
+  \begin{equation*}
+    f(x_0) + (.5) (1) p_0^T\nabla f(x_0) = 4 + (.5)(1)(-4) = 2.
+  \end{equation*}
+  So $\alpha = 1$ does not satisfy the sufficient decrease condition for $\mu = .5$. 
+
+  Setting $\alpha = 1$, and solving for $\mu$, 
+  \begin{align*}
+    f(x_0 + \alpha p_0) \leq f(x_0) + \mu \alpha p_0^T\nabla f(x_0)\\
+    1 \leq 4 + \mu(-4)\\
+    -3 \leq -4\mu\\
+    \frac{3}{4} \geq \mu
+  \end{align*}
+  So when $\alpha = 1$ in order for $\mu$ to satisfy the sufficient decrease condition we need $\mu \leq \frac{3}{4}$ . 
+\end{proof}
+  \end{enumerate}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{5.5} Let $f$ be the differentiable function that is being minimized with an optimization 
+  algorithm that uses an exact line search. Prove that the current search direction is orthogonal to the gradient 
+  at the new point $x_{k + 1}$.
+  \begin{proof} To show that the current search direction $p_k$ is orthogonal to the gradient at the new point we need to show that 
+    $p_k^T\nabla f(x_{k + 1})$. By definition exact line search corresponds to choosing an $\alpha > 0$ which minimizes the function 
+    $F(\alpha) = f(x_k + \alpha p_k)$. For $F(\alpha)$ to be a minimizer, the first order necessary condition for optimality requires that 
+    $F'(\alpha) = 0$. We showed in class (by a definition of derivative and Taylor Series argument) that $F'(\alpha) = p_k^T\nabla f(x_{k} + \alpha p_k) = p_k^T\nabla f(x_{k + 1}) = 0$.
+  \end{proof}
+  
+\end{exercise}
+\vspace{.5in}
+
+
+
+
+\begin{exercise}{2.3} Consider the problem, 
+  \begin{equation*}
+    \text{ minimize } f(x_1, x_2) = x_1^2 + 2x_2^2.
+  \end{equation*}
+  \begin{enumerate}
+    \item[(i)] If the starting point is $x_0 = (2, 1)^T$, show that the sequence of points generated by the steepest-descent algorithm is given by, 
+    \begin{equation*}
+      x_k = \frac{1}{3}^k \begin{pmatrix}
+        2\\
+        (-1)^k
+      \end{pmatrix}
+    \end{equation*}
+    if an exact line search is used. 
+    \begin{proof}First let's compute the gradient, 
+      \begin{equation*}
+        \nabla f(x) = (2x_1,  4x_2).
+      \end{equation*}
+      As we showed in the previous problem exact line search produces an $\alpha$ such that $p_k^T\nabla f(x_k + \alpha p_k) = 0$. 
+      Since we are using steepest descent, we plug in $p_k = -\nabla f(x_k)$, and solving for $\alpha$ find that, 
+      \begin{align*}
+        p_k^T\nabla f(x_k + \alpha p_k) &= 0\\
+        (-\nabla f(x_k))^T\nabla f(x_k + \alpha p_k) &= 0\\
+        (-2x_1,  -4x_2)^T(2(x_1 - \alpha(2x_1)), 4(x_2 - \alpha(4x_2))) &= 0\\
+        (-2x_1)2(x_1 - \alpha(2x_1)) + (-4x_2)4(x_2 - \alpha(4x_2)) &= 0\\
+        (-4x_1)(x_1 - \alpha(2x_1)) + (-16x_2)(x_2 - \alpha(4x_2)) &= 0\\
+        -4x_1^2 + \alpha(8x_1^2) - 16x_2^2 + \alpha(64x_2^2) &= 0\\
+        \alpha(8x_1^2) + \alpha(64x_2^2) - 4x_1^2 - 16x_2^2  &= 0\\
+        \alpha(8x_1^2 + 64x_2^2) - 4x_1^2 - 16x_2^2  &= 0\\
+        \alpha  &= \frac{8x_1^2 + 64x_2^2}{4x_1^2 +16x_2^2}\\
+        \alpha  &= \frac{x_1^2 + 4x_2^2}{2(x_1^2 + 8x_2^2)}
+      \end{align*}
+      Since our starting point is $x_0 = (2, 1)^T$ we get an $\alpha_0$ of, 
+      \begin{equation*}
+        \alpha_0 = \frac{(2)^2 + 4(1)^2}{2((2)^2 + 8(1)^2)} = \frac{1}{3}. 
+      \end{equation*}
+      Since steepest descent is our update we get, 
+      \begin{equation*}
+        x_1 = \begin{pmatrix}
+          1\\
+          2
+        \end{pmatrix} + \frac{1}{3}\begin{pmatrix}-2(2)\\-4(1)\end{pmatrix} = \frac{1}{3} \left(\begin{pmatrix}6\\ 3\end{pmatrix}  - \begin{pmatrix} 2^2\\ 4\end{pmatrix}\right) = \frac{1}{3} \begin{pmatrix} 2\\ -1\end{pmatrix}.
+      \end{equation*}
+      For the next step the $\frac{1}{3}$ will cancel out when we update $\alpha$ and since we are raising every term to
+      an even power the $-1$ will also be canceled out so we get $\alpha_1 = \frac{1}{3}$. Computing the next update we get, 
+      \begin{equation*}
+        x_2 = \frac{1}{3}\begin{pmatrix} 2\\ -1\end{pmatrix} + \frac{1}{3}\left(\frac{1}{3} \begin{pmatrix}-2(2)\\ -4(-1)\end{pmatrix}\right) = \frac{1}{3} \left(  \begin{pmatrix} 2\\ -1\end{pmatrix} + \frac{1}{3} \begin{pmatrix}-2(2)\\ -4(-1)\end{pmatrix}\right) = \frac{1}{3}\left( \frac{1}{3} \begin{pmatrix} 2\\ 1\end{pmatrix} \right) = \left(\frac{1}{3}\right)^2 \begin{pmatrix}2\\ (-1)^2\end{pmatrix}
+      \end{equation*}
+      We will proceed by induction, suppose that for some $k$ 
+      \begin{equation*}
+      x_{k} = \frac{1}{3}^k \begin{pmatrix}
+        2\\
+        (-1)^k
+      \end{pmatrix}
+    \end{equation*}
+    Since steepest descent is our update we know that $x_{k + 1} = x_k + \alpha_k p_k$ where $\alpha_k$ is exact line search and $p_k = -\nabla f(x_k)$. 
+    Applying our induction hypothesis and our previous calculation we know that $\alpha_k = \frac{1}{3}$ for the same reasons as in the base case. Thus we get the following,
+    \begin{equation*}
+      x_{k + 1} = \frac{1}{3}^k \begin{pmatrix}
+        2\\
+        (-1)^k
+      \end{pmatrix}
+       + 
+       \frac{1}{3}
+       \left(
+       \frac{1}{3}^k \begin{pmatrix}
+        -2(2)\\
+        -4((-1))^k
+      \end{pmatrix}
+      \right)=
+      \frac{1}{3}^{k+1} 
+      \left(\begin{pmatrix}
+        6\\
+        3(-1)^k
+      \end{pmatrix}
+       + 
+       \begin{pmatrix}
+        -2(2)\\
+        -4((-1))^k
+      \end{pmatrix}
+      \right) = 
+      \frac{1}{3}^{k + 1} \begin{pmatrix}
+        2\\
+        (-1)^{k + 1}
+      \end{pmatrix}
+    \end{equation*}
+    \end{proof}
+    \vspace{.15in}
+
+    \item[(ii)] Show that $f(x_{k + 1}) = f(x_k)/9$.
+    \begin{proof} By the previous result we know that 
+      \begin{equation*}
+        x_{k + 1} = 
+        \frac{1}{3}^{k + 1} \begin{pmatrix}
+          2\\
+          (-1)^{k + 1}
+        \end{pmatrix}
+      \end{equation*}
+      Plugging into our equation we get, 
+      \begin{equation*}
+        f(x_{k + 1}) = \left(\frac{2}{3^{k + 1}}\right)^2 + 2\left(\frac{(-1)^{k + 1}}{3^{k + 1}}\right)^2
+      \end{equation*}
+    \end{proof}
+    We also know that, 
+    \begin{equation*}
+      f(x_{k}) = \left(\frac{2}{3^{k}}\right)^2 + 2\left(\frac{(-1)^{k}}{3^{k}}\right)^2.
+    \end{equation*}
+    Through some algebra we find that, 
+    \begin{align*}
+      f(x_{k + 1}) &= \left(\frac{2}{3^{k + 1}}\right)^2 + 2\left(\frac{(-1)^{k + 1}}{3^{k + 1}}\right)^2,\\
+      &= \frac{2^2}{3^{2k + 2}} + 2\left(\frac{(-1)^{2k + 2}}{3^{2k + 2}}\right),\\
+      &= \frac{1}{9}\left(\frac{2^2}{3^{2k}} + 2\left(\frac{(-1)^{2k}}{3^{2k}}\right)\right),\\
+      &= \frac{1}{9}\left(\left(\frac{2}{3^{k}}\right)^2 + 2\left(\frac{(-1)^{k}}{3^{k}}\right)^2\right),\\
+      &= \frac{1}{9}\left(f(x_k)\right).
+    \end{align*}
+    \vspace{.15in}
+
+
+    \item[(iii)] Compare the results in $(ii)$ to the bounds on the convergence rate of the steepest descent method 
+    when minimizing a quadratic function. What conclusions can you draw regarding this method?
+    \begin{proof}[Solution] Recall from Section 12 that the bounds on the convergence of the steepest descent method 
+      when minimizing a quadratic function using exact line search, is given by the following, 
+      \begin{align*}
+        f(x_{k + 1}) - f(x_*) &\leq \left[ \frac{cond(Q) - 1}{cond(Q) + 1}\right]^2(f(x_{k}) - f(x_*))\\
+        \frac{f(x_{k + 1}) - f(x_*)}{f(x_{k}) - f(x_*)} &\leq \left[ \frac{cond(Q) - 1}{cond(Q) + 1}\right]^2
+      \end{align*}
+      For our problem we had a, 
+      \begin{equation*}
+        Q = \begin{pmatrix}
+          2 & 0\\
+          0 & 4
+        \end{pmatrix}
+      \end{equation*}
+      Computing the convergence constant we get, 
+      \begin{equation*}
+        \frac{f(x_{k + 1}) - f(x_*)}{f(x_{k}) - f(x_*)} &\leq \left[ \frac{cond(Q) - 1}{cond(Q) + 1}\right]^2 = \left(\frac{2 - 1}{2 + 1}\right)^2 = \frac{1}{9}. 
+      \end{equation*}
+      Our result is exactly what we expect from part $(ii)$, confirming again that this method converges linearly, and for this problem we 
+      have a rate constant of $1/9$. 
+
+
+    \end{proof}
+
+  \end{enumerate}
+  
+  
+\end{exercise}
+\vspace{.5in}
+
+
+
+\begin{exercise}{3.7} Let $B_{k + 1}$ be obtained from $B_k$ using the update formula, 
+  \begin{equation*}
+    B_{k + 1} = B_k + \frac{(y_k - b_ks_k)v^T}{v^Ts_k}
+  \end{equation*}
+  where $v$ is a vector such that $v^Ts_k \neq 0$. Prove that $B_{k + 1}s_k = y_k$. 
+  \begin{proof} Consider $B_{k + 1}s_k$ and by substitution we get, 
+    \begin{align*}
+      B_{k + 1}s_k &= \left(B_k + \frac{(y_k - B_ks_k)v^T}{v^Ts_k}\right)s_k,\\
+     &= B_k s_k + \frac{(y_k - B_ks_k)v^Ts_k}{v^Ts_k},\\
+     &= B_k s_k + \frac{(y_k - B_ks_k)(v^Ts_k)}{v^Ts_k},\\
+     &= B_k s_k + (y_k - B_ks_k),\\
+     &= y_k.
+    \end{align*}
+    
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+
+\begin{exercise}{P16} Suppose $x_k \in \RR^n$ is any iterate, and suppose that $\nabla f(x_k)$ is a nonzero vector. Compute all $p\in \RR^n$
+  which solve the problem, 
+  \begin{equation*}
+    \min_{p \neq 0} \frac{p^T \nabla f(x_k)}{||p|| ||\nabla f(x_k)||}
+  \end{equation*}
+  \begin{proof}[Solution] Note that $\nabla f(x_k)$ and $p$ are nonzero vectors and since we know that the $p^T \nabla f(x_k) = ||p||||\nabla f(x_k)|| \cos(\theta)$
+    where $\theta$ is the angle between vectors $p$ and $\nabla f(x_k)$ by substitution our objective function turns into, 
+    \begin{equation*}
+      \min_{p \neq 0} \frac{||p||||\nabla f(x_k)|| \cos(\theta)}{||p|| ||\nabla f(x_k)||} = \cos(\theta)
+    \end{equation*}
+    Therefore $p$ must be a vector orthogonal to $\nabla f(x_k)$. Kind of a roundabout way of saying every $p\in \RR^n$ lies on the hyper plane defined by $p^T \nabla f(x_k) = 0$. 
+  \end{proof}
+\end{exercise}
+\vspace{.5in}
+
+\begin{exercise}{P17} Consider the one-variable problem
+  \begin{equation*}
+    min_{x \in \RR}f(x)
+  \end{equation*}
+  where $f: \RR \to \RR$ is twice continuously-differentiable. Recall that Newton method for the above minimization solves $f'(x) = 0$
+  by the formulas $p_k =-f'(x_k)/f''(x_k)$ and $x_{k+1} = x_k + p_k$. 
+  
+  The secant method for minimization only differs from the Newton method by replacing the second derivative with a difference quotient approximation based on 
+  the last two iterates:
+  \begin{equation*}
+    f''(x_k) \approx \frac{f'(x_k) - f'(x_{k - 1})}{x_k - x_{k - 1}}.
+  \end{equation*}
+  Thus the secant method computes the step search vector by, 
+  \begin{equation*}
+    p_k = -\frac{(x_k - x_{k - 1}) f'(x_k)}{f'(x_k) - f'(x_{k - 1})}
+  \end{equation*}
+  with $x_{k + 1}= x_k + p_k$ as before. 
+  \begin{enumerate}
+    \item[(a)] Implement the secant method. Include a stopping criterion $|f'(x_k)|< tol$.
+    \begin{proof}[Solution]
+      \textbf{Code:}
+      \begin{center}
+        \lstinputlisting[basicstyle = \footnotesize]{secant}
+      \end{center}
+    \end{proof}
+\vspace{.5in}
+
+
+    \item[(b)] Use your code to accurately solve $min_{x \in \RR}f(x)$, e.g. with $tol = 10^{-8}$, 
+    for the following functions and initial iterates:
+    \begin{enumerate}
+      \item[(i)] $f(x) = x^3 - 2sin(x)$ with $x_0 = 0$ and $x_1 = 1$
+      \begin{proof}[Solution]
+
+        \textbf{Console:}
+        \begin{center}
+          \lstinputlisting[basicstyle = \footnotesize]{r1.txt}
+        \end{center}
+      \end{proof}
+      \vspace{.15in}
+
+    
+
+      \item[(ii)] $f(x) = 3x^4 - 4x^3 + 3x^2 - 6x$ with $x_0 = -1$ and $x_1 = 0$.   
+      \begin{proof}[Solution] 
+
+        \textbf{Console:}
+        \begin{center}
+          \lstinputlisting[basicstyle = \footnotesize]{r2.txt}
+        \end{center}
+      \end{proof}
+    \end{enumerate} 
+\vspace{.5in}
+
+\item[(c)] In part $(ii)$ above the exact minimum is at $x_* = 1$. Compute the errors $e_k = x_k - x_*$. Give evidence that the convergence is 
+superlinear. Using the notation of section 2.5, what is you estimate of the rate exponent r?.
+\begin{proof}[Solution] Computing $e_k$ we get the following, \\
+
+  \textbf{Console:}
+        \begin{center}
+          \lstinputlisting[basicstyle = \footnotesize]{r3.txt}
+        \end{center}
+
+Setting $r = 1$ and computing $\frac{||e_{k + 1}||}{||e_k||}$ we can see the sequence is heading towards zero, which by definition is evidence of 
+superlinear convergence.\\
+
+\textbf{Console:}
+\begin{center}
+  \lstinputlisting[basicstyle = \footnotesize]{r4.txt}
+\end{center}
+
+
+I don't have a good sense of how to estimate $r$ from just looking at our list of errors, however I found a paper\cite{1} which gives a formula 
+for estimating r, 
+\begin{equation*}
+  r \approx \dfrac{log|(x_{n + 1} - x_n)/(x_{n} - x_{n - 1})|}{log|(x_{n} - x_{n - 1})/(x_{n - 1} - x_{n - 2})|}
+\end{equation*}
+Computing this sequence we get the following, \\
+
+\textbf{Console:}
+\begin{center}
+  \lstinputlisting[basicstyle = \footnotesize]{r5.txt}
+\end{center}
+
+Towards the end it seems to be converging to $\sim$ 1.6. Double checking by computing $\frac{||e_{k + 1}||}{||e_k||^{1.6}}$, if 
+we have a good estimate for $r$ we should expect this sequence to converge to some $0< C < \infty$.\\
+
+\textbf{Console:}
+\begin{center}
+  \lstinputlisting[basicstyle = \footnotesize]{r6.txt}
+\end{center}
+Since this sequence seems to be staying at around $1$ it seems that $r = 1.6$ is a good estimate for $r$ especially since we 
+discussed it in class and you told us secant method converges with $r$ as the golden ratio. 
+
+\end{proof}
+  \end{enumerate}
+  
+\end{exercise}
+\begin{thebibliography}{1}  % "2" because there are two references
+  \bibitem{1}
+  Senning, J.R., n.d. COMPUTING AND ESTIMATING THE RATE OF CONVERGENCE.
+  \end{thebibliography}
+\end{document}
+
+
+https://www.maa.org/press/periodicals/loci/joma/iterative-methods-for-solving-iaxi-ibi-gauss-seidel-method
+    https://www.maa.org/press/periodicals/loci/joma/iterative-methods-for-solving-iaxi-ibi-jacobis-method\\
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
